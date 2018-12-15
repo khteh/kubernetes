@@ -37,3 +37,5 @@ statefulset.apps/web          1/1     7m26s
 NAME                                              REFERENCE                TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
 horizontalpodautoscaler.autoscaling/istio-pilot   Deployment/istio-pilot   <unknown>/55%   1         1         0          4h27m
 ```
+# Check the application:
+* visit http://clusterip/restapi/greeting
