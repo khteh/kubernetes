@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-frontend
+spec:
+  selector:
+    app: nginx
+    tier: frontend
+  ports:
+  - name: http
+    protocol: "TCP"
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: "TCP"
+    port: 443
+    targetPort: 443
+  type: NodePort
+#  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1 # Default is 1
+  selector:
+    matchLabels:
+      app: nginx # Has to match .spec.template.metadata.labels
+      tier: frontend
+#      track: stable
+  template:
+    metadata:
+      labels:
+        app: nginx # Has to match .spec.selector.matchLabels
+        tier: frontend
+#        track: stable
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+#        image: k8s.gcr.io/nginx-slim:0.8
+        image: nginx:latest
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/sbin/nginx","-s","quit"]
+        ports:
+        - name: http
+          protocol: "TCP"
+          containerPort: 80
+#          hostPort: 8081
+        - name: https
+          protocol: "TCP"
+          containerPort: 443
+#          hostPort: 8082
+        volumeMounts:
+        - mountPath: /etc/nginx # mount nginx-config volume to /etc/nginx
+          readOnly: true
+          name: nginx-config-volume
+        - mountPath: /var/log/nginx
+          name: nginx-log-volume
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config # place ConfigMap `nginx-conf` on /etc/nginx
+          items:
+            - key: nginx.config
+              path: nginx.conf
+#            - key: virtualhost.config
+#              path: virtualhost/virtualhost.conf # dig directory
+      - name: nginx-log-volume
+        emptyDir: {}

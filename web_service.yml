@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-web
+  labels:
+    app: web
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  - name: https
+    protocol: TCP
+    port: 8443
+    targetPort: 8443
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: app-web
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster

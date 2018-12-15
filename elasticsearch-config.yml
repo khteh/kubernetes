@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-config
+data:
+  elasticsearch.yml: |
+    cluster.name: elasticsearch
+    path.data: /var/lib/elasticsearch
+    path.logs: /var/log/elasticsearch
+    script.painless.regex.enabled: true
+    http.cors.enabled: true
+    http.cors.allow-origin: "*"

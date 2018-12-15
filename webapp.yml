@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+  labels:
+    app: app-web
+spec:
+  serviceName: "svc-web"
+  podManagementPolicy: "Parallel" # Default is OrderedReady
+  replicas: 1 # Default is 1
+  selector:
+    matchLabels:
+      app: app-web # Has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: app-web # Has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: web-service
+        image: khteh/tomcat:restapi-1.0
+        imagePullPolicy: Always
+        env:
+        - name: SPRING_CONFIG_NAME
+          value: "application.yml"
+        - name: SPRING_CONFIG_LOCATION
+          value: "/etc/application/config"
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+#          hostPort: 8081
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+#          hostPort: 8082
+        volumeMounts:
+        - name: application-config
+          mountPath: /etc/application/config
+  volumeClaimTemplates:
+  - metadata:
+      name: application-config
+    spec:
+      accessModes: [ "ReadOnlyMany" ]
+      resources:
+        requests:
+          storage: 1Mi

@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: nginx-config-volume
+  labels:
+    type: nginx-config-volume 
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadOnlyMany
+#    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+#  storageClassName: managed-premium # Use this for AKS
+  hostPath:
+    path: "/mnt/nginx/config"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-config-volume-claim
+spec:
+  accessModes:
+    - ReadOnlyMany
+#    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi

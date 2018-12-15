@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+spec:
+  serviceName: "svc-db"
+  podManagementPolicy: "Parallel" # Default is OrderedReady
+  replicas: 1 # Default is 1
+  selector:
+    matchLabels:
+      app: app-db # Has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: app-db # Has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: elasticsearch
+#        image: elasticsearch:latest
+        image: khteh/elasticsearch:elasticsearch
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9100
+          name: elasticsearch
+        volumeMounts:
+        - name: elasticsearch-persistent-storage
+          mountPath: /var/lib/elasticsearch
+      volumes:
+      - name: elasticsearch-config
+        configMap:
+          name: elasticsearch-config
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi

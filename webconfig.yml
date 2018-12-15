@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2018-12-15T13:50:11Z"
+  name: webconfig
+  namespace: default
+  resourceVersion: "24750"
+  selfLink: /api/v1/namespaces/default/configmaps/webconfig
+  uid: 57854334-0070-11e9-b312-482ae31e6a94
+data:
+  application.yml: |
+    spring:
+      jpa:
+        hibernate:
+          ddl-auto: none
+      datasource:
+        url: jdbc:mysql://svc-mysql:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+        username: root
+        password: ${MYSQL_ROOT_PASSWORD}
+      jmx:
+        default-domain: restapi
