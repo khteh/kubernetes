@@ -38,11 +38,8 @@ spec:
         volumeMounts:
         - name: application-config
           mountPath: /etc/application/config
-  volumeClaimTemplates:
-  - metadata:
-      name: application-config
-    spec:
-      accessModes: [ "ReadOnlyMany" ]
-      resources:
-        requests:
-          storage: 1Mi
+          readOnly: true
+      volumes:
+      - name: application-config
+        configMap:
+          name: webconfig
