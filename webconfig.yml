@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2018-12-15T13:50:11Z"
+  creationTimestamp: "2018-12-19T05:57:16Z"
   name: webconfig
   namespace: default
-  resourceVersion: "24750"
-  selfLink: /api/v1/namespaces/default/configmaps/webconfig
-  uid: 57854334-0070-11e9-b312-482ae31e6a94
+  resourceVersion: "316135"
+  selfLink: /api/v1/namespaces/default/configmaps/tmp
+  uid: f0746633-0352-11e9-9fb1-482ae31e6a94
 data:
   application.yml: |
     spring:
@@ -14,8 +14,16 @@ data:
         hibernate:
           ddl-auto: none
       datasource:
+        type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://svc-mysql:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+        name:
         username: root
         password: ${MYSQL_ROOT_PASSWORD}
-      jmx:
-        default-domain: restapi
+        hikari:
+          data-source-properties:
+            cachePrepStmts: true
+            prepStmtCacheSize: 250
+            prepStmtCacheSqlLimit: 2048
+            useServerPrepStmts: true
+    jmx:
+      default-domain: restapi
