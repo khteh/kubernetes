@@ -11,8 +11,6 @@ spec:
   ports:  
   - port: 3306
     name: mysql
-  - port: 9999
-    name: blazegraph
   clusterIP: None # Headless
 ---
 apiVersion: apps/v1
