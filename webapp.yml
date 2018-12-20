@@ -26,6 +26,8 @@ spec:
           value: "application.yml"
         - name: SPRING_CONFIG_LOCATION
           value: "/etc/application/config"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
         ports:
         - containerPort: 8080
           name: http
