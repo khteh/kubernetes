@@ -10,13 +10,18 @@ metadata:
 data:
   application.yml: |
     spring:
+      profiles: prod
+      application:
+        name: RestAPI
       jpa:
+        database-platform: org.hibernate.dialect.MySQL5Dialect
+        open-in-view: false
+        generate-ddl: false
         hibernate:
-          ddl-auto: none
+          dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://svc-mysql:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-        name:
         username: root
         password: ${MYSQL_ROOT_PASSWORD}
         hikari:

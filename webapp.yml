@@ -25,9 +25,14 @@ spec:
         - name: SPRING_CONFIG_NAME
           value: "application.yml"
         - name: SPRING_CONFIG_LOCATION
-          value: "/etc/application/config"
+          value: "/etc/application/config/application.yml"
         - name: SPRING_PROFILES_ACTIVE
           value: "prod"
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
         ports:
         - containerPort: 8080
           name: http
