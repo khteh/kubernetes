@@ -8,11 +8,14 @@ data:
     worker_processes  auto;
     # set open fd limit to 30000
     #worker_rlimit_nofile 10000;
-    error_log  /var/log/nginx/error.log;
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
     events {
       worker_connections  10240;
     }
     http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
       log_format  main
               'remote_addr:$remote_addr\t'
               'time_local:$time_local\t'
@@ -27,6 +30,11 @@ data:
               'request_time:$request_time';
       access_log /var/log/nginx/access.log main;
       rewrite_log on;
+      sendfile        on;
+      #tcp_nopush     on;     
+      keepalive_timeout  65;
+      #gzip  on;
+      include /etc/nginx/conf.d/*.conf;
       upstream svc-web {
         server svc-web:8080;
         keepalive 1024;

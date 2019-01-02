@@ -55,9 +55,10 @@ spec:
           containerPort: 443
 #          hostPort: 8082
         volumeMounts:
-        - mountPath: /etc/nginx # mount nginx-config volume to /etc/nginx
+        - mountPath: /etc/nginx/nginx.conf # mount nginx-config volume to /etc/nginx
           readOnly: true
           name: nginx-config-volume
+          subPath: nginx.conf
         - mountPath: /var/log/nginx
           name: nginx-log-volume
       volumes:
