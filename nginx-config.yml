@@ -34,7 +34,7 @@ data:
       #tcp_nopush     on;     
       keepalive_timeout  65;
       #gzip  on;
-      include /etc/nginx/conf.d/*.conf;
+      #include /etc/nginx/conf.d/*.conf; This must be commented out!
       upstream svc-web {
         server svc-web:8080;
         keepalive 1024;
