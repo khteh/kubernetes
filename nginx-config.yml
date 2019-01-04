@@ -44,7 +44,7 @@ data:
         access_log /var/log/nginx/app.access_log main;
         error_log /var/log/nginx/app.error_log;
         set $restapi http://svc-web.default.svc.cluster.local:8080;
-        resolver kube-dns.kube-system.svc.cluster.local valid=10s;
+        resolver kube-dns.kube-system valid=10s;
         location / {
           #proxy_pass http://svc-web;
           proxy_pass $restapi;
