@@ -1,5 +1,5 @@
 #!/bin/bash
-microk8s.kubectl delete configmap nginx-config
-microk8s.kubectl delete svc svc-frontend
-microk8s.kubectl delete deployment nginx
-microk8s.kubectl apply -f nginx-config.yml,nginx.yml
+kubectl $1 delete configmap nginx-config --ignore-not-found=true
+kubectl $1 delete svc svc-frontend --ignore-not-found=true
+kubectl $1 delete deployment nginx --ignore-not-found=true
+kubectl $1 apply -f nginx-config.yml,nginx.yml

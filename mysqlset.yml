@@ -32,8 +32,8 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: mysql
-#        image: mysql:latest
-        image: khteh/database:mysql
+        image: mysql:latest
+#        image: khteh/database:mysql
         imagePullPolicy: Always
 #        command: ["mysqld"]
 #        args: ["--lower_case_table_names=1", "--skip-ssl", "--ignore-db-dir=lost+found"]
@@ -56,15 +56,16 @@ spec:
                name: mysql-secret
                key: mysql-password
          - name: MYSQL_DATABASE
-           value: iconverse
-         - name: MYSQL_DATABASE_1
            value: book
+#         - name: MYSQL_DATABASE_1
+#           value: book
         ports:
         - containerPort: 3306
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+          subPath: mysql
         - name: mysql-initdb
           mountPath: /docker-entrypoint-initdb.d
       volumes:
@@ -78,4 +79,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 5Gi
+          storage: 2Gi
