@@ -7,7 +7,9 @@ metadata:
 spec:
   serviceName: "svc-web"
   podManagementPolicy: "Parallel" # Default is OrderedReady
-  replicas: 1 # Default is 1
+  replicas: 2 # Default is 1
+  updateStrategy: 
+    type: RollingUpdate
   selector:
     matchLabels:
       app: app-web # Has to match .spec.template.metadata.labels
@@ -17,9 +19,19 @@ spec:
         app: app-web # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - iconverse-admin
+#            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: web-service
-        image: khteh/tomcat:restapi-1.0
+        image: khteh/restapi:latest
         imagePullPolicy: Always
         env:
         - name: SPRING_CONFIG_NAME
@@ -46,7 +58,53 @@ spec:
         - name: application-config
           mountPath: /etc/application/config
           readOnly: true
+        - name: tomcat-server-config
+          mountPath: /usr/local/tomcat/conf/server.xml
+          subPath: server.xml
+          readOnly: true
+        - name: tomcat-web-config
+          mountPath: /usr/local/tomcat/conf/web.xml
+          subPath: web.xml 
+          readOnly: true
+        - name: tomcat-log
+          mountPath: /usr/local/tomcat/logs
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1024Mi
+      - name: fluentd
+        image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/fluent:latest
+        env:
+        - name: FLUENTD_ARGS
+          value: -c /etc/td-agent/td-agent.conf
+        volumeMounts:
+        - name: tomcat-log
+          mountPath: /usr/local/tomcat/logs
+        - name: fluentd-config
+          mountPath: /etc/td-agent
+        - name: access-log-template
+          mountPath: /var/iconverse/elasticsearch/access_log_template.json
+          subPath: access_log_template.json
+          readOnly: true
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1024Mi
       volumes:
       - name: application-config
         configMap:
           name: webconfig
+      - name: tomcat-server-config
+        configMap:
+          name: tomcat-server-config
+      - name: tomcat-web-config
+        configMap:
+          name: tomcat-web-config
+      - name: fluentd-config
+        configMap:
+          name: fluentd-config
+      - name: access-log-template
+        configMap:
+          name: access-log-template
+      - name: tomcat-log
+        emptyDir: {}
