@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-kibana
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /kibana/api/status
+  labels: 
+    app: kibana
+spec:
+  selector:
+    app: kibana
+#    tier: database
+  ports:  
+  - name: kibana
+    protocol: TCP
+    port: 8080
+    targetPort: 5601
+  clusterIP: None # Headless
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kibana
+spec:
+  serviceName: "svc-kibana"
+  podManagementPolicy: "Parallel" # Default is OrderedReady
+  replicas: 2 # Default is 1
+  selector:
+    matchLabels:
+      app: kibana # Has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: kibana # Has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+#      imagePullSecrets:
+#      - name: docker
+      containers:
+      - name: kibana
+        securityContext:
+          capabilities:
+            add:
+              - IPC_LOCK
+              - SYS_RESOURCE
+        image: kibana:6.6.0
+        imagePullPolicy: Always
+        command: ["/usr/share/kibana/bin/kibana"]
+        args: ["-c", "/etc/kibana/kibana.yml"]
+        ports:
+        - containerPort: 5601
+          name: kibana
+          protocol: TCP
+        volumeMounts:
+        - name: kibana-config
+          mountPath: /etc/kibana
+          readOnly: true
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1024Mi
+      volumes:
+      - name: kibana-config
+        configMap:
+          name: kibana-config
