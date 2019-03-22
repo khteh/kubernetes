@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: elasticsearch-init
+  labels: 
+    component: elasticsearch
+spec:
+#  ttlSecondsAfterFinished: 100
+  backoffLimit: 3
+  activeDeadlineSeconds: 100
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: elasticsearch-init-job
+        image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/elasticsearch-init:latest
+        volumeMounts:
+        - name: access-log-template
+          mountPath: /tmp
+          readOnly: true
+      volumes:
+      - name: access-log-template
+        configMap:
+          name: access-log-template
+  backoffLimit: 3

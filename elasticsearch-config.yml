@@ -1,12 +1,37 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  creationTimestamp: "2018-12-28T04:09:38Z"
   name: elasticsearch-config
+  namespace: default
+  resourceVersion: "789954"
+  selfLink: /api/v1/namespaces/default/configmaps/elasticsearch
+  uid: 6494f746-0a56-11e9-a34a-482ae31e6a94
 data:
-  elasticsearch.yml: |
+  elasticsearch-master.yml: |+
     cluster.name: elasticsearch
-    path.data: /var/lib/elasticsearch
-    path.logs: /var/log/elasticsearch
     script.painless.regex.enabled: true
     http.cors.enabled: true
     http.cors.allow-origin: "*"
+    network.host: _site_
+    node.name: ${HOSTNAME}
+    node.master: true
+    node.data: false
+    bootstrap.memory_lock: true
+    discovery.zen.ping.unicast.hosts: svc-elasticsearch-discovery
+    discovery.zen.minimum_master_nodes: 2
+
+  elasticsearch-data.yml: |
+    cluster.name: elasticsearch
+    script.painless.regex.enabled: true
+    http.cors.enabled: true
+    http.cors.allow-origin: "*"
+    network.host: _site_
+    node.name: ${HOSTNAME}
+    node.master: false
+    node.data: true
+    bootstrap.memory_lock: true
+    discovery.zen.ping.unicast.hosts: svc-elasticsearch-discovery
+    discovery.zen.minimum_master_nodes: 2
+
+  ES_JAVA_OPTS: -Xms512m -Xmx512m -Djna.tmpdir=/tmp

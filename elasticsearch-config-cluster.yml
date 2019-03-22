@@ -1,0 +1,437 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2018-12-28T04:09:38Z"
+  name: iconverse-elasticsearch-config
+  namespace: elasticsearch
+  resourceVersion: "789954"
+  selfLink: /api/v1/namespaces/default/configmaps/iconverse-elasticsearch
+  uid: 6494f746-0a56-11e9-a34a-482ae31e6a94
+data:
+  conversation_mapping.json: |+
+    {
+      "conversation": {
+        "properties": {
+          "conversation": {
+            "type": "keyword"
+          },
+          "ref": {
+            "type": "keyword"
+          },
+          "areas": {
+            "type": "keyword"
+          },
+          "topics": {
+            "type": "keyword"
+          },
+          "channels": {
+            "type": "keyword"
+          },
+          "inputTypes": {
+            "type": "keyword"
+          },
+          "satisfaction": {
+            "type": "integer"
+          },
+          "saveCall": {
+            "type": "boolean"
+          },
+          "saveCallComment": {
+            "type": "keyword"
+          },
+          "feedback": {
+            "type": "keyword"
+          },
+          "start": {
+            "type": "date"
+          },
+          "end": {
+            "type": "date"
+          },
+          "validity": {
+            "type": "keyword"
+          },
+          "status": {
+            "type": "keyword"
+          },
+          "prompts" : {
+            "properties" : {
+              "exp" : {
+                "type": "text"
+              },
+              "psid" : {
+                "type": "text"
+              }
+            }
+          }
+        }
+      }
+    }
+
+  element_mapping.json: |
+    {
+      "element": {
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "label": {
+            "type": "text",
+            "fielddata": true
+          },
+          "aliases": {
+            "type": "text",
+            "fielddata": true
+          },
+          "chains": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  element_settings.json: |-
+    {
+        "number_of_shards" : 5,
+        "number_of_replicas" : 1
+    }
+  enquiry_mapping.json: |+
+    {
+      "enquiry": {
+        "properties": {
+          "enquiry_id": {
+            "type": "text",
+            "fielddata": true
+          },
+          "version": {
+            "type": "text",
+            "fielddata": true
+          },
+          "question": {
+            "type": "text",
+            "fielddata": true
+          },
+          "answer": {
+            "type": "text",
+            "fielddata": true
+          },
+          "author": {
+            "type": "keyword"
+          },
+          "area": {
+            "type": "text",
+            "fielddata": true
+          },
+          "topic": {
+            "type": "text",
+            "fielddata": true
+          },
+          "subtopic": {
+            "type": "text",
+            "fielddata": true
+          },
+          "status": {
+            "type": "keyword"
+          },
+          "state": {
+            "type": "text",
+            "fielddata": true
+          },
+          "created": {
+            "type": "date"
+          },
+          "modified": {
+            "type": "date"
+          },
+          "publication": {
+            "type": "date"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "comments": {
+            "type": "text",
+            "fielddata": true
+          },
+          "service": {
+            "type": "text",
+            "fielddata": true
+          },
+          "tags": {
+            "type": "nested",
+            "properties": {
+              "label": {
+                "type": "keyword"
+              },
+              "uri": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      }
+    }
+  enquiry_settings.json: |-
+    {
+        "number_of_shards" : 5,
+        "number_of_replicas" : 1
+    }
+  message_mapping.json: |+
+    {
+      "message": {
+        "properties": {
+          "area": {
+            "type": "keyword"
+          },
+          "topic": {
+            "type": "keyword"
+          },
+          "enquiry": {
+            "type": "keyword"
+          },
+          "state": {
+            "type": "keyword"
+          },
+          "main": {
+            "type": "boolean"
+          },
+          "channel": {
+            "type": "keyword"
+          },
+          "inputType": {
+            "type": "keyword"
+          },
+          "source": {
+            "type": "keyword"
+          },
+          "conversation": {
+            "type": "keyword"
+          },
+          "timestamp": {
+            "type": "date"
+          },
+          "correct": {
+            "type": "boolean"
+          },
+          "text": {
+            "type": "keyword"
+          },
+          "tags": {
+            "type": "text"
+          },
+          "answered": {
+            "type": "boolean"
+          },
+          "validity": {
+            "type": "keyword"
+          },
+          "status": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+
+  pattern_mapping.json: |
+    {
+      "pattern": {
+        "properties": {
+          "enquiry": {
+            "type": "keyword"
+          },
+          "status": {
+            "type": "keyword"
+          },
+          "text": {
+            "type": "text"
+          },
+          "elements": {
+            "type": "keyword"
+          },
+          "types": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  pattern_settings.json: |-
+    {
+        "number_of_shards" : 5,
+        "number_of_replicas" : 1
+    }
+  settings.json: |-
+    {
+        "settings" : {
+            "index" : {
+                "number_of_shards" : 5,
+                "number_of_replicas" : 2
+            }
+        }
+    }
+  system_mapping.json: |
+    {
+      "system": {
+        "properties": {
+          "datetime": {
+            "type": "date",
+            "format": "yyyy/MM/dd HH:mm:ss.SSS"
+          },
+          "elapsed": {
+            "type": "float"
+          },
+          "label": {
+            "type": "keyword"
+          },
+          "responseCode": {
+            "type": "keyword"
+          },
+          "responseMessage": {
+            "type": "text"
+          },
+          "threadName": {
+            "type": "keyword"
+          },
+          "bytes": {
+            "type": "float"
+          }
+        }
+      }
+    }
+  fluentd_mapping.json: |
+    {
+    "fluentd": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "city": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "code": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "country": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "country_code": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "country_name": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "dns": {
+          "type": "text", 
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "ip": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "location_array": {
+          "type": "geo_point"
+        },
+        "location_properties": {
+          "type": "geo_point"
+        },
+        "location_string": {
+          "type": "geo_point"
+        },
+        "message": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "method": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "querystring": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "size": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "timetaken": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "url": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+    }

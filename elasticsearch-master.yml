@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: elasticsearch
-  labels: 
+  name: iconverse-elasticsearch-master
+  labels:
     component: elasticsearch
-    app: elasticsearch
-    role: data
+    app: app-elasticsearch
+    role: master
 spec:
-  serviceName: svc-elasticsearch
-  replicas: 2 # Default is 1
+  serviceName: svc-elasticsearch-discovery
+  replicas: 3
   selector:
     matchLabels:
       app: app-elasticsearch # Has to match .spec.template.metadata.labels
@@ -16,8 +16,8 @@ spec:
     metadata:
       labels:
         component: elasticsearch
-        app: app-elasticsearch
-        role: data
+        app: app-elasticsearch # Has to match .spec.selector.matchLabels
+        role: master
     spec:
       terminationGracePeriodSeconds: 10
       affinity:
@@ -28,7 +28,7 @@ spec:
               - key: role
                 operator: In
                 values:
-                - data
+                - master
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: elasticsearch
@@ -39,22 +39,30 @@ spec:
               - SYS_RESOURCE
         image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/elasticsearch:latest
         imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "ulimit -l unlimited"]
         env:
         - name: ES_JAVA_OPTS
           valueFrom:
             configMapKeyRef:
-              name: elasticsearch-config
+              name: iconverse-elasticsearch-config
               key: ES_JAVA_OPTS
         - name: NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: NUMBER_OF_MASTERS
+          value: "2"
         - name: NODE_MASTER
-          value: "false"
+          value: "true"
         - name: NODE_INGEST
           value: "false"
+        - name: NODE_DATA
+          value: "false"
         - name: HTTP_ENABLE
-          value: "true"
+          value: "false"
         - name: ES_JAVA_OPTS
           value: -Xms256m -Xmx256m
         - name: PROCESSORS
@@ -66,45 +74,34 @@ spec:
             cpu: 0.25
           limits:
             cpu: 1
-#        livenessProbe:
-#          tcpSocket:
-#            port: transport
-#          initialDelaySeconds: 60
-#          periodSeconds: 10
-#          timeoutSeconds: 1
-#          successThreshold: 1
-#          failureThreshold: 3
-#        readinessProbe:
-#          httpGet:
-#            path: /_cluster/health
-#            port: http
-#          initialDelaySeconds: 60
-#          periodSeconds: 10
-#          timeoutSeconds: 5
-#          successThreshold: 1
-#          failureThreshold: 3
         ports:
-        - containerPort: 9200
-          name: http
         - containerPort: 9300
           name: transport
+        livenessProbe:
+          tcpSocket:
+            port: transport
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
         volumeMounts:
-        - name: elasticsearch-config
+        - name: iconverse-elasticsearch-config
           mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           subPath: elasticsearch.yml
-#        - name: elasticsearch-persistent-storage
-#          mountPath: /var/lib/elasticsearch
+#        - name: es-master-persistent-storage
+#          mountPath: /usr/share/elasticsearch/data
       volumes:
-      - name: elasticsearch-config
-        configMap:
-          name: elasticsearch-config
-          items:
-            - key: elasticsearch-data.yml
-              path: elasticsearch.yml
+        - name: iconverse-elasticsearch-config
+          configMap:
+            name: iconverse-elasticsearch-config
+            items:
+              - key: elasticsearch-master.yml
+                path: elasticsearch.yml
 #  volumeClaimTemplates:
 #  - metadata:
-#      name: elasticsearch-persistent-storage
-#    spec:
+#      name: es-master-persistent-storage
+#    spec:   
 #      accessModes: [ "ReadWriteOnce" ]
 #      resources:
 #        requests:
