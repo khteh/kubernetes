@@ -8,7 +8,7 @@ metadata:
   selfLink: /api/v1/namespaces/default/configmaps/mysqlinit
   uid: 5016a05f-4bb0-11e9-9276-482ae31e6a94
 data:
-  BookDB20190318.sql: "-- MySQL dump 10.13  Distrib 8.0.15, for Linux (x86_64)\n--\n--
+  book.sql: "-- MySQL dump 10.13  Distrib 8.0.15, for Linux (x86_64)\n--\n--
     Host: localhost    Database: book\n-- ------------------------------------------------------\n--
     Server version\t8.0.15\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT
     */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101
