@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: web
+  name: restapi
   labels:
-    app: app-web
+    app: restapi
 spec:
-  serviceName: "svc-web"
+  serviceName: svc-restapi
   podManagementPolicy: "Parallel" # Default is OrderedReady
   replicas: 2 # Default is 1
   updateStrategy: 
     type: RollingUpdate
   selector:
     matchLabels:
-      app: app-web # Has to match .spec.template.metadata.labels
+      app: restapi # Has to match .spec.template.metadata.labels
   template:
     metadata:
       labels:
-        app: app-web # Has to match .spec.selector.matchLabels
+        app: restapi # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
 #      affinity:
@@ -27,10 +27,10 @@ spec:
 #              - key: app
 #                operator: In
 #                values:
-#                - iconverse-admin
+#                - restapi
 #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: web-service
+      - name: restapi
         image: khteh/restapi:latest
         imagePullPolicy: Always
         env:
@@ -73,7 +73,7 @@ spec:
             cpu: 250m
             memory: 1024Mi
       - name: fluentd
-        image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/fluent:latest
+        image: khteh/fluentd:latest
         env:
         - name: FLUENTD_ARGS
           value: -c /etc/td-agent/td-agent.conf
@@ -83,7 +83,7 @@ spec:
         - name: fluentd-config
           mountPath: /etc/td-agent
         - name: access-log-template
-          mountPath: /var/iconverse/elasticsearch/access_log_template.json
+          mountPath: /tmp/access_log_template.json
           subPath: access_log_template.json
           readOnly: true
         resources:

@@ -1,0 +1,170 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-01-28T07:54:33Z"
+  name: fluentd-config
+  namespace: default
+  resourceVersion: "4104691"
+  selfLink: /api/v1/namespaces/default/configmaps/fluentd-config
+  uid: f32e2db1-22d1-11e9-a14d-482ae31e6a94
+data:
+  td-agent.conf: |
+    ####
+    ## Output descriptions:
+    ##
+    # Treasure Data (http://www.treasure-data.com/) provides cloud based data
+    # analytics platform, which easily stores and processes data from td-agent.
+    # FREE plan is also provided.
+    # @see http://docs.fluentd.org/articles/http-to-td
+    #
+    # This section matches events whose tag is td.DATABASE.TABLE
+    <match td.*.*>
+      @type tdlog
+      @id output_td
+      apikey YOUR_API_KEY
+      auto_create_table
+      <buffer>
+        @type file
+        path /var/log/td-agent/buffer/td
+      </buffer>
+      <secondary>
+        @type file
+        path /var/log/td-agent/failed_records
+      </secondary>
+    </match>
+    ## match tag=debug.** and dump to console
+    <match debug.**>
+      @type stdout
+      @id output_stdout
+    </match>
+    <filter restapi-access>
+      @type grep
+      <exclude>
+        key url
+        pattern (^/$|health|^/ui/index.html$)
+     </exclude>
+    </filter>
+    <filter restapi-access>
+      @type geoip
+      # Specify one or more geoip lookup field which has ip address (default: host)
+      geoip_lookup_keys ip
+
+      # Specify optional geoip database (using bundled GeoLiteCity databse by default)
+      # geoip_database    "/path/to/your/GeoIPCity.dat"
+      # Specify optional geoip2 database
+      # geoip2_database   "/path/to/your/GeoLite2-City.mmdb" (using bundled GeoLite2-City.mmdb by default)
+      # Specify backend library (geoip2_c, geoip, geoip2_compat)
+      backend_library geoip2_c
+
+      # Set adding field with placeholder (more than one settings are required.)
+      <record>
+        city          ${city.names.en["ip"]}
+        country_name  ${country.names.en["ip"]}
+        country_code  ${country.iso_code["ip"]}
+        postal_code   ${postal.code["ip"]}
+        location_properties '{ "lat" : ${location.latitude["ip"]}, "lon" : ${location.longitude["ip"]} }'
+        location_string     ${location.latitude["ip"]},${location.longitude["ip"]}
+        location_array      '[${location.longitude["ip"]},${location.latitude["ip"]}]'
+      </record>
+      # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
+      skip_adding_null_record  true
+      # Set @log_level (default: warn)
+      @log_level         info
+    </filter>
+    <match restapi-access>
+      @type copy
+      <store> 
+        @type elasticsearch
+        @log_level trace
+        time_key @timestamp
+        include_timestamp true
+        reconnect_on_error true
+        reload_on_failure true
+        reload_connections false
+        request_timeout 120s
+        host svc-elasticsearch
+        port 9200
+        flush_interval 10s
+        # index_name fluentd.${tag}.%Y%m%d 
+        type_name _doc
+        logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
+        logstash_prefix restapi.access.logs
+        template_name access_log_template
+        template_file /tmp/access_log_template.json
+        template_overwrite true
+        <buffer tag, time>
+          timekey 60# chunks per hours ("3600" also available)
+        </buffer>
+      </store>
+    </match>
+    <match restapi>
+      @type copy
+      <store> 
+        @type elasticsearch
+        @log_level trace
+        time_key @timestamp
+        include_timestamp true
+        reconnect_on_error true
+        reload_on_failure true
+        reload_connections false
+        request_timeout 120s
+        host svc-elasticsearch
+        port 9200
+        flush_interval 10s
+        # index_name fluentd.${tag}.%Y%m%d
+        type_name _doc
+        logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
+        logstash_prefix restapi.logs
+        <buffer tag, time>
+          timekey 60# chunks per hours ("3600" also available)
+        </buffer>
+      </store>
+    </match>
+    <label @ERROR>
+      <match **>
+        @type stdout
+      </match>
+    </label>
+    ####
+    ## Source descriptions:
+    ##
+    ## built-in TCP input
+    ## @see http://docs.fluentd.org/articles/in_forward
+    <source>
+      @type forward
+      @id input_forward
+    </source>
+    <source>
+      @type http
+      @id input_http
+      port 8889
+    </source>
+    ## live debugging agent
+    <source>
+      @type debug_agent
+      @id input_debug_agent
+      bind 127.0.0.1
+      port 24230
+    </source>
+    <source>
+      @type tail
+      ## 12:36:00 0:0:0:0:0:0:0:1 0:0:0:0:0:0:0:1 POST /restapi-admin/api/getEnquiries cacheBuster=1549802159278 200 115646 0.778
+      format /^(?<time>[0-9]{2}:[0-9]{2}:[0-9]{2}) (?<ip>[^ ]*) (?<dns>[^ ]*) (?<method>[A-Z]*) (?<url>[^ ]*) (?<querystring>\S*) (?<code>[^ ]*) (?<size>[^ ]*) (?<duration>[^ ]*)?$/
+      path /usr/local/tomcat/logs/localhost_access_log.%Y-%m-%d.txt
+      pos_file /var/log/td-agent/pos/tomcat_access_logs.pos
+      read_from_head true
+      tag restapi-access
+    </source>
+    <source>
+      @type tail
+      format multiline
+      # Match the date at the beginning of each entry, which can be in one of two
+      # different formats.
+      format multiline
+      format_firstline /[0-9]{2}-[A-Za-z]{3}-[0-9]{4}/
+      format1 /^(?<datetime>[0-9]{2}-[A-Za-z]{3}-[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}) (?<Log-Level>[A-Z]*) (?<message>.*)$/
+      path /usr/local/tomcat/logs/catalina*,/usr/local/tomcat/logs/localhost*.log
+      pos_file /var/log/td-agent/pos/tomcat-multiline.pos
+      read_from_head true
+      tag restapi
+    </source>

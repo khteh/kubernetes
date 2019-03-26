@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: iconverse-elasticsearch-master
+  name: elasticsearch-master
   labels:
     component: elasticsearch
     app: app-elasticsearch
@@ -47,7 +47,7 @@ spec:
         - name: ES_JAVA_OPTS
           valueFrom:
             configMapKeyRef:
-              name: iconverse-elasticsearch-config
+              name: elasticsearch-config
               key: ES_JAVA_OPTS
         - name: NAMESPACE
           valueFrom:
@@ -86,15 +86,15 @@ spec:
           successThreshold: 1
           failureThreshold: 3
         volumeMounts:
-        - name: iconverse-elasticsearch-config
+        - name: elasticsearch-config
           mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           subPath: elasticsearch.yml
 #        - name: es-master-persistent-storage
 #          mountPath: /usr/share/elasticsearch/data
       volumes:
-        - name: iconverse-elasticsearch-config
+        - name: elasticsearch-config
           configMap:
-            name: iconverse-elasticsearch-config
+            name: elasticsearch-config
             items:
               - key: elasticsearch-master.yml
                 path: elasticsearch.yml

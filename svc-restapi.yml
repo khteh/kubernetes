@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-restapi
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /restapi/actuator/health
+  labels: 
+    component: restapi
+    app: restapi
+spec:
+  ports:  
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  - name: https
+    protocol: TCP
+    port: 8443
+    targetPort: 8443
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: restapi
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+#---
+#apiVersion: v1
+#kind: Service 
+#metadata:
+#  name: svc-restapi-ingress
+#  labels: 
+#    app: restapi
+#spec:
+#  ports:  
+#  - name: http
+#    protocol: TCP
+#    port: 8080
+#    targetPort: 8080
+#  - name: https
+#    protocol: TCP
+#    port: 8443
+#    targetPort: 8443
+#  type: NodePort
+#  selector:
+#    app: restapi
+

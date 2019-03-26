@@ -1,34 +1,34 @@
 apiVersion: v1
+data:
+  application-prod.yml: "server:  \n  http2:\n    enabled: true\nspring:\n  application:\n
+    \   name: RestAPI\n  profiles: prod\n  jpa:\n    database-platform: org.hibernate.dialect.MySQL5Dialect\n
+    \   database: MYSQL\n    show-sql: true\n    open-in-view: false\n    generate-ddl:
+    true\n    properties:\n      hibernate.cache.use_second_level_cache: true\n      hibernate.cache.use_query_cache:
+    false\n      hibernate.generate_statistics: true\n      hibernate.cache.region.factory_class:
+    org.hibernate.cache.jcache.JCacheRegionFactory\n      hibernate.javax.cache.provider:
+    org.ehcache.jsr107.EhcacheCachingProvider\n      hibernate.javax.cache.missing_cache_strategy:
+    create\n      javax:\n        properties:\n          persistence:\n            sharedCahce:\n
+    \             mode: ALL\n    hibernate:\n      dialect: org.hibernate.dialect.MySQL5InnoDBDialect\n
+    \     ddl-auto: update\n  datasource:\n    type: com.zaxxer.hikari.HikariDataSource\n
+    \   url: jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true\n
+    \   username: root\n    password: ${MYSQL_ROOT_PASSWORD}\n    hikari:\n      connection-init-sql:
+    SET NAMES utf8mb4\n      data-source-properties:\n        cachePrepStmts: true\n
+    \       prepStmtCacheSize: 250\n        prepStmtCacheSqlLimit: 2048\n        useServerPrepStmts:
+    true\n  cache:\n    redis:\n      time-to-live: 60000ms            \n  redis:\n
+    \   host: localhost\n    port: 6379\n    ssl: false\n    timeout: 60000 # 1 minute\n
+    \   password: ${MYSQL_ROOT_PASSWORD}\n    jedis:\n      pool:\n        max-active:
+    1\n        max-idle: 25\n        max-wait: 30000ms\n        min-idle: 5\njmx:\n
+    \ default-domain: restapi\nendpoints:\n    health:\n        sensitive: true #set
+    to true to enable authentication (since by default this endpoint is enabled)\n
+    \   info:\n        sensitive: true #set to true to enable authentication (since
+    by default this endpoint is enabled)\ninfo:\n    build:\n        build-time: ${timestamp}\n
+    \       artifact: ${project.artifactId}\n        name: ${project.name}\n        group:
+    ${project.groupId}\n        version: ${project.version}\n  "
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2018-12-19T05:57:16Z"
+  creationTimestamp: "2019-03-26T06:20:59Z"
   name: webconfig
   namespace: default
-  resourceVersion: "316135"
-  selfLink: /api/v1/namespaces/default/configmaps/tmp
-  uid: f0746633-0352-11e9-9fb1-482ae31e6a94
-data:
-  application.yml: |
-    spring:
-      profiles: prod
-      application:
-        name: RestAPI
-      jpa:
-        database-platform: org.hibernate.dialect.MySQL5Dialect
-        open-in-view: false
-        generate-ddl: false
-        hibernate:
-          dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-      datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://svc-mysql:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-        username: root
-        password: ${MYSQL_ROOT_PASSWORD}
-        hikari:
-          data-source-properties:
-            cachePrepStmts: true
-            prepStmtCacheSize: 250
-            prepStmtCacheSqlLimit: 2048
-            useServerPrepStmts: true
-    jmx:
-      default-domain: restapi
+  resourceVersion: "400"
+  selfLink: /api/v1/namespaces/default/configmaps/webconfig
+  uid: 527f0db6-4f8f-11e9-8ecd-482ae31e6a94

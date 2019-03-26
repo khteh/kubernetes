@@ -5,7 +5,7 @@ metadata:
   name: elasticsearch-config
   namespace: default
   resourceVersion: "789954"
-  selfLink: /api/v1/namespaces/default/configmaps/elasticsearch
+  selfLink: /api/v1/namespaces/default/configmaps/elasticsearch-config
   uid: 6494f746-0a56-11e9-a34a-482ae31e6a94
 data:
   elasticsearch-master.yml: |+
