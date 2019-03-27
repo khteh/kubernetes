@@ -3,51 +3,60 @@ Kubernetes cluster which consists of the following elements:
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
-pod/daemonset-8s4zs                           1/1     Running     0          66m
-pod/default-http-backend-5769f6bc66-tslnj     1/1     Running     0          101m
-pod/elasticsearch-0                           1/1     Running     0          66m
-pod/elasticsearch-1                           1/1     Running     0          66m
-pod/elasticsearch-init-wl24z                  0/1     Completed   0          59m
-pod/elasticsearch-master-0                    1/1     Running     0          66m
-pod/elasticsearch-master-1                    1/1     Running     0          66m
-pod/elasticsearch-master-2                    1/1     Running     0          66m
-pod/mysql-0                                   1/1     Running     0          98m
-pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          100m
-pod/restapi-0                                 2/2     Running     0          7m54s
-pod/restapi-1                                 2/2     Running     0          7m46s
+pod/daemonset-8s4zs                           1/1     Running     0          108m
+pod/default-http-backend-5769f6bc66-tslnj     1/1     Running     0          143m
+pod/elasticsearch-0                           1/1     Running     0          108m
+pod/elasticsearch-1                           1/1     Running     0          108m
+pod/elasticsearch-init-wl24z                  0/1     Completed   0          100m
+pod/elasticsearch-master-0                    1/1     Running     0          108m
+pod/elasticsearch-master-1                    1/1     Running     0          108m
+pod/elasticsearch-master-2                    1/1     Running     0          108m
+pod/kibana-0                                  1/1     Running     0          14m
+pod/kibana-1                                  1/1     Running     0          14m
+pod/mysql-0                                   1/1     Running     0          140m
+pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
+pod/restapi-0                                 2/2     Running     0          49m
+pod/restapi-1                                 2/2     Running     0          49m
 
 NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
-service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              101m
-service/kubernetes                    ClusterIP   10.152.183.1     <none>        443/TCP             103m
-service/svc-elasticsearch             ClusterIP   None             <none>        9200/TCP,9300/TCP   66m
-service/svc-elasticsearch-discovery   ClusterIP   None             <none>        9300/TCP            66m
-service/svc-mysql                     ClusterIP   None             <none>        3306/TCP            98m
-service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   8m5s
+service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              143m
+service/kubernetes                    ClusterIP   10.152.183.1     <none>        443/TCP             145m
+service/svc-elasticsearch             ClusterIP   None             <none>        9200/TCP,9300/TCP   108m
+service/svc-elasticsearch-discovery   ClusterIP   None             <none>        9300/TCP            108m
+service/svc-kibana                    ClusterIP   None             <none>        8080/TCP            14m
+service/svc-mysql                     ClusterIP   None             <none>        3306/TCP            140m
+service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   49m
 
 NAME                                               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-daemonset.apps/daemonset                           1         1         1       1            1           <none>          66m
-daemonset.apps/nginx-ingress-microk8s-controller   1         1         1       1            1           <none>          101m
+daemonset.apps/daemonset                           1         1         1       1            1           <none>          108m
+daemonset.apps/nginx-ingress-microk8s-controller   1         1         1       1            1           <none>          143m
 
 NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/default-http-backend   1/1     1            1           101m
+deployment.apps/default-http-backend   1/1     1            1           143m
 
 NAME                                              DESIRED   CURRENT   READY   AGE
-replicaset.apps/default-http-backend-5769f6bc66   1         1         1       101m
+replicaset.apps/default-http-backend-5769f6bc66   1         1         1       143m
 
 NAME                                    READY   AGE
-statefulset.apps/elasticsearch          2/2     66m
-statefulset.apps/elasticsearch-master   3/3     66m
-statefulset.apps/mysql                  1/1     98m
-statefulset.apps/restapi                2/2     8m5s
+statefulset.apps/elasticsearch          2/2     108m
+statefulset.apps/elasticsearch-master   3/3     108m
+statefulset.apps/kibana                 2/2     14m
+statefulset.apps/mysql                  1/1     140m
+statefulset.apps/restapi                2/2     49m
+
+NAME                                              REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/kibana-hpa    StatefulSet/kibana    3%/75%    2         5         2          74s
+horizontalpodautoscaler.autoscaling/restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          23m
 
 NAME                           COMPLETIONS   DURATION   AGE
-job.batch/elasticsearch-init   1/1           6s         59m
+job.batch/elasticsearch-init   1/1           6s         100m
 ```
 ## Horizontal Pod Autoscaler:
 ```
 $ k get hpa
 NAME          REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          2m39s
+kibana-hpa    StatefulSet/kibana    11%/75%   2         5         2          20s
+restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          22m
 ```
 ## Cluster Information:
 ```
@@ -61,6 +70,9 @@ InfluxDB is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/ser
 ```
 ## Dashboard:
 * Point the browser to the Grafana URL given by the cluster-info above
+
+## Kibana:
+* Point the browser to localhost/kibana
 
 ## Check the application:
 * `curl -L localhost/restapi/greeting --http2 --insecure`
