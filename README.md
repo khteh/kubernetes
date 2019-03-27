@@ -43,13 +43,13 @@ statefulset.apps/restapi                2/2     8m5s
 NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         59m
 ```
-# Horizontal Pod Autoscaler:
+## Horizontal Pod Autoscaler:
 ```
 $ k get hpa
 NAME          REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          2m39s
 ```
-# Cluster Information:
+## Cluster Information:
 ```
 $ microk8s.kubectl cluster-info
 Kubernetes master is running at https://127.0.0.1:16443
@@ -59,9 +59,9 @@ Metrics-server is running at https://127.0.0.1:16443/api/v1/namespaces/kube-syst
 Grafana is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/services/monitoring-grafana/proxy
 InfluxDB is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/services/monitoring-influxdb:http/proxy
 ```
-# Dashboard:
+## Dashboard:
 * Point the browser to the Grafana URL given by the cluster-info above
 
-# Check the application:
+## Check the application:
 * `curl -L localhost/restapi/greeting --http2 --insecure`
 * `curl -L localhost/restapi/greeting?name=Kok%20How --http2 --insecure`
