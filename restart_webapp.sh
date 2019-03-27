@@ -1,6 +1,7 @@
 #!/bin/bash
-kubectl $1 scale sts web --replicas=0
-kubectl $1 delete configmap webconfig
-kubectl $1 delete statefulset web
-kubectl $1 delete svc svc-web
-kubectl $1 apply -f webconfig.yml,web_service.yml,webapp.yml
+./restart_env.sh
+kubectl scale sts restapi --replicas=0
+kubectl delete configmap webconfig --ignore-not-found=true
+kubectl delete statefulset restapi
+kubectl delete svc svc-restapi
+kubectl apply -f webconfig.yml,svc-restapi.yml,restapi.yml

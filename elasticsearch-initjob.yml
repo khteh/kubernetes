@@ -13,7 +13,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: elasticsearch-init-job
-        image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/elasticsearch-init:latest
+        image: khteh/elasticsearch-init:latest
         volumeMounts:
         - name: access-log-template
           mountPath: /tmp

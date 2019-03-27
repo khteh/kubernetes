@@ -20,16 +20,16 @@ spec:
         role: data
     spec:
       terminationGracePeriodSeconds: 10
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: role
-                operator: In
-                values:
-                - data
-            topologyKey: "kubernetes.io/hostname"
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: role
+#                operator: In
+#                values:
+#                - data
+#            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: elasticsearch
         securityContext:
@@ -37,7 +37,7 @@ spec:
             add:
               - IPC_LOCK
               - SYS_RESOURCE
-        image: 701969852130.dkr.ecr.ap-southeast-1.amazonaws.com/elasticsearch:latest
+        image: khteh/elasticsearch:latest
         imagePullPolicy: Always
         env:
         - name: ES_JAVA_OPTS

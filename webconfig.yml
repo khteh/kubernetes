@@ -1,6 +1,14 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-03-26T06:20:59Z"
+  name: webconfig
+  namespace: default
+  resourceVersion: "400"
+  selfLink: /api/v1/namespaces/default/configmaps/webconfig
+  uid: 527f0db6-4f8f-11e9-8ecd-482ae31e6a94
 data:
-  application-prod.yml: "server:  \n  http2:\n    enabled: true\nspring:\n  application:\n
+  application.yml: "server:  \n  http2:\n    enabled: true\nspring:\n  application:\n
     \   name: RestAPI\n  profiles: prod\n  jpa:\n    database-platform: org.hibernate.dialect.MySQL5Dialect\n
     \   database: MYSQL\n    show-sql: true\n    open-in-view: false\n    generate-ddl:
     true\n    properties:\n      hibernate.cache.use_second_level_cache: true\n      hibernate.cache.use_query_cache:
@@ -10,7 +18,7 @@ data:
     create\n      javax:\n        properties:\n          persistence:\n            sharedCahce:\n
     \             mode: ALL\n    hibernate:\n      dialect: org.hibernate.dialect.MySQL5InnoDBDialect\n
     \     ddl-auto: update\n  datasource:\n    type: com.zaxxer.hikari.HikariDataSource\n
-    \   url: jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true\n
+    \   url: jdbc:mysql://svc-mysql:3306/book?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true\n
     \   username: root\n    password: ${MYSQL_ROOT_PASSWORD}\n    hikari:\n      connection-init-sql:
     SET NAMES utf8mb4\n      data-source-properties:\n        cachePrepStmts: true\n
     \       prepStmtCacheSize: 250\n        prepStmtCacheSqlLimit: 2048\n        useServerPrepStmts:
@@ -24,11 +32,3 @@ data:
     by default this endpoint is enabled)\ninfo:\n    build:\n        build-time: ${timestamp}\n
     \       artifact: ${project.artifactId}\n        name: ${project.name}\n        group:
     ${project.groupId}\n        version: ${project.version}\n  "
-kind: ConfigMap
-metadata:
-  creationTimestamp: "2019-03-26T06:20:59Z"
-  name: webconfig
-  namespace: default
-  resourceVersion: "400"
-  selfLink: /api/v1/namespaces/default/configmaps/webconfig
-  uid: 527f0db6-4f8f-11e9-8ecd-482ae31e6a94
