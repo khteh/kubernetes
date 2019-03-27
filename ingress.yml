@@ -45,3 +45,18 @@ spec:
 #              serviceName: svc-restapi-ingress
               serviceName: svc-restapi
               servicePort: 8080
+          - path: /kibana
+            backend:
+#              serviceName: svc-kibana-ingress
+              serviceName: svc-kibana
+              servicePort: 8080
+          - path: //kibana
+            backend:
+#              serviceName: svc-kibana-ingress
+              serviceName: svc-kibana
+              servicePort: 8080
+          - path: /kibana/*
+            backend:
+#              serviceName: svc-kibana-ingress
+              serviceName: svc-kibana
+              servicePort: 8080

@@ -19,3 +19,25 @@ spec:
 #    resource:
 #      name: memory
 #      targetAverageUtilization: 50
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kibana-hpa
+  namespace: default 
+spec:
+  minReplicas: 2
+  maxReplicas: 5
+  scaleTargetRef:
+    apiVersion: apps/v1 
+    kind: StatefulSet
+    name: kibana
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 75
+#  - type: Resource
+#    resource:
+#      name: memory
+#      targetAverageUtilization: 50
