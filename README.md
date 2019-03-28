@@ -2,8 +2,8 @@
 Kubernetes cluster which consists of the following components:
 * RestAPI application
 * Elasticsearch cluster
-** 3 Master nodes
-** 2 Slave nodes
+  * 3 Master nodes
+  * 2 Slave nodes
 * Redis cluster
 ```
 $ k get all
