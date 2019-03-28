@@ -1,5 +1,8 @@
 # Kubernetes
-Kubernetes cluster which consists of the following elements:
+Kubernetes cluster which consists of the following components:
+* RestAPI application
+* Elasticsearch cluster
+* Redis cluster
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
@@ -50,6 +53,32 @@ horizontalpodautoscaler.autoscaling/restapi-hpa   StatefulSet/restapi   1%/75%  
 
 NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         100m
+```
+## Elasticsearch Cluster:
+```
+# curl svc-elasticsearch-discovery:9200/_cluster/health?pretty
+{
+  "cluster_name" : "elasticsearch",
+  "status" : "green",
+  "timed_out" : false,
+  "number_of_nodes" : 5,
+  "number_of_data_nodes" : 2,
+  "active_primary_shards" : 16,
+  "active_shards" : 32,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 0,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 100.0
+}
+# curl svc-elasticsearch-discovery:9200/_cat/indices          
+green open .kibana_1                      CWOkws7gRMSJTGaDEDKFOQ 1 1   5 0  50.7kb 25.3kb
+green open restapi.logs-2019.03.27        4GFVDwVeSAq4SNAVfG7Lzg 5 1 228 0 467.7kb  236kb
+green open restapi.access.logs-2019.03.27 4azKaBXmTcmIa8R3Vz9imA 5 1  11 0 140.1kb   70kb
+green open restapi.access.logs-2019.03.28 oZjwRZdxQIybxWQ4NBZZSw 5 1   4 0  57.2kb 28.6kb
 ```
 ## Horizontal Pod Autoscaler:
 ```
