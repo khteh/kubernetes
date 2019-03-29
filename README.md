@@ -104,6 +104,7 @@ InfluxDB is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/ser
 
 ## Kibana:
 * Point the browser to localhost/kibana
+* Supports GeoIP
 
 ## Check the application:
 * `curl -L localhost/restapi/greeting --http2 --insecure`
