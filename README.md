@@ -56,6 +56,68 @@ horizontalpodautoscaler.autoscaling/restapi-hpa   StatefulSet/restapi   1%/75%  
 NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         100m
 ```
+## Redis Cluster:
+^ 3 master pods
+* 3 slave pods
+```
+cluster_state:ok
+cluster_slots_assigned:16384
+cluster_slots_ok:16384
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:6
+cluster_size:3
+cluster_current_epoch:6
+cluster_my_epoch:1
+cluster_stats_messages_ping_sent:1208
+cluster_stats_messages_pong_sent:1178
+cluster_stats_messages_sent:2386
+cluster_stats_messages_ping_received:1173
+cluster_stats_messages_pong_received:1208
+cluster_stats_messages_meet_received:5
+cluster_stats_messages_received:2386
+redis-cluster-0
+master
+1680
+10.1.1.80
+6379
+1680
+
+redis-cluster-1
+master
+1666
+10.1.1.81
+6379
+1666
+
+redis-cluster-2
+master
+1666
+10.1.1.79
+6379
+1666
+
+redis-cluster-3
+slave
+10.1.1.78
+6379
+connected
+1666
+
+redis-cluster-4
+slave
+10.1.1.76
+6379
+connected
+1680
+
+redis-cluster-5
+slave
+10.1.1.77
+6379
+connected
+1666
+```
 ## Elasticsearch Cluster:
 ```
 # curl svc-elasticsearch-discovery:9200/_cluster/health?pretty
