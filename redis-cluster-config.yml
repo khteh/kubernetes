@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: redis-cluster-config
   labels:
-    app: redis-cluster-config
+    app: redis-cluster
 data:
   fix-ip.sh: |
     #!/bin/sh
@@ -20,7 +20,6 @@ data:
     else
       echo $CLUSTER_CONFIG not found!
     fi
-    exec "$@"
   redis.conf: |+
     cluster-enabled yes
     cluster-require-full-coverage no

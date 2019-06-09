@@ -26,7 +26,7 @@ spec:
           name: client
         - containerPort: 16379
           name: gossip
-        command: ["/conf/fix-ip.sh", "redis-server", "/conf/redis.conf"]
+        command: ["redis-server", "/conf/redis.conf"]
         readinessProbe:
           exec:
             command:
@@ -58,7 +58,7 @@ spec:
       volumes:
       - name: conf
         configMap:
-          name: redis-cluster
+          name: redis-cluster-config
           defaultMode: 0755
   volumeClaimTemplates:
   - metadata:
