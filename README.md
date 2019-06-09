@@ -57,7 +57,7 @@ NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         100m
 ```
 ## Redis Cluster:
-^ 3 master pods
+* 3 master pods
 * 3 slave pods
 ```
 cluster_state:ok
