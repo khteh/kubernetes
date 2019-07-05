@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: "2019-07-05T08:28:13Z"
+  name: biz4xdb-secret
+  namespace: default
+  resourceVersion: "2690643"
+  selfLink: /api/v1/namespaces/default/secrets/tmp
+  uid: 70ba42ac-e571-480d-b0f5-86d8d9b38acb
+type: Opaque
+data:
+  biz4x.mysql.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0Q29ubmVjdGlvbiI6ICJTZXJ2ZXI9c3ZjLW15c3FsO0RhdGFiYXNlPWJpejR4ZGI7dXNlcj1ndWVzdDtwYXNzd29yZD1QQCQkdzByZCIKICAgICAgICAiR2V0NHhDb25uZWN0aW9uIjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9Z2V0NHgtMTYwOTA4O3VzZXI9Z3Vlc3Q7cGFzc3dvcmQ9UEAkJHcwcmQ7Y2hhcnNldD11dGY4O1BvcnQ9MzMwNjtEZWZhdWx0IENvbW1hbmQgVGltZW91dD0zMDA7IiwKICAgICAgICAiTG9nRGJDb25uZWN0aW9uIjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9Yml6NHhfZGV2X2xvZzt1c2VyPWd1ZXN0O3Bhc3N3b3JkPVBAJCR3MHJkO2NoYXJzZXQ9dXRmODtQb3J0PTMzMDY7RGVmYXVsdCBDb21tYW5kIFRpbWVvdXQ9MzAwOyIKICAgIH0KfQo=
