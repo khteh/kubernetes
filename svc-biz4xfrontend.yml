@@ -6,7 +6,7 @@ metadata:
 #    alb.ingress.kubernetes.io/healthcheck-path: /biz4xfrontend/actuator/health
   labels: 
     component: biz4x
-    app: biz4xfrontend
+    app: biz4x-frontend
 spec:
   ports:  
   - name: http
@@ -19,7 +19,7 @@ spec:
     targetPort: 443
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
-    app: biz4xfrontend
+    app: biz4x-frontend
     component: biz4x
 #    tier: frontend
 #  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
@@ -27,9 +27,9 @@ spec:
 #apiVersion: v1
 #kind: Service 
 #metadata:
-#  name: svc-biz4xfrontend-ingress
+#  name: svc-biz4x-frontend-ingress
 #  labels: 
-#    app: biz4xfrontend
+#    app: biz4x-frontend
 #spec:
 #  ports:  
 #  - name: http
@@ -42,4 +42,4 @@ spec:
 #    targetPort: 443
 #  type: NodePort
 #  selector:
-#    app: biz4xfrontend
+#    app: biz4x-frontend

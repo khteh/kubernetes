@@ -46,9 +46,9 @@ spec:
           protocol: TCP
 #          hostPort: 8082
         volumeMounts:
-        - name: mysql-connection
-          mountPath: /app/appsettings.mysql.json
-          subPath: appsettings.mysql.json
+        - name: biz4x-secret
+          mountPath: /app/appsettings.secret.json
+          subPath: appsettings.secret.json
           readOnly: true
         resources:
           limits:
@@ -73,9 +73,9 @@ spec:
 #            cpu: 250m
 #            memory: 1024Mi
       volumes:
-      - name: mysql-connection
+      - name: biz4x-secret
         secret:
-          secretName: biz4xdb-secret
+          secretName: biz4x-secret
 #      - name: fluentd-config
 #        configMap:
 #          name: fluentd-config
