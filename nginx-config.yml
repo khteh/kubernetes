@@ -35,19 +35,20 @@ data:
       keepalive_timeout  65;
       #gzip  on;
       #include /etc/nginx/conf.d/*.conf; This must be commented out!
-      upstream svc-web {
-        server svc-web:8080;
-        keepalive 1024;
-      }
+      #upstream svc-aspnetapistarter {
+      #  server svc-aspnetapistarter:5000;
+      #  keepalive 1024;
+      #}
       server {
         listen 80;
         access_log /var/log/nginx/app.access_log main;
         error_log /var/log/nginx/app.error_log;
-        set $restapi http://svc-web.default.svc.cluster.local:8080;
+        #set $restapi http://svc-web.default.svc.cluster.local:8080;
+        set $apistarter http://svc-aspnetapistarter.default.svc.cluster.local:5000/;
         resolver kube-dns.kube-system valid=10s;
-        location / {
+        location /apistarter/ {
           #proxy_pass http://svc-web;
-          proxy_pass $restapi;
+          proxy_pass $apistarter;
           proxy_http_version 1.1;
         }
       }

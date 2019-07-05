@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aspnetapistarter
+  labels:
+    app: aspnetapistarter
+spec:
+  serviceName: svc-aspnetapistarter
+  podManagementPolicy: "Parallel" # Default is OrderedReady
+  replicas: 2 # Default is 1
+  updateStrategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: aspnetapistarter # Has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: aspnetapistarter # Has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - aspnetapistarter
+#            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: aspnetapistarter
+        image: khteh/asp.netcoreapistarter:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+#          hostPort: 8081
+        - containerPort: 443
+          name: https
+          protocol: TCP
+#          hostPort: 8082
+        volumeMounts:
+        - name: mysql-secrets
+          mountPath: /app/appsettings.mysql.json
+          subPath: appsettings.mysql.json
+          readOnly: true
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1024Mi
+#      - name: fluentd
+#        image: khteh/fluentd:latest
+#        env:
+#        - name: FLUENTD_ARGS
+#          value: -c /etc/td-agent/td-agent.conf
+#        volumeMounts:
+#        - name: tomcat-log
+#          mountPath: /usr/local/tomcat/logs
+#        - name: fluentd-config
+#          mountPath: /etc/td-agent
+#        - name: access-log-template
+#          mountPath: /tmp/access_log_template.json
+#          subPath: access_log_template.json
+#          readOnly: true
+#        resources:
+#          limits:
+#            cpu: 250m
+#            memory: 1024Mi
+      volumes:
+      - name: mysql-secrets
+        secret:
+          secretName: aspnetapistarter
+#      - name: fluentd-config
+#        configMap:
+#          name: fluentd-config
+#      - name: access-log-template
+#        configMap:
+#          name: access-log-template
+#      - name: tomcat-log
+#        emptyDir: {}

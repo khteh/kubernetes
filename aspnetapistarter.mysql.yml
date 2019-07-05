@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: "2019-06-16T12:47:56Z"
+  name: aspnetapistarter
+  namespace: default
+  resourceVersion: "734985"
+  selfLink: /api/v1/namespaces/default/secrets/aspnetapistarter
+  uid: f6f64857-9034-11e9-9982-e86a64ff2841
+type: Opaque
+data:
+  aspnetapistarter.secrets.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0IjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9QXNwTmV0Q29yZUFwaVN0YXJ0ZXI7dXNlcj1ndWVzdDtwYXNzd29yZD1QQCQkdzByZCIKICAgIH0KfQo=
