@@ -50,13 +50,13 @@ spec:
             - name: AWS_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: awssecret
-                  key: aws-access-key
+                  name: aws-secret
+                  key: access-key
             - name: AWS_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: awssecret
-                  key: aws-secret
+                  name: aws-secret
+                  key: secret-key
           dnsPolicy: Default
           hostNetwork: true
           restartPolicy: Never
