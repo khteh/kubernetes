@@ -44,7 +44,7 @@ spec:
 #          hostPort: 8082
         volumeMounts:
         - name: mysql-connection
-          mountPath: /app/appsettings.mysql.json
+          mountPath: "/app/appsettings.mysql.json"
           subPath: appsettings.mysql.json
           readOnly: true
         resources:
