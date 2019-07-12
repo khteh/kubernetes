@@ -43,22 +43,17 @@ spec:
 #              serviceName: svc-biz4xfrontend-ingress
               serviceName: svc-biz4xfrontend
               servicePort: 5001
-          - path: //apistarter(/|$)(.*)
+          - path: //biz4x(/|$)(.*)
             backend:
 #              serviceName: svc-biz4xfrontend-ingress
               serviceName: svc-biz4xfrontend
               servicePort: 5001
-          - path: /kibana
+          - path: /kibana(/|$)(.*)
             backend:
 #              serviceName: svc-kibana-ingress
               serviceName: svc-kibana
               servicePort: 8080
-          - path: //kibana
-            backend:
-#              serviceName: svc-kibana-ingress
-              serviceName: svc-kibana
-              servicePort: 8080
-          - path: /kibana/*
+          - path: //kibana(/|$)(.*)
             backend:
 #              serviceName: svc-kibana-ingress
               serviceName: svc-kibana

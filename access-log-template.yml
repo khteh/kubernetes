@@ -10,12 +10,11 @@ metadata:
 data:
   access_log_template.json: |
     {
-      "index_patterns": ["restapi.access.logs*"],
+      "index_patterns": ["aspnetapistarter.access.logs*"],
       "settings": {
         "number_of_shards": 5
       },
       "mappings": {
-        "_doc": {
           "properties": {
             "type": { "type": "keyword" },
             "location_array": { "type": "geo_point" },
@@ -24,6 +23,5 @@ data:
             "duration": { "type": "double" },
             "size": { "type": "long" }
           }
-        }
       }
     }

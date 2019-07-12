@@ -12,8 +12,8 @@ data:
     server.port: 5601
     server.host: "0.0.0.0"
     server.basePath: "/kibana"
-    server.rewriteBasePath: true
-    elasticsearch.url: "http://svc-elasticsearch:9200"
+    server.rewriteBasePath: false
+    elasticsearch.hosts: "http://svc-elasticsearch:9200"
     kibana.index: ".kibana"
     logging.silent: false
     logging.quiet: false

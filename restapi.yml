@@ -80,7 +80,7 @@ spec:
         volumeMounts:
         - name: tomcat-log
           mountPath: /usr/local/tomcat/logs
-        - name: fluentd-config
+        - name: fluentd-tomcat-config
           mountPath: /etc/td-agent
         - name: access-log-template
           mountPath: /tmp/access_log_template.json
@@ -100,9 +100,9 @@ spec:
       - name: tomcat-web-config
         configMap:
           name: tomcat-web-config
-      - name: fluentd-config
+      - name: fluentd-tomcat-config
         configMap:
-          name: fluentd-config
+          name: fluentd-tomcat-config
       - name: access-log-template
         configMap:
           name: access-log-template

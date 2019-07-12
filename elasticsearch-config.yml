@@ -10,6 +10,14 @@ metadata:
 data:
   elasticsearch-master.yml: |+
     cluster.name: elasticsearch
+    cluster.initial_master_nodes: 
+      - elasticsearch-master-0
+      - elasticsearch-master-1
+      - elasticsearch-master-2
+    discovery.seed_hosts:
+      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local
     script.painless.regex.enabled: true
     http.cors.enabled: true
     http.cors.allow-origin: "*"
@@ -18,11 +26,17 @@ data:
     node.master: true
     node.data: false
     bootstrap.memory_lock: true
-    discovery.zen.ping.unicast.hosts: svc-elasticsearch-discovery
-    discovery.zen.minimum_master_nodes: 2
 
   elasticsearch-data.yml: |
     cluster.name: elasticsearch
+    cluster.initial_master_nodes: 
+      - elasticsearch-master-0
+      - elasticsearch-master-1
+      - elasticsearch-master-2
+    discovery.seed_hosts:
+      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local
     script.painless.regex.enabled: true
     http.cors.enabled: true
     http.cors.allow-origin: "*"
@@ -31,7 +45,5 @@ data:
     node.master: false
     node.data: true
     bootstrap.memory_lock: true
-    discovery.zen.ping.unicast.hosts: svc-elasticsearch-discovery
-    discovery.zen.minimum_master_nodes: 2
 
   ES_JAVA_OPTS: -Xms512m -Xmx512m -Djna.tmpdir=/tmp
