@@ -62,9 +62,11 @@ spec:
           successThreshold: 1
         volumeMounts:
         - name: mysql-connection
-          mountPath: "/app/appsettings.mysql.json"
+          mountPath: /app/appsettings.mysql.json
           subPath: appsettings.mysql.json
           readOnly: true
+        - name: log
+          mountPath: /var/log/aspnetcore
         resources:
           limits:
             cpu: 250m
@@ -75,8 +77,8 @@ spec:
         - name: FLUENTD_ARGS
           value: -c /etc/td-agent/td-agent.conf
         volumeMounts:
-#        - name: tomcat-log
-#          mountPath: /usr/local/tomcat/logs
+        - name: log
+          mountPath: /var/log/aspnetcore
         - name: fluentd-config
           mountPath: /etc/td-agent
         - name: access-log-template
@@ -97,5 +99,5 @@ spec:
       - name: access-log-template
         configMap:
           name: access-log-template
-#      - name: tomcat-log
-#        emptyDir: {}
+      - name: log
+        emptyDir: {}
