@@ -37,11 +37,32 @@ data:
       @type stdout
       @id output_stdout
     </match>
+    <filter fluent.*>
+      @type grep
+      <exclude>
+        key tag
+        pattern fluent.trace
+     </exclude>
+    </filter>
     <filter aspnetcore-access>
       @type grep
       <exclude>
-        key url
-        pattern (^/$|health|^/ui/index.html$)
+        key fields.Path
+        pattern /health/
+     </exclude>
+    </filter>
+    <filter aspnetcore-access>
+      @type grep
+      <exclude>
+        key fields.RequestPath
+        pattern /health/
+     </exclude>
+    </filter>
+    <filter aspnetcore-access>
+      @type grep
+      <exclude>
+        key message
+        pattern /health/
      </exclude>
     </filter>
     <filter aspnetcore-access>
@@ -127,29 +148,11 @@ data:
       bind 127.0.0.1
       port 24230
     </source>
-    # Examples:
-    # time="2016-02-04T06:51:03.053580605Z" level=info msg="GET /containers/json"
-    # time="2016-02-04T07:53:57.505612354Z" level=error msg="HTTP Error" err="No such image: -f" statusCode=404
     <source>
       @type tail
-      ## 12:36:00 0:0:0:0:0:0:0:1 0:0:0:0:0:0:0:1 POST /restapi-admin/api/getEnquiries cacheBuster=1549802159278 200 115646 0.778
-      #format /^(?<time>[0-9]{2}:[0-9]{2}:[0-9]{2}) (?<ip>[^ ]*) (?<dns>[^ ]*) (?<method>[A-Z]*) (?<url>[^ ]*) (?<querystring>\S*) (?<code>[^ ]*) (?<size>[^ ]*) (?<duration>[^ ]*)?$/
-      format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) message="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
+      format json
       path /var/log/aspnetcore/log*
       pos_file /var/log/td-agent/pos/aspnetcore_logs.pos
       read_from_head true
       tag aspnetcore
     </source>
-#    <source>
-#      @type tail
-#      format multiline
-#      # Match the date at the beginning of each entry, which can be in one of two
-#      # different formats.
-#      format multiline
-#      format_firstline /[0-9]{2}-[A-Za-z]{3}-[0-9]{4}/
-#      format1 /^(?<datetime>[0-9]{2}-[A-Za-z]{3}-[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}) (?<Log-Level>[A-Z]*) (?<message>.*)$/
-#      path /usr/local/tomcat/logs/catalina*,/usr/local/tomcat/logs/localhost*.log
-#      pos_file /var/log/td-agent/pos/tomcat-multiline.pos
-#      read_from_head true
-#      tag aspnetcore
-#    </source>
