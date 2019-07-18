@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-init
+  labels: 
+    component: mysql
+spec:
+#  ttlSecondsAfterFinished: 100
+  backoffLimit: 3
+  activeDeadlineSeconds: 100
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: mysql-init-job
+        image: khteh/mysql-init:latest
+        env:
+         - name: MYSQL_USER
+           valueFrom:
+             secretKeyRef:
+               name: mysql-secret
+               key: mysql-user
+         - name: MYSQL_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: mysql-secret
+               key: mysql-password
+         - name: MYSQL_DATABASE
+           value: biz4xdb 
+  backoffLimit: 3

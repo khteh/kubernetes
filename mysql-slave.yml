@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service 
 metadata:
-  name: svc-mysql
+  name: svc-mysql-slave
   labels: 
-    app: db-mysql
+    app: mysql-slave
     component: mysql
 spec:
   selector:
-    app: db-mysql
+    app: mysql-slave
     component: mysql
 #    tier: database
   ports:  
@@ -18,32 +18,36 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: mysql-slave
   labels:
-    app: db-mysql
+    app: mysql-slave
     component: mysql
 spec:
-  serviceName: svc-mysql
+  serviceName: svc-mysql-slave
   podManagementPolicy: "Parallel" # Default is OrderedReady
   replicas: 1 # Default is 1
   selector:
     matchLabels:
-      app: db-mysql # Has to match .spec.template.metadata.labels
+      app: mysql-slave # Has to match .spec.template.metadata.labels
       component: mysql
   template:
     metadata:
       labels:
-        app: db-mysql # Has to match .spec.selector.matchLabels
+        app: mysql-slave # Has to match .spec.selector.matchLabels
         component: mysql
     spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: mysql
 #        image: mysql:latest
-        image: khteh/mysql:latest
+        image: khteh/mysql-slave:latest
         imagePullPolicy: Always
 #        command: ["mysqld"]
 #        args: ["--lower_case_table_names=1", "--skip-ssl", "--ignore-db-dir=lost+found"]
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/usr/local/bin/postinit.sh"]
         env:
 #         - name: MYSQL_ALLOW_EMPTY_PASSWORD
 #           value: "1"
@@ -57,6 +61,16 @@ spec:
              secretKeyRef:
                name: mysql-secret
                key: mysql-root-password
+         - name: MYSQL_REPLICATION_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: mysql-secret
+               key: mysql-replication-password
+         - name: MYSQL_REPLICATION_USER
+           valueFrom:
+             secretKeyRef:
+               name: mysql-secret
+               key: mysql-replication-user
          - name: MYSQL_USER
            valueFrom:
              secretKeyRef:
@@ -67,6 +81,8 @@ spec:
              secretKeyRef:
                name: mysql-secret
                key: mysql-password
+         - name: MYSQL_MASTER_SERVICE_HOST
+           value: svc-mysql-master
          - name: MYSQL_DATABASE
            value: biz4xdb
          - name: MYSQL_DATABASE_1
@@ -75,18 +91,18 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: mysql-persistent-storage
+        - name: mysql-slave-persistent-storage
           mountPath: /var/lib/mysql
           subPath: mysql
-        - name: mysql-initdb
-          mountPath: /docker-entrypoint-initdb.d
+#        - name: mysql-initdb
+#          mountPath: /docker-entrypoint-initdb.d
       volumes:
-      - name: mysql-initdb
-        configMap:
-          name: mysqlinit
+#      - name: mysql-initdb
+#        configMap:
+#          name: mysqlinit
   volumeClaimTemplates:
   - metadata:
-      name: mysql-persistent-storage
+      name: mysql-slave-persistent-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
 #      storageClassName: local-storage
