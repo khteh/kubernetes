@@ -36,6 +36,11 @@ spec:
       - name: biz4x-backend
         image: 699575179986.dkr.ecr.ap-southeast-1.amazonaws.com/biz4x-backend:latest
         imagePullPolicy: Always
+        env:    
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: ASPNETCORE_URLS
+            value: "http://0.0.0.0:5002"
         ports:
         - containerPort: 5002
           name: http
@@ -49,7 +54,7 @@ spec:
           httpGet:
             path: /health/ready
             port: http
-          initialDelaySeconds: 30
+          initialDelaySeconds: 90
           periodSeconds: 5
           timeoutSeconds: 3
           failureThreshold: 3
@@ -58,7 +63,7 @@ spec:
           httpGet:
             path: /health/live
             port: http
-          initialDelaySeconds: 30
+          initialDelaySeconds: 90
           periodSeconds: 3
           timeoutSeconds: 3
           failureThreshold: 3
@@ -94,6 +99,9 @@ spec:
       - name: biz4x-secret
         secret:
           secretName: biz4x-secret
+          items:
+          - key: biz4x-secret.json
+            path: appsettings.secret.json
 #      - name: fluentd-config
 #        configMap:
 #          name: fluentd-config
