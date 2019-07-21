@@ -18,8 +18,8 @@ spec:
       - name: daemonset
         image: gcr.io/google-containers/startup-script:v1
         imagePullPolicy: IfNotPresent
-        securityContext:
-          privileged: true
+#        securityContext:
+#          privileged: true
         env:
         - name: STARTUP_SCRIPT
           value: |

@@ -57,18 +57,18 @@ data:
     <filter aspnetcore>
       @type grep
       <exclude>
-        key fields.Path
+        key $.fields.Path
         pattern /health/
      </exclude>
       <exclude>
-        key fields.RequestPath
+        key $.fields.RequestPath
         pattern /health/
      </exclude>
     </filter>
     <filter aspnetcore>
       @type geoip
       # Specify one or more geoip lookup field which has ip address (default: host)
-      geoip_lookup_keys ip
+      geoip_lookup_keys IP
 
       # Specify optional geoip database (using bundled GeoLiteCity databse by default)
       # geoip_database    "/path/to/your/GeoIPCity.dat"
@@ -79,13 +79,13 @@ data:
 
       # Set adding field with placeholder (more than one settings are required.)
       <record>
-        city          ${city.names.en["ip"]}
-        country_name  ${country.names.en["ip"]}
-        country_code  ${country.iso_code["ip"]}
-        postal_code   ${postal.code["ip"]}
-        location_properties '{ "lat" : ${location.latitude["ip"]}, "lon" : ${location.longitude["ip"]} }'
-        location_string     ${location.latitude["ip"]},${location.longitude["ip"]}
-        location_array      '[${location.longitude["ip"]},${location.latitude["ip"]}]'
+        city          ${city.names.en["IP"]}
+        country_name  ${country.names.en["IP"]}
+        country_code  ${country.iso_code["IP"]}
+        postal_code   ${postal.code["IP"]}
+        location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
+        location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
+        location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
       </record>
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true
