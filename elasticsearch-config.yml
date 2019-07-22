@@ -15,9 +15,9 @@ data:
       - elasticsearch-master-1
       - elasticsearch-master-2
     discovery.seed_hosts:
-      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local
-      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local
-      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local:9300
+      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local:9300
+      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local:9300
     script.painless.regex.enabled: true
     http.cors.enabled: true
     http.cors.allow-origin: "*"
@@ -27,16 +27,16 @@ data:
     node.data: false
     bootstrap.memory_lock: true
 
-  elasticsearch-data.yml: |
+  elasticsearch-data.yml: |+
     cluster.name: elasticsearch
     cluster.initial_master_nodes: 
       - elasticsearch-master-0
       - elasticsearch-master-1
       - elasticsearch-master-2
     discovery.seed_hosts:
-      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local
-      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local
-      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local
+      - elasticsearch-master-0.svc-elasticsearch-discovery.default.svc.cluster.local:9300
+      - elasticsearch-master-1.svc-elasticsearch-discovery.default.svc.cluster.local:9300
+      - elasticsearch-master-2.svc-elasticsearch-discovery.default.svc.cluster.local:9300
     script.painless.regex.enabled: true
     http.cors.enabled: true
     http.cors.allow-origin: "*"

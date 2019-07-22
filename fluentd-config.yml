@@ -66,6 +66,13 @@ data:
      </exclude>
     </filter>
     <filter aspnetcore>
+      @type parser
+      key_name message
+      <parse>
+        @type json
+      </parse>
+    </filter>
+    <filter aspnetcore>
       @type geoip
       # Specify one or more geoip lookup field which has ip address (default: host)
       geoip_lookup_keys IP
@@ -86,6 +93,8 @@ data:
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
+        duration $.fields.ElapsedMilliseconds
+        size ContentLength
       </record>
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true

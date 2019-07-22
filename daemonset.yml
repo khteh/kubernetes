@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
@@ -16,7 +16,7 @@ spec:
       hostPID: true
       containers:
       - name: daemonset
-        image: gcr.io/google-containers/startup-script:v1
+        image: gcr.io/google-containers/startup-script:v2
         imagePullPolicy: IfNotPresent
 #        securityContext:
 #          privileged: true
@@ -24,6 +24,7 @@ spec:
         - name: STARTUP_SCRIPT
           value: |
             #! /bin/bash
+            set -x
             sysctl -w vm.max_map_count=262144
             sysctl -w net.core.somaxconn=1024
             sysctl -w net.core.netdev_max_backlog=5000
