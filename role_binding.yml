@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: "2019-07-23T03:10:20Z"
+  name: admin:psp:privileged
+  namespace: default
+  resourceVersion: "844374"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/default/rolebindings/admin:psp:privileged
+  uid: 6201fabb-65be-4600-93e8-19d9bb1c1916
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: psp:privileged
+subjects:
+- kind: ServiceAccount
+  name: admin
+  namespace: default

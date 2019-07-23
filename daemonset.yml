@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
+  name: daemonset
   labels:
     name: daemonset
-  name: daemonset
 spec:
   selector:
     matchLabels:
@@ -17,9 +17,9 @@ spec:
       containers:
       - name: daemonset
         image: gcr.io/google-containers/startup-script:v2
-        imagePullPolicy: IfNotPresent
-#        securityContext:
-#          privileged: true
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
         env:
         - name: STARTUP_SCRIPT
           value: |

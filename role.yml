@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2019-07-23T03:10:12Z"
+  name: psp:privileged
+  namespace: default
+  resourceVersion: "844365"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/default/roles/psp:privileged
+  uid: b1493271-c71a-4e80-8bcc-5f73c4d24f04
+rules:
+- apiGroups:
+  - extensions
+  resourceNames:
+  - pod-security-policy
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
