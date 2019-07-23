@@ -25,6 +25,8 @@ spec:
              secretKeyRef:
                name: mysql-secret
                key: mysql-password
+         - name: MYSQL_HOST
+           value: biz4x.cihvxb4z6n8p.ap-southeast-1.rds.amazonaws.com
          - name: MYSQL_DATABASE
            value: biz4xdb 
   backoffLimit: 3

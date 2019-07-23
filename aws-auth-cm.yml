@@ -36,7 +36,3 @@ data:
     - rolearn: arn:aws:iam::699575179986:role/eksctl-biz4x-cluster-ServiceRole-1OT7XY602ZC3M
       groups:
         - 4xlabs
-    - rolearn: arn:aws:iam::699575179986:role/EKSOpsAdmin
-      username: eksopsadmin
-      groups: 
-        - system:masters
