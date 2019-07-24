@@ -12,7 +12,7 @@ metadata:
   # namespace scope, see --watch-namespace.
   namespace: kube-system
 spec:
-  replicas: 1
+#  replicas: 1
   selector:
     matchLabels:
       app: alb-ingress-controller
@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        iam.amazonaws.com/role: arn:aws:iam::699575179986:role/k8s-alb-controller
+#        iam.amazonaws.com/role: arn:aws:iam::699575179986:role/k8s-alb-controller
       creationTimestamp: null
       labels:
         app: alb-ingress-controller
@@ -32,7 +32,7 @@ spec:
       containers:
         - args:
             # https://github.com/kubernetes-sigs/aws-alb-ingress-controller/issues/749
-            - --feature-gates=waf=false
+            #- --feature-gates=waf=false
             # Limit the namespace where this ALB Ingress Controller deployment will
             # resolve ingress resources. If left commented, all namespaces are used.
             # - --watch-namespace=biz4x
@@ -42,6 +42,7 @@ spec:
             # choose any class you'd like for this controller to respect.
             - --ingress-class=alb
 
+            # REQUIRED
             # Name of your cluster. Used when naming resources created
             # by the ALB Ingress Controller, providing distinction between
             # clusters.
@@ -75,7 +76,7 @@ spec:
             #- name: AWS_SECRET_ACCESS_KEY
             #  value: edL3PmpGAybYiXjYFZTyTPKJoNbPy/v9mmVB1j7U
           # Repository location of the ALB Ingress Controller.
-          image: 894847497797.dkr.ecr.us-west-2.amazonaws.com/aws-alb-ingress-controller:v1.0.1
+          image: docker.io/amazon/aws-alb-ingress-controller:v1.1.2
           imagePullPolicy: Always
           name: server
           resources: {}
@@ -84,5 +85,4 @@ spec:
       restartPolicy: Always
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      serviceAccountName: alb-ingress
-      serviceAccount: alb-ingress
+      serviceAccountName: alb-ingress-controller
