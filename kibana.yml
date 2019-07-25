@@ -13,7 +13,7 @@ spec:
   ports:  
   - name: kibana
     protocol: TCP
-    port: 8080
+    port: 5601
     targetPort: 5601
   clusterIP: None # Headless
 ---

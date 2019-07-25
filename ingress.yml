@@ -52,9 +52,9 @@ spec:
             backend:
 #              serviceName: svc-kibana-ingress
               serviceName: svc-kibana
-              servicePort: 8080
+              servicePort: 5601
           - path: //kibana(/|$)(.*)
             backend:
 #              serviceName: svc-kibana-ingress
               serviceName: svc-kibana
-              servicePort: 8080
+              servicePort: 5601

@@ -68,20 +68,12 @@ data:
     <filter aspnetcore>
       @type parser
       key_name message
-      hash_value_field "parsed_nested"
       reserve_data true
       remove_key_name_field true
       <parse>
         @type json
+        json_parser json
       </parse>
-    </filter>
-    <filter aspnetcore>
-      @type record_transformer
-      enable_ruby true
-      <record>
-        parsed_nested ${record["message"] = record["parsed_nested"]}
-      </record>
-      remove_keys parsed_nested
     </filter>
     <filter aspnetcore>
       @type geoip
