@@ -76,6 +76,14 @@ data:
       </parse>
     </filter>
     <filter aspnetcore>
+      @type record_transformer
+      auto_typecast true
+      <record>
+        size ${record["ContentLength"]}
+        duration ${record["fields"]["ElapsedMilliseconds"]}
+      </record>
+    </filter>
+    <filter aspnetcore>
       @type geoip
       # Specify one or more geoip lookup field which has ip address (default: host)
       geoip_lookup_keys IP
@@ -96,8 +104,6 @@ data:
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
-        duration $.fields.ElapsedMilliseconds
-        size ContentLength
       </record>
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true
@@ -137,7 +143,7 @@ data:
         request_timeout 120s
         host svc-elasticsearch
         port 9200
-        flush_interval 10s
+        flush_interval 1s
         # index_name fluentd.${tag}.%Y%m%d 
         type_name _doc
         logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
