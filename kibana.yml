@@ -34,6 +34,16 @@ spec:
         app: kibana # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - kibana
+            topologyKey: "kubernetes.io/hostname"
 #      imagePullSecrets:
 #      - name: iconverse-docker
       containers:

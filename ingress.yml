@@ -38,6 +38,16 @@ spec:
 #              serviceName: svc-aspnetapistarter-ingress
               serviceName: svc-aspnetapistarter
               servicePort: 5000
+#          - path: /(/|$)(.*)
+#            backend:
+##              serviceName: svc-biz4xfrontend-ingress
+#              serviceName: svc-biz4xfrontend
+#              servicePort: 5001
+#          - path: //(//|$)(.*)
+#            backend:
+##              serviceName: svc-biz4xfrontend-ingress
+#              serviceName: svc-biz4xfrontend
+#              servicePort: 5001
           - path: /biz4x(/|$)(.*)
             backend:
 #              serviceName: svc-biz4xfrontend-ingress

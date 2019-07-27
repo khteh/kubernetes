@@ -20,16 +20,16 @@ spec:
         role: master
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: role
-#                operator: In
-#                values:
-#                - master
-#            topologyKey: "kubernetes.io/hostname"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - master
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: elasticsearch
         securityContext:
