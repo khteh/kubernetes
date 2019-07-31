@@ -20,8 +20,6 @@ data:
             "location_array": { "type": "geo_point" },
             "location_properties": { "type": "geo_point" },
             "location_string": { "type": "geo_point" },
-            "duration": { "type": "double" },
-            "size": { "type": "long" }
           }
       }
     }
