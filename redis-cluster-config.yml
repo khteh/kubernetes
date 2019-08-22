@@ -16,3 +16,6 @@ data:
     protected-mode no
     loglevel notice
     logfile /var/log/redis.log
+    save 900 1
+    save 300 10
+    save 60 10000
