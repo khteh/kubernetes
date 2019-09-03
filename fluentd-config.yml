@@ -76,14 +76,6 @@ data:
       </parse>
     </filter>
     <filter aspnetcore>
-      @type record_transformer
-      auto_typecast true
-      <record>
-        size ${record["ContentLength"]}
-        duration ${record["fields"]["ElapsedMilliseconds"]}
-      </record>
-    </filter>
-    <filter aspnetcore>
       @type geoip
       # Specify one or more geoip lookup field which has ip address (default: host)
       geoip_lookup_keys IP
