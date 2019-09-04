@@ -22,16 +22,16 @@ spec:
         component: biz4x
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - biz4x-frontend
-#            topologyKey: "kubernetes.io/hostname"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - biz4x-frontend
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: biz4x-frontend
         image: 699575179986.dkr.ecr.ap-southeast-1.amazonaws.com/biz4x-frontend:latest
@@ -41,6 +41,10 @@ spec:
             value: Production
           - name: ASPNETCORE_URLS
             value: "http://0.0.0.0:5001"
+          - name: COMPlus_ThreadPool_ForceMinWorkerThreads
+            value: "1000"
+          - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
+            value: "10000"
         ports:
         - containerPort: 5001
           name: http
@@ -56,7 +60,7 @@ spec:
             port: http
           initialDelaySeconds: 20
           periodSeconds: 5
-          timeoutSeconds: 3
+          timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
         livenessProbe:
@@ -65,20 +69,24 @@ spec:
             port: http
           initialDelaySeconds: 20
           periodSeconds: 3
-          timeoutSeconds: 3
+          timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
         volumeMounts:
+        - name: biz4x-config
+          mountPath: /app/appsettings.Production.json
+          subPath: appsettings.Production.json
+          readOnly: true
         - name: biz4x-secret
           mountPath: /app/appsettings.secret.json
           subPath: appsettings.secret.json
           readOnly: true
         - name: log
           mountPath: /var/log/aspnetcore
-        resources:
-          limits: 
-            cpu: 250m
-            memory: 1024Mi
+#        resources:
+#          limits: 
+#            cpu: 500m
+#            memory: 1024Mi
       - name: fluentd 
         image: khteh/fluentd:latest
         env:
@@ -98,6 +106,12 @@ spec:
             cpu: 250m
             memory: 1024Mi
       volumes:
+      - name: biz4x-config
+        configMap:
+          name: biz4x-config
+          items:
+          - key: biz4x-config.json
+            path: appsettings.Production.json
       - name: biz4x-secret
         secret: 
           secretName: biz4x-secret

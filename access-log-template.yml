@@ -10,7 +10,7 @@ metadata:
 data:
   access_log_template.json: |
     {
-      "index_patterns": ["aspnetapistarter.logs*", "biz4x-backend.logs-*", "biz4x-frontend.logs-*"],
+      "index_patterns": ["aspnetapistarter.logs*", "biz4x-backend.logs-*", "biz4x-frontend.logs-*", "identityservice.logs-*"],
       "settings": {
         "number_of_shards": 5
       },
