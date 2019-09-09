@@ -30,6 +30,13 @@ spec:
                 values:
                 - master
             topologyKey: "kubernetes.io/hostname"
+      initContainers:
+      - name: fix-volume-mount-permission
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
+        volumeMounts:
+        - name: es-master-persistent-storage
+          mountPath: /usr/share/elasticsearch/data
       containers:
       - name: elasticsearch
         securityContext:
@@ -89,8 +96,8 @@ spec:
         - name: elasticsearch-config
           mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           subPath: elasticsearch.yml
-#        - name: es-master-persistent-storage
-#          mountPath: /usr/share/elasticsearch/data
+        - name: es-master-persistent-storage
+          mountPath: /usr/share/elasticsearch/data
       volumes:
         - name: elasticsearch-config
           configMap:
@@ -98,11 +105,11 @@ spec:
             items:
               - key: elasticsearch-master.yml
                 path: elasticsearch.yml
-#  volumeClaimTemplates:
-#  - metadata:
-#      name: es-master-persistent-storage
-#    spec:   
-#      accessModes: [ "ReadWriteOnce" ]
-#      resources:
-#        requests:
-#          storage: 5Gi
+  volumeClaimTemplates:
+  - metadata:
+      name: es-master-persistent-storage
+    spec:   
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
