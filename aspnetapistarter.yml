@@ -58,9 +58,9 @@ spec:
             path: /health/ready
             port: http
             scheme: HTTPS
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
           periodSeconds: 5
-          timeoutSeconds: 3
+          timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
         livenessProbe:
@@ -68,9 +68,9 @@ spec:
             path: /health/live
             port: http
             scheme: HTTPS
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
           periodSeconds: 3
-          timeoutSeconds: 3
+          timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
         volumeMounts:
