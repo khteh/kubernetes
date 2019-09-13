@@ -37,7 +37,13 @@ spec:
           - name: ASPNETCORE_ENVIRONMENT
             value: Production
           - name: ASPNETCORE_URLS
-            value: "http://0.0.0.0:5000"
+            value: "https://+;http://+"
+          - name: ASPNETCORE_HTTPS_PORT
+            value: "5000"
+          - name: COMPlus_ThreadPool_ForceMinWorkerThreads
+            value: "1000"
+          - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
+            value: "10000" 
         ports:
         - containerPort: 5000
           name: http
@@ -51,6 +57,7 @@ spec:
           httpGet:
             path: /health/ready
             port: http
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 3
@@ -60,6 +67,7 @@ spec:
           httpGet:
             path: /health/live
             port: http
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 3
           timeoutSeconds: 3
