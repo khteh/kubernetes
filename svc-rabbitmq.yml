@@ -1,0 +1,21 @@
+kind: Service 
+apiVersion: v1
+metadata:
+  name: svc-rabbitmq
+  labels: 
+    app: svc-rabbitmq
+    component: rabbitmq
+spec:
+  clusterIP: None
+  selector:
+    app: rabbitmq
+    component: rabbitmq
+  ports:  
+   - name: http
+     protocol: TCP
+     port: 15672
+     targetPort: 15672
+   - name: amqp
+     protocol: TCP
+     port: 5672
+     targetPort: 5672
