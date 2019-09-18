@@ -7,7 +7,10 @@ metadata:
     component: rabbitmq
 spec:
   serviceName: svc-rabbitmq
+  podManagementPolicy: "Parallel" # Default is OrderedReady
   replicas: 3
+  updateStrategy: 
+    type: RollingUpdate
   selector:
     matchLabels:
       app: rabbitmq
@@ -18,7 +21,7 @@ spec:
         app: rabbitmq
         component: rabbitmq
     spec:
-      serviceAccountName: rabbitmq
+      serviceAccountName: svc-rabbitmq
       terminationGracePeriodSeconds: 10
       containers:        
       - name: rabbitmq-k8s

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: rabbitmq 
+  name: svc-rabbitmq 
   namespace: default 
 ---
 kind: Role
@@ -22,7 +22,7 @@ metadata:
   namespace: default
 subjects:
 - kind: ServiceAccount
-  name: rabbitmq
+  name: svc-rabbitmq
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

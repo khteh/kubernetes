@@ -22,4 +22,3 @@ spec:
       - name: access-log-template
         configMap:
           name: access-log-template
-  backoffLimit: 3

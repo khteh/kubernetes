@@ -15,4 +15,3 @@ spec:
       containers:
       - name: redis-cluster-init-job
         image: khteh/redis-cluster-init:latest
-  backoffLimit: 3

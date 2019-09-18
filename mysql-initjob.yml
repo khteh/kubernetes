@@ -29,4 +29,3 @@ spec:
            value: svc-mysql
          - name: MYSQL_DATABASE
            value: biz4xdb 
-  backoffLimit: 3

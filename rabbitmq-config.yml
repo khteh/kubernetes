@@ -28,5 +28,5 @@ data:
       ## See https://www.rabbitmq.com/ha.html#master-migration-data-locality
       queue_master_locator=min-masters
       ## See https://www.rabbitmq.com/access-control.html#loopback-users
-      loopback_users.guest = false 
+      loopback_users.guest = false
       password_hashing_module = rabbit_password_hashing_sha512
