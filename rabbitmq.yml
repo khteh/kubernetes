@@ -49,18 +49,22 @@ spec:
             protocol: TCP
             containerPort: 5672
         livenessProbe:
+          # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
           exec:
             command: ["rabbitmqctl", "status"]
-          initialDelaySeconds: 60
-          # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
-          periodSeconds: 60
+          initialDelaySeconds: 30
+          periodSeconds: 30
           timeoutSeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
         readinessProbe:
           exec:
             command: ["rabbitmqctl", "status"]
-          initialDelaySeconds: 20
-          periodSeconds: 60
+          initialDelaySeconds: 30
+          periodSeconds: 30
           timeoutSeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
         imagePullPolicy: Always
         env:
           - name: MY_POD_NAME
@@ -87,6 +91,9 @@ spec:
             value: $(MY_POD_SERVICE_ACCOUNT)
           - name: RABBITMQ_ERLANG_COOKIE
             value: "mycookie" 
+        resources:
+          requests:
+            cpu: 250m
       volumes:
         - name: config-volume
           configMap:

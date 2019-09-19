@@ -66,6 +66,8 @@ spec:
           mountPath: /etc/kibana
           readOnly: true
         resources:
+          requests:
+            cpu: 250m
           limits:
             cpu: 500m
             memory: 1024Mi
