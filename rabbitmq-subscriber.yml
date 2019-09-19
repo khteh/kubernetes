@@ -44,6 +44,10 @@ spec:
             value: "1000"
           - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
             value: "10000" 
+          - name: EXCHANGE
+            value: "topic_exchange"
+          - name: BINDINGS
+            value: "kern.*,*.critical"
         ports:
         - containerPort: 5000
           name: http

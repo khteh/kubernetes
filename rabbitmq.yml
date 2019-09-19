@@ -23,12 +23,24 @@ spec:
     spec:
       serviceAccountName: svc-rabbitmq
       terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - rabbitmq
+            topologyKey: "kubernetes.io/hostname"
       containers:        
       - name: rabbitmq-k8s
         image: rabbitmq:latest
         volumeMounts:
-          - name: config-volume
-            mountPath: /etc/rabbitmq
+        - name: config-volume
+          mountPath: /etc/rabbitmq
+        - name: rabbitmq-persistent-storage
+          mountPath: /var/lib/rabbitmq/mnesia
         ports:
           - name: http
             protocol: TCP
@@ -42,7 +54,7 @@ spec:
           initialDelaySeconds: 60
           # See https://www.rabbitmq.com/monitoring.html for monitoring frequency recommendations.
           periodSeconds: 60
-          timeoutSeconds: 15
+          timeoutSeconds: 10
         readinessProbe:
           exec:
             command: ["rabbitmqctl", "status"]
@@ -84,3 +96,11 @@ spec:
               path: rabbitmq.conf
             - key: enabled_plugins
               path: enabled_plugins
+  volumeClaimTemplates:
+  - metadata:
+      name: rabbitmq-persistent-storage
+    spec:   
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

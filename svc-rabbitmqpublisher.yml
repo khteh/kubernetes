@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-rabbitmq-publisher
+#  annotations:
+#    alb.ingress.kubernetes.io/healthcheck-path: /rabbitmq-publisher/actuator/health
+  labels: 
+    component: rabbitmq-publisher
+    app: rabbitmq-publisher
+spec:
+  ports:  
+  - name: http
+    protocol: TCP
+    port: 5000
+    targetPort: 5000
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: rabbitmq-publisher
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+#---
+#apiVersion: v1
+#kind: Service 
+#metadata:
+#  name: svc-rabbitmq-publisher-ingress
+#  labels: 
+#    app: rabbitmq-publisher
+#spec:
+#  ports:  
+#  - name: http
+#    protocol: TCP
+#    port: 5000
+#    targetPort: 5000
+#  - name: https
+#    protocol: TCP
+#    port: 443
+#    targetPort: 443
+#  type: NodePort
+#  selector:
+#    app: rabbitmq-publisher
