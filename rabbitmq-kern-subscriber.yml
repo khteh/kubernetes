@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kern-subscriber
+  labels:
+    app: kern-subscriber
+    component: rabbitmq-subscriber
+spec:
+  serviceName: svc-kern-subscriber
+  podManagementPolicy: "Parallel" # Default is OrderedReady
+  replicas: 1 # Default is 1
+  updateStrategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kern-subscriber # Has to match .spec.template.metadata.labels
+      component: rabbitmq-subscriber
+  template:
+    metadata:
+      labels:
+        app: kern-subscriber # Has to match .spec.selector.matchLabels
+        component: rabbitmq-subscriber
+    spec:
+      terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - kern-subscriber
+#            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: kern-subscriber
+        image: khteh/rabbitmq-subscriber:latest
+        imagePullPolicy: Always
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+          - name: ASPNETCORE_URLS
+            value: "https://+;http://+"
+          - name: ASPNETCORE_HTTPS_PORT
+            value: "5000"
+          - name: COMPlus_ThreadPool_ForceMinWorkerThreads
+            value: "1000"
+          - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
+            value: "10000" 
+          - name: EXCHANGE
+            value: "topic_exchange"
+          - name: BINDINGS
+            value: "kern.*"
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+#          hostPort: 8081
+        - containerPort: 443
+          name: https
+          protocol: TCP
+#          hostPort: 8082
+        volumeMounts:
+        - name: rabbitmq-secret
+          mountPath: /app/appsettings.secret.json
+          subPath: appsettings.secret.json
+          readOnly: true
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1024Mi
+      volumes:
+      - name: rabbitmq-secret
+        secret:
+          secretName: rabbitmq-secret
+          items:
+          - key: rabbitmq-secret.json
+            path: appsettings.secret.json

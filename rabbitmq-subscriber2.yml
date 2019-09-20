@@ -7,7 +7,7 @@ metadata:
 spec:
   serviceName: svc-rabbitmq-subscriber
   podManagementPolicy: "Parallel" # Default is OrderedReady
-  replicas: 2 # Default is 1
+  replicas: 1 # Default is 1
   updateStrategy: 
     type: RollingUpdate
   selector:

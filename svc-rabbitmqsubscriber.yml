@@ -1,12 +1,10 @@
 apiVersion: v1
 kind: Service 
 metadata:
-  name: svc-rabbitmq-subscriber
-#  annotations:
-#    alb.ingress.kubernetes.io/healthcheck-path: /rabbitmq-subscriber/actuator/health
+  name: svc-kern-subscriber
   labels: 
     component: rabbitmq-subscriber
-    app: rabbitmq-subscriber
+    app: kern-subscriber
 spec:
   ports:  
   - name: http
@@ -19,26 +17,25 @@ spec:
     targetPort: 443
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
-    app: rabbitmq-subscriber
-#    tier: frontend
-#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
-#---
-#apiVersion: v1
-#kind: Service 
-#metadata:
-#  name: svc-rabbitmq-subscriber-ingress
-#  labels: 
-#    app: rabbitmq-subscriber
-#spec:
-#  ports:  
-#  - name: http
-#    protocol: TCP
-#    port: 5000
-#    targetPort: 5000
-#  - name: https
-#    protocol: TCP
-#    port: 443
-#    targetPort: 443
-#  type: NodePort
-#  selector:
-#    app: rabbitmq-subscriber
+    app: kern-subscriber
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-critical-subscriber
+  labels: 
+    component: rabbitmq-subscriber
+    app: critical-subscriber
+spec:
+  ports:  
+  - name: http
+    protocol: TCP
+    port: 5000
+    targetPort: 5000
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: critical-subscriber
