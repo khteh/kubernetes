@@ -8,6 +8,10 @@ data:
       [rabbitmq_management,rabbitmq_peer_discovery_k8s].
 
   rabbitmq.conf: |
+      log.console = true
+      #log.file.level = debug
+      #log.console.level = debug
+      management.load_definitions = /tmp/rabbitmq.definitions.json
       ## Cluster formation. See https://www.rabbitmq.com/cluster-formation.html to learn more.
       cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_k8s
       cluster_formation.k8s.host = kubernetes.default.svc.cluster.local

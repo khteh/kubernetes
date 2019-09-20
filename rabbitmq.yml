@@ -37,10 +37,14 @@ spec:
       - name: rabbitmq-k8s
         image: rabbitmq:latest
         volumeMounts:
-        - name: config-volume
+        - name: rabbitmq-config
           mountPath: /etc/rabbitmq
         - name: rabbitmq-persistent-storage
           mountPath: /var/lib/rabbitmq/mnesia
+        - name: rabbitmq-definitions
+          mountPath: /tmp/rabbitmq.definitions.json
+          subPath: rabbitmq.definitions.json
+          readOnly: true
         ports:
           - name: http
             protocol: TCP
@@ -95,7 +99,7 @@ spec:
           requests:
             cpu: 250m
       volumes:
-        - name: config-volume
+        - name: rabbitmq-config
           configMap:
             name: rabbitmq-config
             items:
@@ -103,6 +107,9 @@ spec:
               path: rabbitmq.conf
             - key: enabled_plugins
               path: enabled_plugins
+        - name: rabbitmq-definitions
+          configMap:
+            name: rabbitmq-definitions
   volumeClaimTemplates:
   - metadata:
       name: rabbitmq-persistent-storage
