@@ -68,20 +68,12 @@ data:
     <filter aspnetcore>
       @type parser
       key_name message
-      hash_value_field "parsed_nested"
       reserve_data true
       remove_key_name_field true
       <parse>
         @type json
+        json_parser json
       </parse>
-    </filter>
-    <filter aspnetcore>
-      @type record_transformer
-      enable_ruby true
-      <record>
-        parsed_nested ${record["message"] = record["parsed_nested"]}
-      </record>
-      remove_keys parsed_nested
     </filter>
     <filter aspnetcore>
       @type geoip
@@ -104,8 +96,6 @@ data:
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
-        duration $.fields.ElapsedMilliseconds
-        size ContentLength
       </record>
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true
@@ -145,7 +135,7 @@ data:
         request_timeout 120s
         host svc-elasticsearch
         port 9200
-        flush_interval 10s
+        flush_interval 1s
         # index_name fluentd.${tag}.%Y%m%d 
         type_name _doc
         logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
