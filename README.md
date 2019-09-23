@@ -5,6 +5,7 @@ Kubernetes cluster which consists of the following components:
   * 3 Master nodes
   * 2 Slave nodes
 * Redis cluster
+* RabbitMQ cluster
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
@@ -22,6 +23,15 @@ pod/mysql-0                                   1/1     Running     0          140
 pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
 pod/restapi-0                                 2/2     Running     0          49m
 pod/restapi-1                                 2/2     Running     0          49m
+rabbitmq-0                         1/1     Running     0          3d6h
+rabbitmq-1                         1/1     Running     0          3d6h
+rabbitmq-2                         1/1     Running     0          3d6h
+redis-cluster-0                    1/1     Running     0          14d
+redis-cluster-1                    1/1     Running     0          14d
+redis-cluster-2                    1/1     Running     0          14d
+redis-cluster-3                    1/1     Running     0          14d
+redis-cluster-4                    1/1     Running     0          14d
+redis-cluster-5                    1/1     Running     0          14d
 
 NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
 service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              143m
@@ -31,6 +41,8 @@ service/svc-elasticsearch-discovery   ClusterIP   None             <none>       
 service/svc-kibana                    ClusterIP   None             <none>        8080/TCP            14m
 service/svc-mysql                     ClusterIP   None             <none>        3306/TCP            140m
 service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   49m
+service/svc-rabbitmq                     ClusterIP   None             <none>        15672/TCP,5672/TCP   5d7h
+service/svc-redis-cluster                ClusterIP   None             <none>        6379/TCP,16379/TCP   61d
 
 NAME                                               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 daemonset.apps/daemonset                           1         1         1       1            1           <none>          108m
@@ -48,10 +60,13 @@ statefulset.apps/elasticsearch-master   3/3     108m
 statefulset.apps/kibana                 2/2     14m
 statefulset.apps/mysql                  1/1     140m
 statefulset.apps/restapi                2/2     49m
+statefulset.apps/rabbitmq                     3/3     3d6h
+statefulset.apps/redis-cluster                6/6     14d
 
 NAME                                              REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 horizontalpodautoscaler.autoscaling/kibana-hpa    StatefulSet/kibana    3%/75%    2         5         2          74s
 horizontalpodautoscaler.autoscaling/restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          23m
+horizontalpodautoscaler.autoscaling/rabbitmq-hpa  StatefulSet/rabbitmq  15%/75%   3         6         3          4d5h
 
 NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         100m
@@ -143,6 +158,22 @@ green open .kibana_1                      CWOkws7gRMSJTGaDEDKFOQ 1 1   5 0  50.7
 green open restapi.logs-2019.03.27        4GFVDwVeSAq4SNAVfG7Lzg 5 1 228 0 467.7kb  236kb
 green open restapi.access.logs-2019.03.27 4azKaBXmTcmIa8R3Vz9imA 5 1  11 0 140.1kb   70kb
 green open restapi.access.logs-2019.03.28 oZjwRZdxQIybxWQ4NBZZSw 5 1   4 0  57.2kb 28.6kb
+```
+## RabbitMQ Cluster:
+```
+# rabbitmqctl cluster_status
+Cluster status of node rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local ...
+[{nodes,[{disc,['rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local',
+                'rabbit@rabbitmq-1.svc-rabbitmq.default.svc.cluster.local',
+                'rabbit@rabbitmq-2.svc-rabbitmq.default.svc.cluster.local']}]},
+ {running_nodes,['rabbit@rabbitmq-2.svc-rabbitmq.default.svc.cluster.local',
+                 'rabbit@rabbitmq-1.svc-rabbitmq.default.svc.cluster.local',
+                 'rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local']},
+ {cluster_name,<<"rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local">>},
+ {partitions,[]},
+ {alarms,[{'rabbit@rabbitmq-2.svc-rabbitmq.default.svc.cluster.local',[]},
+          {'rabbit@rabbitmq-1.svc-rabbitmq.default.svc.cluster.local',[]},
+          {'rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local',[]}]}]
 ```
 ## Horizontal Pod Autoscaler:
 ```
