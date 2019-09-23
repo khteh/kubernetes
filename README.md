@@ -181,6 +181,7 @@ $ k get hpa
 NAME          REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 kibana-hpa    StatefulSet/kibana    11%/75%   2         5         2          20s
 restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          22m
+rabbitmq-hpa  StatefulSet/rabbitmq  41%/75%   3         6         3          4d5h
 ```
 ## Cluster Information:
 ```
