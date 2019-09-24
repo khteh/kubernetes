@@ -70,8 +70,6 @@ spec:
           value: "false"
         - name: HTTP_ENABLE
           value: "false"
-        - name: ES_JAVA_OPTS
-          value: -Xms512m -Xmx512m
         - name: PROCESSORS
           valueFrom:
             resourceFieldRef:
