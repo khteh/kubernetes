@@ -46,4 +46,4 @@ data:
     node.data: true
     bootstrap.memory_lock: true
 
-  ES_JAVA_OPTS: -Xms2g -Xmx2g -Djna.tmpdir=/tmp
+  ES_JAVA_OPTS: -Xms5g -Xmx5g -Djna.tmpdir=/tmp
