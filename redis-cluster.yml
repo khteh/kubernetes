@@ -63,7 +63,7 @@ spec:
         - name: conf
           mountPath: /conf
           readOnly: false
-        - name: data
+        - name: redis-cluster-persistent-storage
           mountPath: /data
           readOnly: false
       volumes:
@@ -73,7 +73,7 @@ spec:
           defaultMode: 0755
   volumeClaimTemplates:
   - metadata:
-      name: data
+      name: redis-cluster-persistent-storage
       labels:
         name: redis-cluster
     spec:
