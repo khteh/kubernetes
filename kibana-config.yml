@@ -9,6 +9,7 @@ metadata:
   uid: 63b10866-236b-11e9-a14d-482ae31e6a94
 data:
   kibana.yml: |+
+    csp.strict: true
     server.port: 5601
     server.host: "0.0.0.0"
     server.basePath: "/kibana"
