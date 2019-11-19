@@ -53,7 +53,7 @@ spec:
             add:
               - IPC_LOCK
               - SYS_RESOURCE
-        image: kibana:7.4.0
+        image: kibana:7.4.2
         imagePullPolicy: Always
         command: ["/usr/share/kibana/bin/kibana"]
         args: ["-c", "/etc/kibana/kibana.yml"]
