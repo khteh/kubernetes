@@ -1,8 +1,8 @@
 #!/bin/bash
-ACCOUNT=699575179986
+ACCOUNT=1234567890
 REGION=ap-southeast-1
 SECRET_NAME=aws-ecr-registry
-EMAIL=kokhow.teh@4xlabs.co
+EMAIL=my@email.com
 TOKEN=`aws ecr get-login --region ${REGION} --registry-ids ${ACCOUNT} --profile prod | cut -d' ' -f6`
 kubectl delete secret --ignore-not-found $SECRET_NAME
 kubectl create secret docker-registry $SECRET_NAME \
