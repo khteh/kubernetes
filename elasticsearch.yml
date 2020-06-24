@@ -114,6 +114,3 @@ spec:
       resources:
         requests:
           storage: 10Gi
-  test: false
-  triggers:
-    - type: ConfigChange
