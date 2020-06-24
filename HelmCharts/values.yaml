@@ -1,0 +1,69 @@
+# The default configuration values for this chart
+# Default values for nodejs-testrestapi charts.
+# Declare variables to be passed into your templates.
+# Default values for nsb-mobile-callbacks.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+applicationName: nodejs-testrestapi
+componentName: nodejs
+serviceName: svc-nodejs-testrestapi
+imagereg: image-registry.openshift-image-registry.svc:5000
+tagname: latest
+env:
+  NODE_ENV: "default"
+replicaCount: 2
+updateStrategy: RollingUpdate
+strategy:
+  activeDeadlineSeconds: 21600
+  intervalSeconds: 1
+  maxSurge: 25%
+  maxUnavailable: 25%
+  timeoutSeconds: 600
+  updatePeriodSeconds: 1
+  type: rolling
+namespace: pentest1
+ports:
+  name: http
+  containerPort: 8080
+  protocol: TCP
+terminationMessagePath: /dev/termination-log
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+schedulerName: default-scheduler
+terminationGracePeriodSeconds: 10
+initialDelaySeconds: 60
+periodSeconds: 10
+timeoutSeconds: 5
+successThreshold: 1
+failureThreshold: 3
+service:
+  name: http
+  port: 8080
+  protocol: TCP
+  targetPort: 8080
+  type: ClusterIP
+ingress:
+  enabled: false
+  name: ingress-nodejs-testrestapi
+  # Used to create an Ingress record.
+  hosts:
+    - nodejs-testrestapi.local
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    component: {{ .Values.componentName }}
+    app: {{ .Values.applicationName }}
+  name: {{ .Values.applicationName }}
+spec:
+  serviceName: {{ .Values.serviceName }}
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy: 
+    type: {{ .Values.updateStrategy }}
+  selector:
+    matchLabels:
+      app: {{ .Values.applicationName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applicationName }}
+        component: {{ .Values.componentName }}
+    spec:
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      restartPolicy: {{ .Values.restartPolicy }}
+      schedulerName: {{ .Values.schedulerName }}
+      securityContext: {}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}    
+      containers:
+      - name: {{ .Values.applicationName }}
+        image: {{ .Values.imagereg }}/{{ .Release.Namespace }}/{{ .Values.applicationName }}:{{ .Values.tagname }}
+        imagePullPolicy: Always
+        env:
+          - name: PORT
+            value: {{ .Values.ports.containerPort | quote }}
+          - name: NODE_ENV
+            value: {{ .Values.env.NODE_ENV }}
+        ports:
+        - containerPort: {{ .Values.ports.containerPort }}
+          name: {{ .Values.ports.name }}
+          protocol: {{ .Values.ports.protocol }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+          periodSeconds: {{ .Values.periodSeconds }}
+          timeoutSeconds: {{ .Values.timeoutSeconds }}
+          successThreshold: {{ .Values.successThreshold }}
+          failureThreshold: {{ .Values.failureThreshold }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+          periodSeconds: {{ .Values.periodSeconds }}
+          timeoutSeconds: {{ .Values.timeoutSeconds }}
+          successThreshold: {{ .Values.successThreshold }}
+          failureThreshold: {{ .Values.failureThreshold }}          
+        resources:
+          {{ toYaml .Values.resources | indent 12 }}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+  test: false
+  triggers:
+    - type: ConfigChange

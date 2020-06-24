@@ -1,0 +1,5 @@
+# A YAML file containing information about the chart
+apiVersion: v1
+description: A Helm chart for Kubernetes
+name: testrestapi
+version: 1.0
