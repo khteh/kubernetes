@@ -117,6 +117,3 @@ spec:
           name: access-log-template
       - name: log
         emptyDir: {}
-  test: false
-  triggers:
-    - type: ConfigChange
