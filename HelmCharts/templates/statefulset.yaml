@@ -23,7 +23,17 @@ spec:
       restartPolicy: {{ .Values.restartPolicy }}
       schedulerName: {{ .Values.schedulerName }}
       securityContext: {}
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}    
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Values.applicationName }}
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: {{ .Values.applicationName }}
         image: {{ .Values.imagereg }}/{{ .Release.Namespace }}/{{ .Values.applicationName }}:{{ .Values.tagname }}

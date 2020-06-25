@@ -4,9 +4,9 @@
 # Default values for nsb-mobile-callbacks.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-applicationName: nodejs-testrestapi
-componentName: nodejs
-serviceName: svc-nodejs-testrestapi
+applicationName: testrestapi
+componentName: apiserver
+serviceName: svc-testrestapi
 imagereg: image-registry.openshift-image-registry.svc:5000
 tagname: latest
 env:
@@ -44,10 +44,10 @@ service:
   type: ClusterIP
 ingress:
   enabled: false
-  name: ingress-nodejs-testrestapi
+  name: ingress-testrestapi
   # Used to create an Ingress record.
   hosts:
-    - nodejs-testrestapi.local
+    - testrestapi.local
   annotations:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
