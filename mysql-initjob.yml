@@ -28,4 +28,4 @@ spec:
          - name: MYSQL_HOST
            value: svc-mysql
          - name: MYSQL_DATABASE
-           value: biz4xdb 
+           value: AspNetCoreApiStarter 
