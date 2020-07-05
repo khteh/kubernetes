@@ -29,3 +29,5 @@ spec:
            value: svc-mysql
          - name: MYSQL_DATABASE
            value: AspNetCoreApiStarter 
+         - name: MYSQL_DATABASE_1
+           value: library
