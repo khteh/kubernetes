@@ -12,5 +12,6 @@ spec:
       targetPort: {{ .Values.service.targetPort }}
       protocol: {{ .Values.service.protocol }}
       name: {{ .Values.service.name }}
+  clusterIP: None
   selector:
     app: {{ .Values.applicationName }}
