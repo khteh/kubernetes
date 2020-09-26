@@ -8,10 +8,10 @@ metadata:
 spec:
   ports:
   - port: 6379
-    targetPort: 6379
+    targetPort: client
     name: client
   - port: 16379
-    targetPort: 16379
+    targetPort: gossip
     name: gossip
   clusterIP: None
   selector:

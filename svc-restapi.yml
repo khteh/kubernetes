@@ -12,11 +12,11 @@ spec:
   - name: http
     protocol: TCP
     port: 8080
-    targetPort: 8080
+    targetPort: http
   - name: https
     protocol: TCP
     port: 8443
-    targetPort: 8443
+    targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: restapi

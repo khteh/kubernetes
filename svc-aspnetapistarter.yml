@@ -12,11 +12,11 @@ spec:
   - name: http
     protocol: TCP
     port: 5000
-    targetPort: 5000
+    targetPort: http
   - name: https
     protocol: TCP
     port: 443
-    targetPort: 443
+    targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: aspnetapistarter
