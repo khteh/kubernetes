@@ -6,7 +6,8 @@ Kubernetes cluster which consists of the following components:
   * 2 Slave nodes
 * Redis cluster
 * RabbitMQ cluster
-![Alt Kubernetes cluster]./k8s.svg
+
+![Alt Kubernetes cluster]k8s.svg
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
