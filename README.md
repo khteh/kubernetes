@@ -7,7 +7,7 @@ Kubernetes cluster which consists of the following components:
 * Redis cluster
 * RabbitMQ cluster
 
-![Alt Kubernetes cluster]k8s.svg
+![Kubernetes cluster](./k8s.jpg?raw=true "Kubernetes Cluster")
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
