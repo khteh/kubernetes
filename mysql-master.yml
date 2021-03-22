@@ -24,7 +24,7 @@ metadata:
     component: mysql
 spec:
   serviceName: svc-mysql-master
-  podManagementPolicy: "Parallel" # Default is OrderedReady
+  podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 1 # Default is 1
   selector:
     matchLabels:

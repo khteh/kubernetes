@@ -6,7 +6,7 @@ metadata:
     app: restapi
 spec:
   serviceName: svc-restapi
-  podManagementPolicy: "Parallel" # Default is OrderedReady
+  podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
   updateStrategy: 
     type: RollingUpdate

@@ -7,7 +7,7 @@ metadata:
     component: rabbitmq
 spec:
   serviceName: svc-rabbitmq
-  podManagementPolicy: "OrderedReady" # Default is OrderedReady. The pods need to start ONE AT A TIME! Do NOT use Parallel!
+  podManagementPolicy: OrderedReady # Default is OrderedReady. The pods need to start ONE AT A TIME! Do NOT use Parallel!
   replicas: 3
   updateStrategy: 
     type: RollingUpdate

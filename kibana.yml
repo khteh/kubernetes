@@ -23,7 +23,7 @@ metadata:
   name: kibana
 spec:
   serviceName: "svc-kibana"
-  podManagementPolicy: "Parallel" # Default is OrderedReady
+  podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
   selector:
     matchLabels:

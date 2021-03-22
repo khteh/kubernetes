@@ -7,7 +7,7 @@ metadata:
     component: rabbitmq-subscriber
 spec:
   serviceName: svc-critical-subscriber
-  podManagementPolicy: "Parallel" # Default is OrderedReady
+  podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 1 # Default is 1
   updateStrategy: 
     type: RollingUpdate
