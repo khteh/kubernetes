@@ -47,21 +47,21 @@ spec:
 #          hostPort: 8082
         readinessProbe:
           httpGet:
-            path: /health/ready
+            path: /healthz/ready
             port: http
-            scheme: HTTPS
-          initialDelaySeconds: 20
+            scheme: HTTP
+          initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
         livenessProbe:
           httpGet:
-            path: /health/live
+            path: /healthz/live
             port: http
-            scheme: HTTPS
-          initialDelaySeconds: 20
-          periodSeconds: 3
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 5
           timeoutSeconds: 10
           failureThreshold: 3
           successThreshold: 1
