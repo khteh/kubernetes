@@ -1,0 +1,41 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-storage
+  labels:
+    app: myapp
+    component: mycomponent
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: myapp-pv
+  labels:
+    app: myapp
+    component: mycomponent
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  hostPath:
+    path: /mnt/data
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: myapp-pvc
+  labels:
+    app: myapp
+    component: mycomponent
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
