@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+data:
+  servers.json: |
+    {
+        "Servers": {
+          "1": {
+            "Name": "OneClick DB",
+            "Group": "OneClick DB",
+            "Port": 5432,
+            "Username": "oneclick",
+            "Host": "svc-postgresql",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          }
+        }
+    }
