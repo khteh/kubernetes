@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+    component: oneclick-db
+spec:
+  serviceName: svc-pgadmin
+  podManagementPolicy: Parallel
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: pgadmin
+      component: oneclick-db
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+        component: oneclick-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+      - name: imagepullsecret
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:5.4
+          imagePullPolicy: Always
+          env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            value: kokhow.teh@ca-cib.com
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pgadmin
+                key: pgadmin-password
+          - name: PGADMIN_CONFIG_SECURITY_EMAIL_VALIDATOR_ARGS
+            value: '{"check_deliverability": False}'
+          ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+          - name: https
+            containerPort: 443
+            protocol: TCP
+          volumeMounts:
+          - name: pgadmin-config
+            mountPath: /pgadmin4/servers.json
+            subPath: servers.json
+            readOnly: true
+      volumes:
+      - name: pgadmin-config
+        configMap:
+          name: pgadmin-config
