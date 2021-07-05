@@ -4,7 +4,7 @@ metadata:
   name: pgadmin
   labels:
     app: pgadmin
-    component: oneclick-db
+    component: postgresql
 spec:
   serviceName: svc-pgadmin
   podManagementPolicy: Parallel
@@ -14,12 +14,12 @@ spec:
   selector:
     matchLabels:
       app: pgadmin
-      component: oneclick-db
+      component: postgresql
   template:
     metadata:
       labels:
         app: pgadmin
-        component: oneclick-db
+        component: postgresql
     spec:
       terminationGracePeriodSeconds: 10
       imagePullSecrets:
