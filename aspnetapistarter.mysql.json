@@ -1,5 +1,5 @@
 {
     "ConnectionStrings": {
-        "Default": "Server=svc-mysql;Database=AspNetCoreApiStarter;user=guest;password=4xLabs.com"
+        "Default": "Server=svc-mysql;Database=AspNetCoreApiStarter;user=guest;password=P@$$w0rd"
     }
 }
