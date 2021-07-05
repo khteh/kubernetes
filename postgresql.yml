@@ -35,20 +35,10 @@ spec:
         env:
         - name: PGHOST
           value: /tmp
-        - name: POSTGRES_PRIMARY_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-primary-user
         - name: POSTGRES_MODE
           value: primary
         - name: POSTGRES_PRIMARY_PORT
           value: "5432"
-        - name: POSTGRES_PRIMARY_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-primary-password
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
