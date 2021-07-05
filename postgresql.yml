@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+  labels:
+    component: oneclick-db
+    app: db-postgresql
+spec:
+  serviceName: svc-postgresql
+  podManagementPolicy: Parallel
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: oneclick-db
+      app: db-postgresql
+  template:
+    metadata:
+      labels:
+        component: oneclick-db
+        app: db-postgresql
+    spec:
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+      - name: imagepullsecret
+      containers:
+      - name: postgresql
+        image: postgres:13.3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5432
+          name: postgresql
+          protocol: TCP
+        env:
+        - name: PGHOST
+          value: /tmp
+        - name: POSTGRES_PRIMARY_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-primary-user
+        - name: POSTGRES_MODE
+          value: primary
+        - name: POSTGRES_PRIMARY_PORT
+          value: "5432"
+        - name: POSTGRES_PRIMARY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-primary-password
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-password
+        - name: POSTGRES_DB
+          value: AspNetCoreApiStarter
+        - name: PGDATA
+          value: /pgdata
+        volumeMounts:
+        - mountPath: "/pgdata"
+          name: pgdata
+          readOnly: false
+        - mountPath: "/backup"
+          name: backup
+          readOnly: true
+        - name: postgresql-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: pgdata
+        emptyDir: {}
+      - name: backup
+        emptyDir: {}
+      - name: postgresql-initdb
+        configMap:
+          name: postgresql-initdb
