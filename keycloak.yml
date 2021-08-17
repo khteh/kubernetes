@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+    component: authentication
+spec:
+  serviceName: svc-keycloak
+  podManagementPolicy: Parallel # Default is OrderedReady
+  replicas: 1 # Default is 1
+  updateStrategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: keycloak # Has to match .spec.template.metadata.labels
+      component: authentication
+  template:
+    metadata:
+      labels:
+        app: keycloak # Has to match .spec.selector.matchLabels
+        component: authentication
+    spec:
+      terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - keycloak
+#            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: keycloak
+        image: jboss/keycloak:latest
+        imagePullPolicy: Always
+        env:
+          - name: KEYCLOAK_USER
+            value: admin
+          - name: KEYCLOAK_PASSWORD
+            value: admin123
+          - name: KEYCLOAK_IMPORT
+            value: "/etc/keycloak-realms.json -Dkeycloak.profile.feature.upload_scripts=enabled"
+          - name: PROXY_ADDRESS_FORWARDING
+            value: "true"
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 30
+          failureThreshold: 3
+          successThreshold: 1
+        volumeMounts:
+        - name: keycloak-realms
+          mountPath: /etc/keycloak-realms.json
+          subPath: keycloak-realms.json
+          readOnly: false
+      volumes:
+      - name: keycloak-realms
+        configMap:
+          name: keycloak-realms
