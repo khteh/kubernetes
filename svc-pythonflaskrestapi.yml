@@ -9,14 +9,14 @@ metadata:
     app: pythonflaskrestapi
 spec:
   ports:  
-  - name: http
+  - name: http2
     protocol: TCP
     port: 8080
-    targetPort: http
-  - name: https
+    targetPort: http2
+  - name: http3
     protocol: TCP
-    port: 443
-    targetPort: https
+    port: 4433
+    targetPort: http3
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: pythonflaskrestapi
