@@ -38,18 +38,18 @@ spec:
             value: development
         ports:
         - containerPort: 8080
-          name: http
+          name: http2
           protocol: TCP
 #          hostPort: 8081
-        - containerPort: 443
-          name: https
+        - containerPort: 4433
+          name: http3
           protocol: TCP
 #          hostPort: 8082
         readinessProbe:
           httpGet:
             path: /healthz/ready
-            port: http
-            scheme: HTTP
+            port: http2
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 10
@@ -58,8 +58,8 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz/live
-            port: http
-            scheme: HTTP
+            port: http2
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 10
