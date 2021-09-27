@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pythonflaskrestapi
+  name: pythonrestapi
   labels:
-    app: pythonflaskrestapi
+    app: pythonrestapi
 spec:
-  serviceName: svc-pythonflaskrestapi
+  serviceName: svc-pythonrestapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
   updateStrategy: 
     type: RollingUpdate
   selector:
     matchLabels:
-      app: pythonflaskrestapi # Has to match .spec.template.metadata.labels
+      app: pythonrestapi # Has to match .spec.template.metadata.labels
   template:
     metadata:
       labels:
-        app: pythonflaskrestapi # Has to match .spec.selector.matchLabels
+        app: pythonrestapi # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
 #      affinity:
@@ -27,15 +27,25 @@ spec:
 #              - key: app
 #                operator: In
 #                values:
-#                - pythonflaskrestapi
+#                - pythonrestapi
 #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: pythonflaskrestapi
-        image: khteh/oythonflaskrestapi
+      - name: pythonrestapi
+        image: khteh/pythonrestapi
         imagePullPolicy: Always
         env:
-          - name: ENV
-            value: development
+        - name: ENV
+          value: development
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
         ports:
         - containerPort: 8080
           name: http2
@@ -83,7 +93,7 @@ spec:
           value: -c /etc/td-agent/td-agent.conf
         volumeMounts:
         - name: log
-          mountPath: /var/log/aspnetcore
+          mountPath: /var/log/pythonrestapi
         - name: fluentd-config
           mountPath: /etc/td-agent
         - name: access-log-template
@@ -95,12 +105,6 @@ spec:
             cpu: 250m
             memory: 1024Mi
       volumes:
-      - name: mysql-connection
-        secret:
-          secretName: pythonflaskrestapi
-          items:
-          - key: pythonflaskrestapi.mysql.json
-            path: appsettings.mysql.json
       - name: fluentd-config
         configMap:
           name: fluentd-config
