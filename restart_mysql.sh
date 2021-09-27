@@ -1,7 +1,7 @@
 #!/bin/bash
-kubectl scale sts mysql --replicas=0
-kubectl delete configmap mysqlinit --ignore-not-found=true
-kubectl delete statefulset mysql --ignore-not-found=true
-kubectl delete secret mysql-secret --ignore-not-found=true
-kubectl delete pvc -l app=db-mysql
-kubectl apply -f mysql-secret.yml,mysqlinit.yml,mysqlset.yml
+microk8s kubectl scale sts mysql --replicas=0
+microk8s kubectl delete configmap mysqlinit --ignore-not-found=true
+microk8s kubectl delete statefulset mysql --ignore-not-found=true
+microk8s kubectl delete secret mysql-secret --ignore-not-found=true
+microk8s kubectl delete pvc -l app=db-mysql
+microk8s kubectl apply -f svc-mysql.yml,mysql-secret.yml,mysqlinit.yml,mysqlset.yml
