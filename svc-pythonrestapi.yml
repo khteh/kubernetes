@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-pythonrestapi
+#  annotations:
+#    alb.ingress.kubernetes.io/healthcheck-path: /pythonrestapi/actuator/health
+  labels: 
+    component: pythonrestapi
+    app: pythonrestapi
+spec:
+  ports:  
+  - name: http2
+    protocol: TCP
+    port: 8080
+    targetPort: http2
+  - name: http3
+    protocol: TCP
+    port: 4433
+    targetPort: http3
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: pythonrestapi
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-pythonrestapi-nodeport
+  labels: 
+    component: pythonrestapi
+    app: pythonrestapi
+spec:
+  ports:  
+  - name: http2
+    protocol: TCP
+    port: 8080
+    targetPort: http2
+    nodePort: 30002
+  - name: http3
+    protocol: TCP
+    port: 4433
+    targetPort: http3
+    nodePort: 30003
+  type: NodePort
+  selector:
+    app: pythonrestapi

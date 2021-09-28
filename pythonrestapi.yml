@@ -31,10 +31,10 @@ spec:
 #            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: pythonrestapi
-        image: khteh/pythonrestapi
+        image: khteh/pythonrestapi:latest
         imagePullPolicy: Always
         env:
-        - name: ENV
+        - name: ENVIRONMENT
           value: development
         - name: MYSQL_USER
           valueFrom:
@@ -76,40 +76,43 @@ spec:
           failureThreshold: 3
           successThreshold: 1
         volumeMounts:
-        - name: mysql-connection
-          mountPath: /app/appsettings.mysql.json
-          subPath: appsettings.mysql.json
+        - name: pythonrestapi-config
+          mountPath: /etc/pythonrestapi_config.json
+          subPath: pythonrestapi_config.json
           readOnly: true
-        - name: log
-          mountPath: /var/log/aspnetcore
+#        - name: log
+#          mountPath: /var/log/aspnetcore
         resources:
           limits:
             cpu: 250m
             memory: 1024Mi
-      - name: fluentd
-        image: khteh/fluentd:latest
-        env:
-        - name: FLUENTD_ARGS
-          value: -c /etc/td-agent/td-agent.conf
-        volumeMounts:
-        - name: log
-          mountPath: /var/log/pythonrestapi
-        - name: fluentd-config
-          mountPath: /etc/td-agent
-        - name: access-log-template
-          mountPath: /tmp/access_log_template.json
-          subPath: access_log_template.json
-          readOnly: true
-        resources:
-          limits:
-            cpu: 250m
-            memory: 1024Mi
+#      - name: fluentd
+#        image: khteh/fluentd:latest
+#        env:
+#        - name: FLUENTD_ARGS
+#          value: -c /etc/td-agent/td-agent.conf
+#        volumeMounts:
+#        - name: log
+#          mountPath: /var/log/pythonrestapi
+#        - name: fluentd-config
+#          mountPath: /etc/td-agent
+#        - name: access-log-template
+#          mountPath: /tmp/access_log_template.json
+#          subPath: access_log_template.json
+#          readOnly: true
+#        resources:
+#          limits:
+#            cpu: 250m
+#            memory: 1024Mi
       volumes:
-      - name: fluentd-config
+      - name: pythonrestapi-config
         configMap:
-          name: fluentd-config
-      - name: access-log-template
-        configMap:
-          name: access-log-template
-      - name: log
-        emptyDir: {}
+          name: pythonrestapi
+#      - name: fluentd-config
+#        configMap:
+#          name: fluentd-config
+#      - name: access-log-template
+#        configMap:
+#          name: access-log-template
+#      - name: log
+#        emptyDir: {}

@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
@@ -25,46 +25,62 @@ spec:
 #    - iconverse-k8s.taiger.io
 #    secretName: iconverse-k8s.tls
   rules:  
-    - host:
-      http: 
-        paths:
-          - path: /apistarter(/|$)(.*)
-            backend:
-#              serviceName: svc-aspnetapistarter-ingress
-              serviceName: svc-aspnetapistarter
-              servicePort: 5000
-          - path: //apistarter(/|$)(.*)
-            backend:
-#              serviceName: svc-aspnetapistarter-ingress
-              serviceName: svc-aspnetapistarter
-              servicePort: 5000
-#          - path: /(/|$)(.*)
-#            backend:
-##              serviceName: svc-biz4xfrontend-ingress
-#              serviceName: svc-biz4xfrontend
-#              servicePort: 5001
-#          - path: //(//|$)(.*)
-#            backend:
-##              serviceName: svc-biz4xfrontend-ingress
-#              serviceName: svc-biz4xfrontend
-#              servicePort: 5001
-          - path: /biz4x(/|$)(.*)
-            backend:
-#              serviceName: svc-biz4xfrontend-ingress
-              serviceName: svc-biz4xfrontend
-              servicePort: 5001
-          - path: //biz4x(/|$)(.*)
-            backend:
-#              serviceName: svc-biz4xfrontend-ingress
-              serviceName: svc-biz4xfrontend
-              servicePort: 5001
-          - path: /kibana(/|$)(.*)
-            backend:
-#              serviceName: svc-kibana-ingress
-              serviceName: svc-kibana
-              servicePort: 5601
-          - path: //kibana(/|$)(.*)
-            backend:
-#              serviceName: svc-kibana-ingress
-              serviceName: svc-kibana
-              servicePort: 5601
+  - host:
+    http: 
+      paths:
+      - pathType: Prefix
+        path: /apistarter(/|$)(.*)
+        backend:
+          service:
+            name: svc-aspnetapistarter
+            port:
+              number: 5000
+      - pathType: Prefix
+        path: //apistarter(/|$)(.*)
+        backend:
+          service:
+            name: svc-aspnetapistarter
+            port:
+              number: 5000
+#     - pathType: Prefix
+#       path: /(/|$)(.*)
+#       backend:
+#          service:
+#            name: svc-biz4xfrontend
+#            port:
+#               number: 5001
+#     - pathType: Prefix
+#       path: //(//|$)(.*)
+#       backend:
+#          service:
+#            name: svc-biz4xfrontend
+#            port:
+#               number: 5001
+      - pathType: Prefix
+        path: /biz4x(/|$)(.*)
+        backend:
+          service:
+            name: svc-biz4xfrontend
+            port:
+              number: 5001
+      - pathType: Prefix
+        path: //biz4x(/|$)(.*)
+        backend:
+          service:
+            name: svc-biz4xfrontend
+            port:
+              number: 5001
+      - pathType: Prefix
+        path: /kibana(/|$)(.*)
+        backend:
+          service:
+            name: svc-kibana
+            port:
+              number: 5601
+      - pathType: Prefix
+        path: //kibana(/|$)(.*)
+        backend:
+          service:
+            name: svc-kibana
+            port:
+              number: 5601
