@@ -34,8 +34,6 @@ spec:
         image: khteh/pythonrestapi:latest
         imagePullPolicy: Always
         env:
-        - name: ENVIRONMENT
-          value: development
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
