@@ -10,7 +10,7 @@ data:
             "Name": "OneClick DB",
             "Group": "OneClick DB",
             "Port": 5432,
-            "Username": "oneclick",
+            "Username": "guest",
             "Host": "svc-postgresql",
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"

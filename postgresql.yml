@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: postgresql
   labels:
-    component: oneclick-db
+    component: postgresql
     app: db-postgresql
 spec:
   serviceName: svc-postgresql
@@ -13,12 +13,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      component: oneclick-db
+      component: postgresql
       app: db-postgresql
   template:
     metadata:
       labels:
-        component: oneclick-db
+        component: postgresql
         app: db-postgresql
     spec:
       terminationGracePeriodSeconds: 10
@@ -26,7 +26,7 @@ spec:
       - name: imagepullsecret
       containers:
       - name: postgresql
-        image: postgres:13.3
+        image: postgres:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
