@@ -49,8 +49,6 @@ spec:
             secretKeyRef:
               name: postgresql-secret
               key: postgresql-password
-        - name: POSTGRES_DB
-          value: AspNetCoreApiStarter
         - name: PGDATA
           value: /pgdata
         volumeMounts:
@@ -60,8 +58,8 @@ spec:
         - mountPath: "/backup"
           name: backup
           readOnly: true
-        - name: postgresql-initdb
-          mountPath: /docker-entrypoint-initdb.d
+#        - name: postgresql-initdb
+#          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: pgdata
         emptyDir: {}
@@ -70,3 +68,12 @@ spec:
       - name: postgresql-initdb
         configMap:
           name: postgresql-initdb
+  volumeClaimTemplates:
+  - metadata:
+      name: pgdata
+    spec:   
+      accessModes: [ "ReadWriteOnce" ]
+#      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 10Gi

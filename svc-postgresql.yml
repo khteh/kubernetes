@@ -10,12 +10,11 @@ spec:
   - protocol: TCP
     port: 5432
     targetPort: 5432
-    nodePort: 0
     name: postgresql
   selector:
     app: db-postgresql
     component: postgresql
-  clusterIP: None
+  clusterIP: None # Headless
   sessionAffinity: None
 ---
 apiVersion: v1
@@ -26,14 +25,12 @@ metadata:
     app: db-postgresql
     component: postgresql
 spec:
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
-    nodePort: 0
-    name: postgresql
   selector:
     app: db-postgresql
     component: postgresql
+  ports:
+  - port: 5432
+    name: postgresql
+    nodePort: 30002
   type: NodePort
   sessionAffinity: None

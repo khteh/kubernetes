@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-realms
+data:
+  keycloak-realms.json: |-
+    {
+      "This is something exported from keycloak"
+    }

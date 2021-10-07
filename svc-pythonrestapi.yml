@@ -36,12 +36,12 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: http2
-    nodePort: 30002
+    nodePort: 31000
   - name: http3
     protocol: TCP
     port: 4433
     targetPort: http3
-    nodePort: 30003
+    nodePort: 31001
   type: NodePort
   selector:
     app: pythonrestapi

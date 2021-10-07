@@ -6,6 +6,9 @@ metadata:
     app: keycloak
     component: authentication
 spec:
+  selector:
+    app: keycloak
+    component: authentication
   clusterIP: None
   ports:
   - name: http
@@ -16,6 +19,31 @@ spec:
     protocol: TCP
     port: 8443
     targetPort: 8443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-keycloak-nodeport
+  labels:
+    app: keycloak
+    component: authentication
+spec:
   selector:
     app: keycloak
     component: authentication
+  type: NodePort
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30003
+  - name: https
+    protocol: TCP
+    port: 8443
+    targetPort: 8443
+    nodePort: 30004
