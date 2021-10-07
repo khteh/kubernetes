@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-mysql
+  labels: 
+    app: mysql-master
+    component: mysql
+spec:
+  selector:
+    app: mysql-master
+    component: mysql
+#    tier: database
+  ports:  
+  - port: 3306
+    name: mysql
+  clusterIP: None # Headless
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-mysql-nodeport
+  labels: 
+    app: mysql-master
+    component: mysql
+spec:
+  selector:
+    app: mysql-master
+    component: mysql
+#    tier: database
+  ports:  
+  - port: 3306
+    name: mysql
+    nodePort: 30001
+  type: NodePort
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-mysql-slave
+  labels: 
+    app: mysql-slave
+    component: mysql
+spec:
+  selector:
+    app: mysql-slave
+    component: mysql
+#    tier: database
+  ports:  
+  - port: 3306
+    name: mysql
+  clusterIP: None # Headless

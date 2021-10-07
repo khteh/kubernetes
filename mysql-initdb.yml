@@ -1,12 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-06-16T11:31:31Z"
-  name: mysqlinit
+  name: mysql-initdb
   namespace: default
-  resourceVersion: "727488"
-  selfLink: /api/v1/namespaces/default/configmaps/mysqlinit
-  uid: 49e034bc-902a-11e9-9982-e86a64ff2841
 data:
   AspNetCoreApiStarter.sql: "-- MySQL dump 10.13  Distrib 8.0.16, for Linux
     (x86_64)\n--\n-- Host: localhost    Database: AspNetCoreApiStarter\n-- ------------------------------------------------------\n--
