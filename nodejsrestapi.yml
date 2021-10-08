@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodejsrestapi
+  labels:
+    app: nodejsrestapi
+spec:
+  serviceName: svc-nodejsrestapi
+  podManagementPolicy: Parallel # Default is OrderedReady
+  replicas: 2 # Default is 1
+  updateStrategy: 
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: nodejsrestapi # Has to match .spec.template.metadata.labels
+  template:
+    metadata:
+      labels:
+        app: nodejsrestapi # Has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - nodejsrestapi
+#            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: nodejsrestapi
+        image: khteh/node.jsrestapi:latest
+        imagePullPolicy: Always
+        env:
+        - name: PORT
+          value: "8080"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 4433
+          name: http3
+          protocol: TCP
+#          hostPort: 8082
+#        readinessProbe:
+#          httpGet:
+#            path: /healthz/ready
+#            port: http2
+#            scheme: HTTPS
+#          initialDelaySeconds: 10
+#          periodSeconds: 5
+#          timeoutSeconds: 10
+#          failureThreshold: 3
+#          successThreshold: 1
+#        livenessProbe:
+#          httpGet:
+#            path: /healthz/live
+#            port: http2
+#            scheme: HTTPS
+#          initialDelaySeconds: 10
+#          periodSeconds: 5
+#          timeoutSeconds: 10
+#          failureThreshold: 3
+#          successThreshold: 1
+        volumeMounts:
+        - name: nodejsrestapi-config
+          mountPath: config/default.json
+          subPath: default.json
+          readOnly: true
+#        - name: log
+#          mountPath: /var/log/aspnetcore
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1024Mi
+#      - name: fluentd
+#        image: khteh/fluentd:latest
+#        env:
+#        - name: FLUENTD_ARGS
+#          value: -c /etc/td-agent/td-agent.conf
+#        volumeMounts:
+#        - name: log
+#          mountPath: /var/log/nodejsrestapi
+#        - name: fluentd-config
+#          mountPath: /etc/td-agent
+#        - name: access-log-template
+#          mountPath: /tmp/access_log_template.json
+#          subPath: access_log_template.json
+#          readOnly: true
+#        resources:
+#          limits:
+#            cpu: 250m
+#            memory: 1024Mi
+      volumes:
+      - name: nodejsrestapi-config
+        configMap:
+          name: nodejsrestapi
+#      - name: fluentd-config
+#        configMap:
+#          name: fluentd-config
+#      - name: access-log-template
+#        configMap:
+#          name: access-log-template
+#      - name: log
+#        emptyDir: {}
