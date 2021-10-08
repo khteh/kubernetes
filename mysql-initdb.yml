@@ -236,3 +236,27 @@ data:
     */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101
     SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES
     */;\n\n-- Dump completed on 2021-09-29  4:11:46\n"
+  school.sql: "CREATE TABLE `teachers` (\n
+    `id` int(11) NOT NULL AUTO_INCREMENT,\n
+    `email` varchar(320) NOT NULL,\n
+    PRIMARY KEY (`id`),\n
+    UNIQUE KEY `id_UNIQUE` (`id`),\n
+    KEY `Non-Clustered` (`email`)\n
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\n
+    CREATE TABLE `students` (\n
+    `id` int(11) NOT NULL AUTO_INCREMENT,\n
+    `email` varchar(320) NOT NULL,\n
+    `isSuspended` tinyint(4) NOT NULL DEFAULT '0',\n
+    UNIQUE KEY `id_UNIQUE` (`id`),\n
+    KEY `Non-Clustered` (`email`)\n
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\n
+    CREATE TABLE `teacher_student` (\n
+    `id` int(11) NOT NULL AUTO_INCREMENT,\n
+    `teacherid` int(11) NOT NULL,\n
+    `studentid` int(11) NOT NULL,\n
+    PRIMARY KEY (`id`),\n
+    KEY `teacherid_idx` (`teacherid`),\n
+    KEY `studentid_idx` (`studentid`),\n
+    CONSTRAINT `studentid` FOREIGN KEY (`studentid`) REFERENCES `students` (`id`),\n
+    CONSTRAINT `teacherid` FOREIGN KEY (`teacherid`) REFERENCES `teachers` (`id`)\n
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"

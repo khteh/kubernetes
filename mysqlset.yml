@@ -54,6 +54,8 @@ spec:
            value: AspNetCoreApiStarter
          - name: MYSQL_DATABASE_1
            value: library
+         - name: MYSQL_DATABASE_2
+           value: school
         ports:
         - containerPort: 3306
           name: mysql
