@@ -10,7 +10,7 @@ spec:
   ports:  
   - name: http
     protocol: TCP
-    port: 8080
+    port: 4433
     targetPort: http
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
@@ -28,7 +28,7 @@ spec:
   ports:  
   - name: http
     protocol: TCP
-    port: 8080
+    port: 4433
     targetPort: http
     nodePort: 31002
   type: NodePort

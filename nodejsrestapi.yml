@@ -35,7 +35,13 @@ spec:
         imagePullPolicy: Always
         env:
         - name: PORT
-          value: "8080"
+          value: "4433"
+        - name: MYSQL_HOST
+          value: "svc-mysql"
+        - name: MYSQL_DB
+          value: "school"
+        - name: MYSQL_PORT
+          value: "3306"
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
@@ -47,18 +53,14 @@ spec:
               name: mysql-secret
               key: mysql-password
         ports:
-        - containerPort: 8080
+        - containerPort: 4433
           name: http
           protocol: TCP
-        - containerPort: 4433
-          name: http3
-          protocol: TCP
-#          hostPort: 8082
         readinessProbe:
           httpGet:
             path: /healthchecks/ready
             port: http
-            scheme: HTTP
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 10
@@ -68,7 +70,7 @@ spec:
           httpGet:
             path: /healthchecks/live
             port: http
-            scheme: HTTP
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 10
