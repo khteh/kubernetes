@@ -4,6 +4,7 @@ metadata:
   name: aspnetapistarter
   labels:
     app: aspnetapistarter
+    component: aspnetapistarter
 spec:
   serviceName: svc-aspnetapistarter
   podManagementPolicy: Parallel # Default is OrderedReady
@@ -13,10 +14,12 @@ spec:
   selector:
     matchLabels:
       app: aspnetapistarter # Has to match .spec.template.metadata.labels
+      component: aspnetapistarter
   template:
     metadata:
       labels:
         app: aspnetapistarter # Has to match .spec.selector.matchLabels
+        component: aspnetapistarter
     spec:
       terminationGracePeriodSeconds: 10
 #      affinity:
@@ -39,7 +42,15 @@ spec:
           - name: ASPNETCORE_URLS
             value: "https://+;http://+"
           - name: ASPNETCORE_HTTPS_PORT
-            value: "5000"
+            value: "443"
+          # This is enabled for Dynamic PGO
+          - name: DOTNET_TieredPGO
+            value: "1"
+          # The following 2 are enabled for Full PGO. This will result in longer startup time
+          - name: DOTNET_TC_QuickJitForLoops
+            value: "1"
+          - name: DOTNET_ReadyToRun
+            value: "0"
           - name: COMPlus_ThreadPool_ForceMinWorkerThreads
             value: "1000"
           - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
@@ -56,7 +67,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /health/ready
-            port: http
+            port: https
             scheme: HTTPS
           initialDelaySeconds: 20
           periodSeconds: 5
@@ -66,7 +77,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /health/live
-            port: http
+            port: https
             scheme: HTTPS
           initialDelaySeconds: 20
           periodSeconds: 3

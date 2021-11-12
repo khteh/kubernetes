@@ -1,12 +1,12 @@
 apiVersion: v1
+data:
+  aspnetapistarter.mysql.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0IjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9QXNwTmV0Q29yZUFwaVN0YXJ0ZXI7dXNlcj1ndWVzdDtwYXNzd29yZD1QKnNzdzByZCIKICAgIH0KfQo=
 kind: Secret
 metadata:
-  creationTimestamp: "2019-07-19T03:02:24Z"
+  creationTimestamp: "2021-11-12T02:41:28Z"
   name: aspnetapistarter
   namespace: default
-  resourceVersion: "613604"
+  resourceVersion: "42357"
   selfLink: /api/v1/namespaces/default/secrets/aspnetapistarter
-  uid: acb6dafe-3ed9-477e-a1cf-193f7fc4cdb6
+  uid: f18a1a11-6b3f-425d-9978-9b5e8f59ce6d
 type: Opaque
-data:
-  aspnetapistarter.mysql.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0IjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9QXNwTmV0Q29yZUFwaVN0YXJ0ZXI7dXNlcj1ndWVzdDtwYXNzd29yZD00eExhYnMuY29tIgogICAgfQp9Cg==

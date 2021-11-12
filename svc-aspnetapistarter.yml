@@ -9,10 +9,6 @@ metadata:
     app: aspnetapistarter
 spec:
   ports:  
-  - name: http
-    protocol: TCP
-    port: 5000
-    targetPort: http
   - name: https
     protocol: TCP
     port: 443
@@ -20,8 +16,28 @@ spec:
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: aspnetapistarter
+    component: aspnetapistarter
 #    tier: frontend
 #  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-aspnetapistarter-nodeport
+  labels: 
+    component: aspnetapistarter
+    app: aspnetapistarter
+spec:
+  ports:  
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: https
+    nodePort: 31004
+  type: NodePort
+  selector:
+    component: aspnetapistarter
+    app: aspnetapistarter
 #---
 #apiVersion: v1
 #kind: Service 
@@ -31,10 +47,6 @@ spec:
 #    app: aspnetapistarter
 #spec:
 #  ports:  
-#  - name: http
-#    protocol: TCP
-#    port: 5000
-#    targetPort: 5000
 #  - name: https
 #    protocol: TCP
 #    port: 443
