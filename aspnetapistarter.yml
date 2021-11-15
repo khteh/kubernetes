@@ -43,6 +43,8 @@ spec:
             value: "https://+;http://+"
           - name: ASPNETCORE_HTTPS_PORT
             value: "443"
+          - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+            value: "true"
           # This is enabled for Dynamic PGO
           - name: DOTNET_TieredPGO
             value: "1"
