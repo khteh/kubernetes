@@ -5,7 +5,7 @@ kind: Namespace
 metadata:
   name: monitoring
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: prometheus
@@ -18,7 +18,7 @@ subjects:
   name: prometheus-k8s
   namespace: monitoring
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: prometheus
@@ -333,7 +333,7 @@ data:
       - channel: '#alertmanager-test'
         send_resolved: true
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alertmanager
@@ -395,7 +395,7 @@ spec:
     port: 9093
     targetPort: 9093
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana-core
@@ -2380,7 +2380,7 @@ spec:
         configMap:
           name: grafana-import-dashboards
 ---
-# apiVersion: extensions/v1beta1
+# apiVersion: networking.k8s.io/v1
 # kind: Ingress
 # metadata:
 #   name: grafana
@@ -2552,7 +2552,7 @@ metadata:
   name: prometheus-core
   namespace: monitoring
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus-core
@@ -2601,7 +2601,7 @@ spec:
         configMap:
           name: prometheus-rules
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kube-state-metrics
@@ -2621,7 +2621,7 @@ spec:
         - containerPort: 8080
 ---
 # ---
-# apiVersion: rbac.authorization.k8s.io/v1beta1
+# apiVersion: rbac.authorization.k8s.io/v1
 # kind: ClusterRoleBinding
 # metadata:
 #   name: kube-state-metrics
@@ -2634,7 +2634,7 @@ spec:
 #   name: kube-state-metrics
 #   namespace: monitoring
 # ---
-# apiVersion: rbac.authorization.k8s.io/v1beta1
+# apiVersion: rbac.authorization.k8s.io/v1
 # kind: ClusterRole
 # metadata:
 #   name: kube-state-metrics
@@ -2679,7 +2679,7 @@ spec:
     app: kube-state-metrics
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-directory-size-metrics
@@ -2751,7 +2751,7 @@ spec:
         emptyDir:
           medium: Memory
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: prometheus-node-exporter
