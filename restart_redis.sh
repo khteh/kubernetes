@@ -1,7 +1,7 @@
 #!/bin/bash
-kubectl scale sts redis-cluster --replicas=0
-kubectl delete cm redis-cluster-config --ignore-not-found=true
-kubectl delete sts redis-cluster
-kubectl delete pvc -l app=redis-cluster
-kubectl delete job redis-cluster-init
-kubectl apply -f redis-cluster-config.yml,redis-cluster.yml,svc-redis-cluster.yml
+microk8s kubectl scale sts redis-cluster --replicas=0
+microk8s kubectl delete cm redis-cluster-config --ignore-not-found=true
+microk8s kubectl delete sts redis-cluster --ignore-not-found=true
+microk8s kubectl delete pvc -l app=redis-cluster --ignore-not-found=true
+microk8s kubectl delete job redis-cluster-init --ignore-not-found=true
+microk8s kubectl apply -f redis-cluster-config.yml,redis-cluster.yml,svc-redis-cluster.yml
