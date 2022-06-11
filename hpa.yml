@@ -1,4 +1,4 @@
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: aspnetapistarter-hpa
@@ -32,7 +32,7 @@ spec:
 #    resource:
 #      name: memory
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: restapi-hpa
@@ -66,7 +66,7 @@ spec:
 #    resource:
 #      name: memory
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: pythonrestapi-hpa
@@ -100,7 +100,7 @@ spec:
 #    resource:
 #      name: memory
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: kibana-hpa
@@ -134,7 +134,7 @@ spec:
 #    resource:
 #      name: memory
 ---
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: rabbitmq-hpa
