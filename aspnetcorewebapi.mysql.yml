@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: aspnetcorewebapi
+  namespace: default
+data:
+  aspnetcorewebapi.mysql.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0IjogIlNlcnZlcj1zdmMtbXlzcWw7RGF0YWJhc2U9QXNwTmV0Q29yZVdlYkFwaTt1c2VyPWd1ZXN0O3Bhc3N3b3JkPVAqc3N3MHJkIgogICAgfQp9Cg==

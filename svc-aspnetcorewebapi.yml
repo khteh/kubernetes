@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service 
 metadata:
-  name: svc-aspnetapistarter
+  name: svc-aspnetcorewebapi
 #  annotations:
-#    alb.ingress.kubernetes.io/healthcheck-path: /aspnetapistarter/actuator/health
+#    alb.ingress.kubernetes.io/healthcheck-path: /aspnetcorewebapi/actuator/health
   labels: 
-    component: aspnetapistarter
-    app: aspnetapistarter
+    component: aspnetcorewebapi
+    app: aspnetcorewebapi
 spec:
   ports:  
   - name: https
@@ -15,18 +15,18 @@ spec:
     targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
-    app: aspnetapistarter
-    component: aspnetapistarter
+    app: aspnetcorewebapi
+    component: aspnetcorewebapi
 #    tier: frontend
 #  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
 ---
 apiVersion: v1
 kind: Service 
 metadata:
-  name: svc-aspnetapistarter-nodeport
+  name: svc-aspnetcorewebapi-nodeport
   labels: 
-    component: aspnetapistarter
-    app: aspnetapistarter
+    component: aspnetcorewebapi
+    app: aspnetcorewebapi
 spec:
   ports:  
   - name: https
@@ -36,15 +36,15 @@ spec:
     nodePort: 31004
   type: NodePort
   selector:
-    component: aspnetapistarter
-    app: aspnetapistarter
+    component: aspnetcorewebapi
+    app: aspnetcorewebapi
 #---
 #apiVersion: v1
 #kind: Service 
 #metadata:
-#  name: svc-aspnetapistarter-ingress
+#  name: svc-aspnetcorewebapi-ingress
 #  labels: 
-#    app: aspnetapistarter
+#    app: aspnetcorewebapi
 #spec:
 #  ports:  
 #  - name: https
@@ -53,4 +53,4 @@ spec:
 #    targetPort: 443
 #  type: NodePort
 #  selector:
-#    app: aspnetapistarter
+#    app: aspnetcorewebapi

@@ -35,8 +35,8 @@ data:
       keepalive_timeout  65;
       #gzip  on;
       #include /etc/nginx/conf.d/*.conf; This must be commented out!
-      #upstream svc-aspnetapistarter {
-      #  server svc-aspnetapistarter:5000;
+      #upstream svc-aspnetcorewebapi {
+      #  server svc-aspnetcorewebapi:5000;
       #  keepalive 1024;
       #}
       server {
@@ -44,7 +44,7 @@ data:
         access_log /var/log/nginx/app.access_log main;
         error_log /var/log/nginx/app.error_log;
         #set $restapi http://svc-web.default.svc.cluster.local:8080;
-        set $apistarter http://svc-aspnetapistarter.default.svc.cluster.local:5000/;
+        set $apistarter http://svc-aspnetcorewebapi.default.svc.cluster.local:5000/;
         resolver kube-dns.kube-system valid=10s;
         location /apistarter/ {
           #proxy_pass http://svc-web;

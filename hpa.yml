@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: aspnetapistarter-hpa
+  name: aspnetcorewebapi-hpa
   namespace: default
 spec:
   minReplicas: 2
@@ -9,7 +9,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: StatefulSet
-    name: aspnetapistarter
+    name: aspnetcorewebapi
   metrics:
   - type: Resource
     resource:

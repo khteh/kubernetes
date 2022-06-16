@@ -139,7 +139,7 @@ data:
         # index_name fluentd.${tag}.%Y%m%d 
         type_name _doc
         logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
-        logstash_prefix aspnetapistarter.logs
+        logstash_prefix aspnetcorewebapi.logs
         template_name access_log_template
         template_file /tmp/access_log_template.json
         template_overwrite true

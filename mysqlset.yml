@@ -51,7 +51,7 @@ spec:
                name: mysql-secret
                key: mysql-password
          - name: MYSQL_DATABASE
-           value: AspNetCoreApiStarter
+           value: AspNetCoreWebApi
          - name: MYSQL_DATABASE_1
            value: library
          - name: MYSQL_DATABASE_2

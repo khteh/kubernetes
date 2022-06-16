@@ -1,0 +1,5 @@
+{
+    "ConnectionStrings": {
+        "Default": "Server=svc-mysql;Database=AspNetCoreWebApi;user=guest;password=P*ssw0rd"
+    }
+}

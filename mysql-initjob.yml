@@ -28,6 +28,6 @@ spec:
          - name: MYSQL_HOST
            value: svc-mysql
          - name: MYSQL_DATABASE
-           value: AspNetCoreApiStarter 
+           value: AspNetCoreWebApi
          - name: MYSQL_DATABASE_1
            value: library

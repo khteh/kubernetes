@@ -14,7 +14,7 @@ spec:
     port: 8080
     targetPort: http2
   - name: http3
-    protocol: TCP
+    protocol: UDP
     port: 4433
     targetPort: http3
   clusterIP: None # Headless. type cannot be LoadBalancer
@@ -38,7 +38,7 @@ spec:
     targetPort: http2
     nodePort: 31000
   - name: http3
-    protocol: TCP
+    protocol: UDP
     port: 4433
     targetPort: http3
     nodePort: 31001

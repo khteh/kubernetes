@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: aspnetapistarter
+  name: aspnetcorewebapi
   labels:
-    app: aspnetapistarter
-    component: aspnetapistarter
+    app: aspnetcorewebapi
+    component: aspnetcorewebapi
 spec:
-  serviceName: svc-aspnetapistarter
+  serviceName: svc-aspnetcorewebapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
   updateStrategy: 
     type: RollingUpdate
   selector:
     matchLabels:
-      app: aspnetapistarter # Has to match .spec.template.metadata.labels
-      component: aspnetapistarter
+      app: aspnetcorewebapi # Has to match .spec.template.metadata.labels
+      component: aspnetcorewebapi
   template:
     metadata:
       labels:
-        app: aspnetapistarter # Has to match .spec.selector.matchLabels
-        component: aspnetapistarter
+        app: aspnetcorewebapi # Has to match .spec.selector.matchLabels
+        component: aspnetcorewebapi
     spec:
       terminationGracePeriodSeconds: 10
 #      affinity:
@@ -30,10 +30,10 @@ spec:
 #              - key: app
 #                operator: In
 #                values:
-#                - aspnetapistarter
+#                - aspnetcorewebapi
 #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: aspnetapistarter
+      - name: aspnetcorewebapi
         image: khteh/asp.netcoreapistarter:latest
         imagePullPolicy: Always
         env:
@@ -118,9 +118,9 @@ spec:
       volumes:
       - name: mysql-connection
         secret:
-          secretName: aspnetapistarter
+          secretName: aspnetcorewebapi
           items:
-          - key: aspnetapistarter.mysql.json
+          - key: aspnetcorewebapi.mysql.json
             path: appsettings.mysql.json
       - name: fluentd-config
         configMap:

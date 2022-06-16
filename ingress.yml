@@ -32,14 +32,14 @@ spec:
         path: /apistarter(/|$)(.*)
         backend:
           service:
-            name: svc-aspnetapistarter
+            name: svc-aspnetcorewebapi
             port:
               number: 5000
       - pathType: Prefix
         path: //apistarter(/|$)(.*)
         backend:
           service:
-            name: svc-aspnetapistarter
+            name: svc-aspnetcorewebapi
             port:
               number: 5000
 #     - pathType: Prefix

@@ -51,7 +51,7 @@ spec:
 #          hostPort: 8081
         - containerPort: 4433
           name: http3
-          protocol: TCP
+          protocol: UDP
 #          hostPort: 8082
         readinessProbe:
           httpGet:
