@@ -44,11 +44,11 @@ data:
         access_log /var/log/nginx/app.access_log main;
         error_log /var/log/nginx/app.error_log;
         #set $restapi http://svc-web.default.svc.cluster.local:8080;
-        set $apistarter http://svc-aspnetcorewebapi.default.svc.cluster.local:5000/;
+        set $aspnetcorewebapi http://svc-aspnetcorewebapi.default.svc.cluster.local:5000/;
         resolver kube-dns.kube-system valid=10s;
-        location /apistarter/ {
+        location /aspnetcorewebapi/ {
           #proxy_pass http://svc-web;
-          proxy_pass $apistarter;
+          proxy_pass $aspnetcorewebapi;
           proxy_http_version 1.1;
         }
       }

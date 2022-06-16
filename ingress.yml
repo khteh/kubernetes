@@ -22,54 +22,26 @@ metadata:
 spec:
 #  tls:
 #  - hosts:
-#    - iconverse-k8s.taiger.io
+#    - mydomain.io
 #    secretName: iconverse-k8s.tls
   rules:  
   - host:
     http: 
       paths:
       - pathType: Prefix
-        path: /apistarter(/|$)(.*)
+        path: /aspnetcorewebapi(/|$)(.*)
         backend:
           service:
             name: svc-aspnetcorewebapi
             port:
               number: 5000
       - pathType: Prefix
-        path: //apistarter(/|$)(.*)
+        path: //aspnetcorewebapi(/|$)(.*)
         backend:
           service:
             name: svc-aspnetcorewebapi
             port:
               number: 5000
-#     - pathType: Prefix
-#       path: /(/|$)(.*)
-#       backend:
-#          service:
-#            name: svc-biz4xfrontend
-#            port:
-#               number: 5001
-#     - pathType: Prefix
-#       path: //(//|$)(.*)
-#       backend:
-#          service:
-#            name: svc-biz4xfrontend
-#            port:
-#               number: 5001
-      - pathType: Prefix
-        path: /biz4x(/|$)(.*)
-        backend:
-          service:
-            name: svc-biz4xfrontend
-            port:
-              number: 5001
-      - pathType: Prefix
-        path: //biz4x(/|$)(.*)
-        backend:
-          service:
-            name: svc-biz4xfrontend
-            port:
-              number: 5001
       - pathType: Prefix
         path: /kibana(/|$)(.*)
         backend:

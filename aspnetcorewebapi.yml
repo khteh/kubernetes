@@ -34,7 +34,7 @@ spec:
 #            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: aspnetcorewebapi
-        image: khteh/asp.netcoreapistarter:latest
+        image: khteh/asp.netcorewebapi:latest
         imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
