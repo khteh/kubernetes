@@ -57,6 +57,8 @@ spec:
             value: "1000"
           - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
             value: "10000" 
+          - name: PATH_BASE
+            value: "/aspnetcorewebapi"
         ports:
         - containerPort: 5000
           name: http
