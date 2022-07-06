@@ -11,7 +11,7 @@ spec:
     kind: StatefulSet
     name: aspnetcorewebapi
   metrics:
-  - type: Resource
+  - type: ContainerResource
     resource:
       name: cpu
       target: 
@@ -28,7 +28,7 @@ spec:
       target: 
         type: Value
         value: 10k
-#  - type: Resource
+#  - type: ContainerResource
 #    resource:
 #      name: memory
 ---
@@ -45,7 +45,7 @@ spec:
     kind: StatefulSet
     name: restapi
   metrics:
-  - type: Resource
+  - type: ContainerResource
     resource:
       name: cpu
       target: 
@@ -62,7 +62,7 @@ spec:
       target: 
         type: Value
         value: 10k
-#  - type: Resource
+#  - type: ContainerResource
 #    resource:
 #      name: memory
 ---
@@ -79,7 +79,7 @@ spec:
     kind: StatefulSet
     name: pythonrestapi
   metrics:
-  - type: Resource
+  - type: ContainerResource
     resource:
       name: cpu
       target: 
@@ -96,7 +96,41 @@ spec:
       target: 
         type: Value
         value: 10k
-#  - type: Resource
+#  - type: ContainerResource
+#    resource:
+#      name: memory
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nodejsrestapi-hpa
+  namespace: default
+spec:
+  minReplicas: 2
+  maxReplicas: 5
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: nodejsrestapi
+  metrics:
+  - type: ContainerResource
+    resource:
+      name: cpu
+      target: 
+        type: Utilization
+        averageUtilization: 75
+  - type: Object
+    object: 
+      metric: 
+        name: requests-per-second
+      describedObject:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress 
+        name: ingress
+      target: 
+        type: Value
+        value: 10k
+#  - type: ContainerResource
 #    resource:
 #      name: memory
 ---
@@ -113,7 +147,7 @@ spec:
     kind: StatefulSet
     name: kibana
   metrics:
-  - type: Resource
+  - type: ContainerResource
     resource:
       name: cpu
       target: 
@@ -130,7 +164,7 @@ spec:
       target: 
         type: Value
         value: 10k
-#  - type: Resource
+#  - type: ContainerResource
 #    resource:
 #      name: memory
 ---
@@ -147,7 +181,7 @@ spec:
     kind: StatefulSet
     name: rabbitmq
   metrics:
-  - type: Resource
+  - type: ContainerResource
     resource:
       name: cpu
       target: 
