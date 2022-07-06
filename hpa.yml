@@ -12,8 +12,9 @@ spec:
     name: aspnetcorewebapi
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: aspnetcorewebapi
       target: 
         type: Utilization
         averageUtilization: 75
@@ -29,8 +30,9 @@ spec:
         type: Value
         value: 10k
 #  - type: ContainerResource
-#    resource:
+#    containerResource:
 #      name: memory
+#      container: aspnetcorewebapi
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -46,8 +48,9 @@ spec:
     name: restapi
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: restapi
       target: 
         type: Utilization
         averageUtilization: 75
@@ -63,8 +66,9 @@ spec:
         type: Value
         value: 10k
 #  - type: ContainerResource
-#    resource:
+#    containerResource:
 #      name: memory
+#      container: restapi
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -80,8 +84,9 @@ spec:
     name: pythonrestapi
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: pythonrestapi
       target: 
         type: Utilization
         averageUtilization: 75
@@ -97,8 +102,9 @@ spec:
         type: Value
         value: 10k
 #  - type: ContainerResource
-#    resource:
+#    containerResource:
 #      name: memory
+#      container: pythonrestapi
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -114,8 +120,9 @@ spec:
     name: nodejsrestapi
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: nodejsrestapi
       target: 
         type: Utilization
         averageUtilization: 75
@@ -131,8 +138,9 @@ spec:
         type: Value
         value: 10k
 #  - type: ContainerResource
-#    resource:
+#    containerResource:
 #      name: memory
+#      container: nodejsrestapi
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -148,8 +156,9 @@ spec:
     name: kibana
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: kibana
       target: 
         type: Utilization
         averageUtilization: 75
@@ -165,8 +174,9 @@ spec:
         type: Value
         value: 10k
 #  - type: ContainerResource
-#    resource:
+#    containerResource:
 #      name: memory
+#      container: kibana
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -182,8 +192,9 @@ spec:
     name: rabbitmq
   metrics:
   - type: ContainerResource
-    resource:
+    containerResource:
       name: cpu
+      container: rabbitmq-k8s
       target: 
         type: Utilization
         averageUtilization: 75
