@@ -1,0 +1,71 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: aspnetcorewebapi-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       aspnetcorewebapi
+  updatePolicy:
+    updateMode: "Auto"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: restapi-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       restapi
+  updatePolicy:
+    updateMode: "Auto"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: pythonrestapi-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       pythonrestapi
+  updatePolicy:
+    updateMode: "Auto"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: nodejsrestapi-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       nodejsrestapi
+  updatePolicy:
+    updateMode: "Auto"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rabbitmq-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       rabbitmq-k8s
+  updatePolicy:
+    updateMode: "Auto"
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kibana-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       StatefulSet
+    name:       kibana
+  updatePolicy:
+    updateMode: "Auto"
