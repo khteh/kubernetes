@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-gorestapi
+#  annotations:
+#    alb.ingress.kubernetes.io/healthcheck-path: /gorestapi/actuator/health
+  labels: 
+    component: gorestapi
+    app: gorestapi
+spec:
+  ports:  
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: https
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  selector:
+    app: gorestapi
+    component: gorestapi
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+#---
+#apiVersion: v1
+#kind: Service 
+#metadata:
+#  name: svc-gorestapi-nodeport
+#  labels: 
+#    component: gorestapi
+#    app: gorestapi
+#spec:
+#  ports:  
+#  - name: https
+#    protocol: TCP
+#    port: 443
+#    targetPort: https
+#    nodePort: 31005
+#  type: NodePort
+#  selector:
+#    component: gorestapi
+#    app: gorestapi
+#---
+#apiVersion: v1
+#kind: Service 
+#metadata:
+#  name: svc-gorestapi-ingress
+#  labels: 
+#    app: gorestapi
+#spec:
+#  ports:  
+#  - name: https
+#    protocol: TCP
+#    port: 443
+#    targetPort: 443
+#  type: NodePort
+#  selector:
+#    app: gorestapi
