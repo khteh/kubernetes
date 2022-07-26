@@ -47,16 +47,16 @@ spec:
             name: svc-gorestapi
             port:
               number: 443
-#  - host:
-#    http: 
-#      paths:
-#      - pathType: Prefix
-#        path: /pythonrestapi(/|$)(.*)
-#        backend:
-#          service:
-#            name: svc-pythonrestapi
-#            port:
-#              number: 443
+  - host:
+    http: 
+      paths:
+      - pathType: Prefix
+        path: /pythonrestapi(/|$)(.*)
+        backend:
+          service:
+            name: svc-pythonrestapi
+            port:
+              number: 443
 #      - pathType: Prefix
 #        path: /kibana(/|$)(.*)
 #        backend:

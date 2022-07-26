@@ -15,7 +15,7 @@ spec:
     targetPort: http2
   - name: http3
     protocol: UDP
-    port: 4433
+    port: 443
     targetPort: http3
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
