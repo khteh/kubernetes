@@ -57,6 +57,16 @@ spec:
             name: svc-pythonrestapi
             port:
               number: 443
+  - host:
+    http: 
+      paths:
+      - pathType: Prefix
+        path: /nodejsrestapi(/|$)(.*)
+        backend:
+          service:
+            name: svc-nodejsrestapi
+            port:
+              number: 4433
 #      - pathType: Prefix
 #        path: /kibana(/|$)(.*)
 #        backend:
