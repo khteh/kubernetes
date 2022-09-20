@@ -3,75 +3,71 @@ kind: StatefulSet
 metadata:
   name: postgresql
   labels:
-    component: postgresql
     app: db-postgresql
+    component: postgresql
 spec:
   serviceName: svc-postgresql
-  podManagementPolicy: Parallel
-  replicas: 1
-  updateStrategy:
-    type: RollingUpdate
+  podManagementPolicy: Parallel # Default is OrderedReady
+  replicas: 1 # Default is 1
   selector:
     matchLabels:
+      app: db-postgresql # Has to match .spec.template.metadata.labels
       component: postgresql
-      app: db-postgresql
   template:
     metadata:
       labels:
+        app: db-postgresql # Has to match .spec.selector.matchLabels
         component: postgresql
-        app: db-postgresql
     spec:
       terminationGracePeriodSeconds: 10
-      imagePullSecrets:
-      - name: imagepullsecret
       containers:
       - name: postgresql
-        image: postgres:latest
+#        image: postgresql:latest
+        image: khteh/postgresql:latest
         imagePullPolicy: Always
-        ports:
-        - containerPort: 5432
-          name: postgresql
-          protocol: TCP
+#        command: ["postgresqld"]
+#        args: ["--lower_case_table_names=1", "--skip-ssl", "--ignore-db-dir=lost+found"]
         env:
-        - name: PGHOST
-          value: /tmp
-        - name: POSTGRES_MODE
-          value: primary
-        - name: POSTGRES_PRIMARY_PORT
-          value: "5432"
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-user
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-password
-        - name: PGDATA
-          value: /pgdata
+#         - name: MYSQL_ALLOW_EMPTY_PASSWORD
+#           value: "1"
+         - name: PGPASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: postgresql-secret
+               key: postgresql-password
+#         - name: POSTGRES_USER
+#           valueFrom:
+#             secretKeyRef:
+#               name: postgresql-secret
+#               key: superUser
+         - name: POSTGRES_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: postgresql-secret
+               key: superUserPassword
+         - name: POSTGRES_DB
+           value: AspNetCoreWebApi
+         - name: POSTGRES_DB_1
+           value: library
+         - name: POSTGRES_DB_2
+           value: school
+        ports:
+        - containerPort: 3306
+          name: postgresql
         volumeMounts:
-        - mountPath: "/pgdata"
-          name: pgdata
-          readOnly: false
-        - mountPath: "/backup"
-          name: backup
-          readOnly: true
-#        - name: postgresql-initdb
-#          mountPath: /docker-entrypoint-initdb.d
+        - name: postgresql-persistent-storage
+          mountPath: /var/lib/postgresql
+          subPath: postgresql
+        - name: postgresql-initdb
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
-      - name: pgdata
-        emptyDir: {}
-      - name: backup
-        emptyDir: {}
       - name: postgresql-initdb
         configMap:
           name: postgresql-initdb
   volumeClaimTemplates:
   - metadata:
-      name: pgdata
-    spec:   
+      name: postgresql-persistent-storage
+    spec:
       accessModes: [ "ReadWriteOnce" ]
 #      storageClassName: local-storage
       resources:

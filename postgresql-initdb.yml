@@ -4,4 +4,3 @@ metadata:
   name: postgresql-initdb
   namespace: default
 data:
-  something.sql: "PostgreSQL database dump"

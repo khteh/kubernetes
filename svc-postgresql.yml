@@ -1,36 +1,34 @@
 apiVersion: v1
-kind: Service
+kind: Service 
 metadata:
   name: svc-postgresql
-  labels:
+  labels: 
     app: db-postgresql
     component: postgresql
 spec:
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
-    name: postgresql
   selector:
     app: db-postgresql
     component: postgresql
+#    tier: database
+  ports:  
+  - port: 5432
+    name: postgresql
   clusterIP: None # Headless
-  sessionAffinity: None
 ---
 apiVersion: v1
-kind: Service
+kind: Service 
 metadata:
   name: svc-postgresql-nodeport
-  labels:
+  labels: 
     app: db-postgresql
     component: postgresql
 spec:
   selector:
     app: db-postgresql
     component: postgresql
-  ports:
+#    tier: database
+  ports:  
   - port: 5432
     name: postgresql
     nodePort: 30002
   type: NodePort
-  sessionAffinity: None
