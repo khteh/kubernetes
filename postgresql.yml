@@ -22,38 +22,63 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: postgresql
-#        image: postgresql:latest
-        image: khteh/postgresql:latest
+        image: postgres:latest
         imagePullPolicy: Always
-#        command: ["postgresqld"]
-#        args: ["--lower_case_table_names=1", "--skip-ssl", "--ignore-db-dir=lost+found"]
         env:
-#         - name: MYSQL_ALLOW_EMPTY_PASSWORD
-#           value: "1"
          - name: PGPASSWORD
            valueFrom:
              secretKeyRef:
                name: postgresql-secret
-               key: postgresql-password
-#         - name: POSTGRES_USER
-#           valueFrom:
-#             secretKeyRef:
-#               name: postgresql-secret
-#               key: superUser
+               key: superUserPassword
          - name: POSTGRES_PASSWORD
            valueFrom:
              secretKeyRef:
                name: postgresql-secret
                key: superUserPassword
-         - name: POSTGRES_DB
-           value: AspNetCoreWebApi
+#         - name: POSTGRES_USER This is the admin/root user
+         - name: POSTGRESQL_USER
+           valueFrom:
+             secretKeyRef:
+               name: postgresql-secret
+               key: postgresql-user
+         - name: POSTGRESQL_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: postgresql-secret
+               key: postgresql-password
          - name: POSTGRES_DB_1
-           value: library
+           value: AspNetCoreWebApi
          - name: POSTGRES_DB_2
+           value: library
+         - name: POSTGRES_DB_3
            value: school
         ports:
-        - containerPort: 3306
+        - containerPort: 5432
           name: postgresql
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+          failureThreshold: 5
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - -e
+            - |
+              exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+          failureThreshold: 5
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
         volumeMounts:
         - name: postgresql-persistent-storage
           mountPath: /var/lib/postgresql

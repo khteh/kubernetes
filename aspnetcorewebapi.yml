@@ -90,8 +90,8 @@ spec:
           successThreshold: 1
         volumeMounts:
         - name: mysql-connection
-          mountPath: /app/appsettings.mysql.json
-          subPath: appsettings.mysql.json
+          mountPath: /app/appsettings.postgresql.json
+          subPath: appsettings.postgresql.json
           readOnly: true
         - name: log
           mountPath: /var/log/aspnetcore
@@ -122,8 +122,8 @@ spec:
         secret:
           secretName: aspnetcorewebapi
           items:
-          - key: aspnetcorewebapi.mysql.json
-            path: appsettings.mysql.json
+          - key: aspnetcorewebapi.postgresql.json
+            path: appsettings.postgresql.json
       - name: fluentd-config
         configMap:
           name: fluentd-config

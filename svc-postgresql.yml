@@ -11,9 +11,13 @@ spec:
     component: postgresql
 #    tier: database
   ports:  
-  - port: 5432
-    name: postgresql
+  - name: postgresql
+    port: 5432
+    targetPort: postgresql
   clusterIP: None # Headless
+  selector:
+    app: db-postgresql
+    component: postgresql
 ---
 apiVersion: v1
 kind: Service 
