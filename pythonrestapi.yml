@@ -34,16 +34,16 @@ spec:
         image: khteh/pythonrestapi:latest
         imagePullPolicy: Always
         env:
-        - name: MYSQL_USER
+        - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-user
-        - name: MYSQL_PASSWORD
+              name: postgresql-secret
+              key: postgresql-user
+        - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-password
+              name: postgresql-secret
+              key: postgresql-password
         ports:
         - containerPort: 8080
           name: http2

@@ -36,22 +36,22 @@ spec:
         env:
         - name: PORT
           value: "4433"
-        - name: MYSQL_HOST
-          value: "svc-mysql"
-        - name: MYSQL_DB
+        - name: POSTGRESQL_HOST
+          value: "svc-postgresql"
+        - name: POSTGRESQL_PORT
+          value: "5432"
+        - name: POSTGRESQL_DB
           value: "school"
-        - name: MYSQL_PORT
-          value: "3306"
-        - name: MYSQL_USER
+        - name: POSTGRESQL_USER
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-user
-        - name: MYSQL_PASSWORD
+              name: postgresql-secret
+              key: postgresql-user
+        - name: POSTGRESQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-password
+              name: postgresql-secret
+              key: postgresql-password
         ports:
         - containerPort: 4433
           name: http

@@ -67,7 +67,7 @@ spec:
           service:
             name: svc-nodejsrestapi
             port:
-              number: 4433
+              number: 443
 #      - pathType: Prefix
 #        path: /kibana(/|$)(.*)
 #        backend:

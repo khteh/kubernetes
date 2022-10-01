@@ -22,7 +22,8 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: postgresql
-        image: postgres:latest
+#        image: postgres:latest
+        image: khteh/postgresql:latest
         imagePullPolicy: Always
         env:
          - name: PGPASSWORD
