@@ -1,5 +1,5 @@
 {
     "ConnectionStrings": {
-        "Default": "Host=svc-postgresql;Database=AspNetCoreWebApi;Username=guest;Password=P*ssw0rd"
+        "Default": "Host=svc-postgresql;Database=AspNetCoreWebApi;Username=guest;Password=P@$$w0rd"
     }
 }
