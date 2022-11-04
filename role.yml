@@ -5,17 +5,8 @@ metadata:
   namespace: default
 rules:
   - apiGroups:
-      - rbac.authorization.k8s.io
-    resourceNames:
-      - pod-security-policy
-      - secrets
+      - ""
     resources:
-      - podsecuritypolicies
-      - secrets
+      - "*"
     verbs:
-      - get
-      - list
-      - watch
-      - create
-      - patch
-      - delete
+      - "*"
