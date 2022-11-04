@@ -5,15 +5,7 @@ metadata:
 rules:
   - apiGroups:
       - ""
-    resourceNames:
-      - pod-security-policy
-      - secrets
     resources:
-      - secrets
+      - "*"
     verbs:
-      - get
-      - list
-      - watch
-      - create
-      - patch
-      - delete
+      - "*"
