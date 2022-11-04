@@ -5,64 +5,62 @@ metadata:
   name: ecr-cred-helper
   namespace: default
 spec:
-  concurrencyPolicy: Allow
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
+  suspend: false
+  concurrencyPolicy: Allow
   jobTemplate:
-    metadata:
-      creationTimestamp: null
     spec:
+      backoffLimit: 3
       template:
-        metadata:
-          creationTimestamp: null
         spec:
-          containers:
-          - command:
-            - /bin/sh
-            - -c
-            - |-
-              ACCOUNT=699575179986
-              REGION=ap-southeast-1
-              SECRET_NAME=aws-ecr-registry
-              EMAIL=kokhow.teh@4xlabs.co
-              aws configure set default.region ${REGION}
-              aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
-              aws configure set aws_secret_access_key ${AWS_SECRET}
-              TOKEN=`aws ecr get-login --region ${REGION} --registry-ids ${ACCOUNT} | cut -d' ' -f6`
-              echo "ENV variables setup done."
-              kubectl delete secret --ignore-not-found $SECRET_NAME
-              kubectl create secret docker-registry $SECRET_NAME \
-              --docker-server=https://${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com \
-              --docker-username=AWS \
-              --docker-password="${TOKEN}" \
-              --docker-email="${EMAIL}"
-              echo "Secret created by name. $SECRET_NAME"
-              kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"'$SECRET_NAME'"}]}'
-              echo "All done."
-            image: odaniait/aws-kubectl:latest
-            imagePullPolicy: IfNotPresent
-            name: ecr-cred-helper
-            resources: {}
-            securityContext:
-              capabilities: {}
-            terminationMessagePath: /dev/termination-log
-            terminationMessagePolicy: File
-            env:
-            - name: AWS_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secret
-                  key: access-key
-            - name: AWS_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secret
-                  key: secret-key
+          serviceAccountName: default
           dnsPolicy: Default
           hostNetwork: true
           restartPolicy: Never
           schedulerName: default-scheduler
           securityContext: {}
           terminationGracePeriodSeconds: 30
-  schedule: 0 * * * *
-  successfulJobsHistoryLimit: 3
-  suspend: false
+          containers:
+            - command:
+                - /bin/sh
+                - -c
+                - |-
+                  ACCOUNT=400679711653
+                  REGION=ap-southeast-1
+                  SECRET_NAME=aws-ecr-registry
+                  EMAIL=khteh@email.com
+                  aws configure set default.region ${REGION}
+                  aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
+                  aws configure set aws_secret_access_key ${AWS_SECRET}
+                  TOKEN=`aws ecr get-login --region ${REGION} --registry-ids ${ACCOUNT} | cut -d' ' -f6`
+                  echo "ENV variables setup done."
+                  kubectl delete secret --ignore-not-found $SECRET_NAME
+                  kubectl create secret docker-registry $SECRET_NAME \
+                  --docker-server=https://${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com \
+                  --docker-username=AWS \
+                  --docker-password="${TOKEN}" \
+                  --docker-email="${EMAIL}"
+                  echo "Secret created by name. $SECRET_NAME"
+                  kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"'$SECRET_NAME'"}]}'
+                  echo "All done."
+              image: odaniait/aws-kubectl:latest
+              imagePullPolicy: IfNotPresent
+              name: ecr-cred-helper
+              resources: {}
+              securityContext:
+                capabilities: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              env:
+                - name: AWS_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-secret
+                      key: access-key
+                - name: AWS_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-secret
+                      key: secret-key

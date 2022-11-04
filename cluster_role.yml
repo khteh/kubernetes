@@ -1,13 +1,19 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: privileged
+  name: myclusterrole
 rules:
-- apiGroups:
-  - '*'
-  resourceNames:
-  - pod-security-policy
-  resources:
-  - '*'
-  verbs:  
-  - '*'
+  - apiGroups:
+      - ""
+    resourceNames:
+      - pod-security-policy
+      - secrets
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+      - delete

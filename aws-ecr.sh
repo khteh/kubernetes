@@ -1,5 +1,5 @@
 #!/bin/bash
-ACCOUNT=1234567890
+ACCOUNT=400679711653
 REGION=ap-southeast-1
 SECRET_NAME=aws-ecr-registry
 EMAIL=my@email.com

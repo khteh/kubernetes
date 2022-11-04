@@ -1,23 +1,23 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: privileged-role-binding
+  name: my-cluster-role-binding
 roleRef:
   kind: ClusterRole
-  name: privileged
+  name: myclusterrole
   apiGroup: rbac.authorization.k8s.io
 subjects:
-# Authorize specific service accounts:
-- kind: ServiceAccount
-  name: default
-  namespace: kube-system
-- kind: ServiceAccount
-  name: default
-  namespace: default
-- kind: Group
-  apiGroup: rbac.authorization.k8s.io
-  name: system:authenticated
-# Authorize specific users (not recommended):
-- kind: User
-  apiGroup: rbac.authorization.k8s.io
-  name: admin
+  # Authorize specific service accounts:
+  - kind: ServiceAccount
+    name: default
+    namespace: kube-system
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+  - kind: Group
+    apiGroup: rbac.authorization.k8s.io
+    name: system:authenticated
+  # Authorize specific users (not recommended):
+  - kind: User
+    apiGroup: rbac.authorization.k8s.io
+    name: admin
