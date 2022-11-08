@@ -26,33 +26,33 @@ spec:
         image: khteh/postgresql:latest
         imagePullPolicy: Always
         env:
-         - name: PGPASSWORD
-           valueFrom:
-             secretKeyRef:
-               name: postgresql-secret
-               key: superUserPassword
-         - name: POSTGRES_PASSWORD
-           valueFrom:
-             secretKeyRef:
-               name: postgresql-secret
-               key: superUserPassword
-#         - name: POSTGRES_USER This is the admin/root user
-         - name: POSTGRESQL_USER
-           valueFrom:
-             secretKeyRef:
-               name: postgresql-secret
-               key: postgresql-user
-         - name: POSTGRESQL_PASSWORD
-           valueFrom:
-             secretKeyRef:
-               name: postgresql-secret
-               key: postgresql-password
-         - name: POSTGRES_DB_1
-           value: AspNetCoreWebApi
-         - name: POSTGRES_DB_2
-           value: library
-         - name: POSTGRES_DB_3
-           value: school
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: superUserPassword
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: superUserPassword
+#        - name: POSTGRES_USER This is the admin/root user
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-user
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: postgresql-password
+        - name: POSTGRES_DB_1
+          value: AspNetCoreWebApi
+        - name: POSTGRES_DB_2
+          value: library
+        - name: POSTGRES_DB_3
+          value: school
         ports:
         - containerPort: 5432
           name: postgresql
