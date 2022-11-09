@@ -4,11 +4,6 @@ metadata:
   name: postgresql-initdb
   namespace: default
 data:
-  a-init-user-db.sh: "#!/bin/bash\nset -e\npsql -v ON_ERROR_STOP=1 --username \"$POSTGRES_USER\"
-    --dbname \"$POSTGRES_DB\" <<-EOSQL\n\tCREATE USER \"$POSTGRESQL_USER\" WITH PASSWORD
-    '$POSTGRESQL_PASSWORD';\n\tALTER DATABASE \"$POSTGRES_DB_1\" OWNER TO $POSTGRESQL_USER;\n\tALTER
-    DATABASE \"$POSTGRES_DB_2\" OWNER TO $POSTGRESQL_USER;\n\tALTER DATABASE \"$POSTGRES_DB_3\"
-    OWNER TO $POSTGRESQL_USER;\nEOSQL\n"
   AspNetCoreWebApi.sql: "--\n-- PostgreSQL database dump\n--\n\n-- Dumped from database
     version 14.5 (Debian 14.5-1.pgdg110+1)\n-- Dumped by pg_dump version 14.5 (Debian
     14.5-1.pgdg110+1)\n\nSET statement_timeout = 0;\nSET lock_timeout = 0;\nSET idle_in_transaction_session_timeout
