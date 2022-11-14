@@ -1,12 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-01-28T07:54:33Z"
   name: fluentd-config
   namespace: default
-  resourceVersion: "4104691"
-  selfLink: /api/v1/namespaces/default/configmaps/fluentd-config
-  uid: f32e2db1-22d1-11e9-a14d-482ae31e6a94
 data:
   td-agent.conf: |
     ####
