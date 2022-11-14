@@ -1,12 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-02-12T01:18:54Z"
   name: access-log-template
   namespace: default
-  resourceVersion: "1475754"
-  selfLink: /api/v1/namespaces/default/configmaps/access-log-template
-  uid: 29adf22b-2e64-11e9-9d14-0afca8056c50
 data:
   access_log_template.json: |
     {
