@@ -12,7 +12,7 @@ metadata:
   # namespace scope, see --watch-namespace.
   namespace: kube-system
 spec:
-#  replicas: 1
+  #  replicas: 1
   selector:
     matchLabels:
       app: alb-ingress-controller
@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-#        iam.amazonaws.com/role: arn:aws:iam::699575179986:role/k8s-alb-controller
+      #        iam.amazonaws.com/role: arn:aws:iam::699575179986:role/k8s-alb-controller
       creationTimestamp: null
       labels:
         app: alb-ingress-controller
@@ -52,7 +52,7 @@ spec:
             # If unspecified, it will be discovered from ec2metadata.
             - --aws-vpc-id=vpc-08da46ac93e39963c
 
-            # AWS region this ingress controller will operate in. 
+            # AWS region this ingress controller will operate in.
             # If unspecified, it will be discovered from ec2metadata.
             # List of regions: http://docs.aws.amazon.com/general/latest/gr/rande.html#vpc_region
             - --aws-region=ap-southeast-1
@@ -69,14 +69,14 @@ spec:
             # a project like kube2iam for granting access.
             #- name: AWS_ACCESS_KEY_ID
             #  value: AKIAJNYZIGQHJIUS27DQ
-            
+
             # AWS key secret for authenticating with the AWS API.
             # This is only here for examples. It's recommended you instead use
             # a project like kube2iam for granting access.
             #- name: AWS_SECRET_ACCESS_KEY
             #  value: edL3PmpGAybYiXjYFZTyTPKJoNbPy/v9mmVB1j7U
           # Repository location of the ALB Ingress Controller.
-          image: docker.io/amazon/aws-alb-ingress-controller:v1.1.3
+          image: docker.io/amazon/aws-alb-ingress-controller:v2.4.5
           imagePullPolicy: Always
           name: server
           resources: {}

@@ -4,70 +4,72 @@ metadata:
   name: ingress
   namespace: default
   annotations:
-#    kubernetes.io/ingress.class: nginx - Not needed when ingressClassName is used below
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    #    kubernetes.io/ingress.class: nginx - Not needed when ingressClassName is used below
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-#    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-#    nginx.ingress.kubernetes.io/app-root: /
-#    nginx.ingress.kubernetes.io/affinity: "cookie"
-#    nginx.ingress.kubernetes.io/session-cookie-name: "ingress-cookie"
-#    nginx.ingress.kubernetes.io/session-cookie-name: "route"
-#    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
-#    nginx.ingress.kubernetes.io/session-cookie-expires: "600"
-#    nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
-#    cert-manager.io/cluster-issuer: "letsencrypt"
-#    cert-manager.io/acme-challenge-type: http01
-#    kubernetes.io/tls-acme: 'true'
+  #    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  #    nginx.ingress.kubernetes.io/app-root: /
+  #    nginx.ingress.kubernetes.io/affinity: "cookie"
+  #    nginx.ingress.kubernetes.io/session-cookie-name: "ingress-cookie"
+  #    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+  #    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+  #    nginx.ingress.kubernetes.io/session-cookie-expires: "600"
+  #    nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
+  #    cert-manager.io/cluster-issuer: "letsencrypt"
+  #    cert-manager.io/acme-challenge-type: http01
+  #    kubernetes.io/tls-acme: 'true'
   labels:
     app: ingress
 spec:
-  ingressClassName: public
-#  tls:
-#  - hosts:
-#    - khteh.io
-#    secretName: tls-secret
-  rules:  
-  - host:
-    http: 
-      paths:
-      - pathType: Prefix
-        path: /aspnetcorewebapi(/|$)(.*)
-        backend:
-          service:
-            name: svc-aspnetcorewebapi
-            port:
-              number: 443
-  - host:
-    http: 
-      paths:
-      - pathType: Prefix
-        path: /gorestapi(/|$)(.*)
-        backend:
-          service:
-            name: svc-gorestapi
-            port:
-              number: 443
-  - host:
-    http: 
-      paths:
-      - pathType: Prefix
-        path: /pythonrestapi(/|$)(.*)
-        backend:
-          service:
-            name: svc-pythonrestapi
-            port:
-              number: 443
-  - host:
-    http: 
-      paths:
-      - pathType: Prefix
-        path: /nodejsrestapi(/|$)(.*)
-        backend:
-          service:
-            name: svc-nodejsrestapi
-            port:
-              number: 443
+  ingressClassName: alb
+  #  tls:
+  #  - hosts:
+  #    - khteh.io
+  #    secretName: tls-secret
+  rules:
+    - host:
+      http:
+        paths:
+          - pathType: Prefix
+            path: /aspnetcorewebapi(/|$)(.*)
+            backend:
+              service:
+                name: svc-aspnetcorewebapi
+                port:
+                  number: 443
+    - host:
+      http:
+        paths:
+          - pathType: Prefix
+            path: /gorestapi(/|$)(.*)
+            backend:
+              service:
+                name: svc-gorestapi
+                port:
+                  number: 443
+    - host:
+      http:
+        paths:
+          - pathType: Prefix
+            path: /pythonrestapi(/|$)(.*)
+            backend:
+              service:
+                name: svc-pythonrestapi
+                port:
+                  number: 443
+    - host:
+      http:
+        paths:
+          - pathType: Prefix
+            path: /nodejsrestapi(/|$)(.*)
+            backend:
+              service:
+                name: svc-nodejsrestapi
+                port:
+                  number: 443
 #      - pathType: Prefix
 #        path: /kibana(/|$)(.*)
 #        backend:

@@ -12,16 +12,16 @@ items:
       name: kube2iam
     rules:
       - apiGroups: [""]
-        resources: ["namespaces","pods"]
-        verbs: ["get","watch","list"]
+        resources: ["namespaces", "pods"]
+        verbs: ["get", "watch", "list"]
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
       name: kube2iam
     subjects:
-    - kind: ServiceAccount
-      name: kube2iam
-      namespace: kube-system
+      - kind: ServiceAccount
+        name: kube2iam
+        namespace: kube-system
     roleRef:
       kind: ClusterRole
       name: kube2iam
@@ -53,8 +53,8 @@ spec:
           imagePullPolicy: Always
           name: kube2iam
           args:
-            - "--auto-discover-base-arn"
-            - "--auto-discover-default-role=true"
+            #- "--auto-discover-base-arn"
+            #- "--auto-discover-default-role=true"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
             - "--node=$(NODE_NAME)"
