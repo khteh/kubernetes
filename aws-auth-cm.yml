@@ -1,16 +1,3 @@
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: admins
-subjects:
-  - kind: Group
-    name: 4xlabs
-    apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: ClusterRole
-  name: admin
-  apiGroup: rbac.authorization.k8s.io
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -39,3 +26,5 @@ data:
   mapUsers: |
     - userarn: arn:aws:iam::699575179986:user/mickeymouse
       username: mickeymouse
+      groups:
+        - MyCompany
