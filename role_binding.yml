@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: superuser-role-binding
+  name: admin-role-binding
   namespace: default
 roleRef:
   apiGroup: ""
   kind: Role
-  name: superuser
+  name: admin
 subjects:
   - kind: ServiceAccount
     namespace: default
