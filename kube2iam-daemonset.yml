@@ -53,8 +53,8 @@ spec:
           imagePullPolicy: Always
           name: kube2iam
           args:
-            #- "--auto-discover-base-arn"
-            #- "--auto-discover-default-role=true"
+            - "--auto-discover-base-arn"
+            - "--auto-discover-default-role=true"
             - "--iptables=true"
             - "--host-ip=$(HOST_IP)"
             - "--node=$(NODE_NAME)"
