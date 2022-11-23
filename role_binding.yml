@@ -3,6 +3,19 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: admins
 subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: kube-system
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+  - kind: Group
+    apiGroup: rbac.authorization.k8s.io
+    name: system:authenticated
+  # Authorize specific users (not recommended):
+  - kind: User
+    apiGroup: rbac.authorization.k8s.io
+    name: admin
   - kind: Group
     name: MyCompany
     apiGroup: rbac.authorization.k8s.io
