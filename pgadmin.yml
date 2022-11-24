@@ -49,7 +49,6 @@ spec:
               containerPort: 443
               protocol: TCP
           volumeMounts:
-            #- name: pgadmin-config
             - name: pgadmin-secret
               mountPath: /pgadmin4/servers.json
               subPath: servers.json
@@ -57,9 +56,6 @@ spec:
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
       volumes:
-        #- name: pgadmin-config
-        #  configMap:
-        #    name: pgadmin-config
         - name: pgadmin-secret
           secret:
             secretName: pgadmin-secret
