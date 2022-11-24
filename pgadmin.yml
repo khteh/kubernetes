@@ -26,11 +26,11 @@ spec:
       - name: imagepullsecret
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4:5.4
+          image: dpage/pgadmin4:latest
           imagePullPolicy: Always
           env:
           - name: PGADMIN_DEFAULT_EMAIL
-            value: me@email.com
+            value: khteh@kyberlife.com
           - name: PGADMIN_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -63,4 +63,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 3Gi
+          storage: 5Gi

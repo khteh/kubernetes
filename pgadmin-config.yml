@@ -7,8 +7,8 @@ data:
     {
         "Servers": {
           "1": {
-            "Name": "OneClick DB",
-            "Group": "OneClick DB",
+            "Name": "Kyberlife",
+            "Group": "Kyberlife",
             "Port": 5432,
             "Username": "guest",
             "Host": "svc-postgresql",

@@ -10,7 +10,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 31235
+    nodePort: 30001
     name: pgadmin
   selector:
     app: pgadmin
