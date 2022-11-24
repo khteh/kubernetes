@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+#  annotations:
+#    kubectl.kubernetes.io/last-applied-configuration: |
+#      {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"},"name":"microk8s-hostpath"},"provisioner":"microk8s.io/hostpath","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}
+#    storageclass.kubernetes.io/is-default-class: "true"
+  creationTimestamp: "2022-11-22T03:29:30Z"
+  name: microk8s-hostpath
+  resourceVersion: "3129"
+  uid: f273dfd1-7050-4ae5-870c-e446ab569d07
+provisioner: microk8s.io/hostpath
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

@@ -23,44 +23,55 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       imagePullSecrets:
-      - name: imagepullsecret
+        - name: imagepullsecret
       containers:
         - name: pgadmin
           image: dpage/pgadmin4:latest
           imagePullPolicy: Always
           env:
-          - name: PGADMIN_DEFAULT_EMAIL
-            value: khteh@kyberlife.com
-          - name: PGADMIN_DEFAULT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: pgadmin
-                key: pgadmin-password
-          - name: PGADMIN_CONFIG_SECURITY_EMAIL_VALIDATOR_ARGS
-            value: '{"check_deliverability": False}'
+            - name: PGADMIN_DEFAULT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin-secret
+                  key: pgadmin-email
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin-secret
+                  key: pgadmin-password
+            - name: PGADMIN_CONFIG_SECURITY_EMAIL_VALIDATOR_ARGS
+              value: '{"check_deliverability": False}'
           ports:
-          - name: http
-            containerPort: 80
-            protocol: TCP
-          - name: https
-            containerPort: 443
-            protocol: TCP
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
           volumeMounts:
-          - name: pgadmin-config
-            mountPath: /pgadmin4/servers.json
-            subPath: servers.json
-            readOnly: true
-          - name: pgadmin-data
-            mountPath: /var/lib/pgadmin
+            #- name: pgadmin-config
+            - name: pgadmin-secret
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
       volumes:
-      - name: pgadmin-config
-        configMap:
-          name: pgadmin-config
+        #- name: pgadmin-config
+        #  configMap:
+        #    name: pgadmin-config
+        - name: pgadmin-secret
+          secret:
+            secretName: pgadmin-secret
+            items:
+              - key: servers.json
+                path: servers.json
+
   volumeClaimTemplates:
-  - metadata:
-      name: pgadmin-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 5Gi
+    - metadata:
+        name: pgadmin-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

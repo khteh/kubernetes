@@ -7,11 +7,11 @@ metadata:
     component: postgresql
 spec:
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 30001
-    name: pgadmin
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      #    nodePort: 30001
+      name: pgadmin
   selector:
     app: pgadmin
     component: postgresql
