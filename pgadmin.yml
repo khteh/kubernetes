@@ -22,6 +22,16 @@ spec:
         component: postgresql
     spec:
       terminationGracePeriodSeconds: 10
+#      affinity:
+#        podAntiAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: app
+#                operator: In
+#                values:
+#                - pgadmin
+#            topologyKey: "kubernetes.io/hostname"
       imagePullSecrets:
         - name: imagepullsecret
       containers:
