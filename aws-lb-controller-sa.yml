@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aws-alb-sa
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::400679711653:role/AmazonEKSLoadBalancerControllerRole
+  labels:
+    app.kubernetes.io/managed-by: eksctl
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: aws-load-balancer-controller
+  resourceVersion: "22926"
