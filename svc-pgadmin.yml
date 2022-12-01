@@ -9,9 +9,14 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: http
       #    nodePort: 30001
-      name: pgadmin
+      name: http
+    - protocol: TCP
+      port: 443
+      targetPort: https
+      #    nodePort: 30001
+      name: https
   selector:
     app: pgadmin
     component: postgresql

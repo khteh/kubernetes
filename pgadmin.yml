@@ -22,16 +22,16 @@ spec:
         component: postgresql
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - pgadmin
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - pgadmin
+      #            topologyKey: "kubernetes.io/hostname"
       imagePullSecrets:
         - name: imagepullsecret
       containers:
@@ -49,6 +49,8 @@ spec:
                 secretKeyRef:
                   name: pgadmin-secret
                   key: pgadmin-password
+            - name: PGADMIN_ENABLE_TLS
+              value: "true"
             - name: PGADMIN_CONFIG_SECURITY_EMAIL_VALIDATOR_ARGS
               value: '{"check_deliverability": False}'
           ports:
@@ -63,6 +65,14 @@ spec:
               mountPath: /pgadmin4/servers.json
               subPath: servers.json
               readOnly: true
+            - name: server-key
+              mountPath: /certs/server.key
+              subPath: server.key
+              readOnly: true
+            - name: server-cert
+              mountPath: /certs/server.cert
+              subPath: server.cert
+              readOnly: true
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
       volumes:
@@ -72,6 +82,18 @@ spec:
             items:
               - key: servers.json
                 path: servers.json
+        - name: server-cert
+          secret:
+            secretName: server-cert
+            items:
+              - key: server.cert
+                path: server.cert
+        - name: server-key
+          secret:
+            secretName: server-key
+            items:
+              - key: server.key
+                path: server.key
 
   volumeClaimTemplates:
     - metadata:
