@@ -9,7 +9,8 @@ aws iam create-role \
   --assume-role-policy-document file://"trust-policy.json"
 aws iam attach-role-policy \
   --policy-arn arn:aws:iam::400679711653:policy/AmazonEKS_EFS_CSI_Driver_Policy \
-  --role-name AmazonEKS_EFS_CSI_Driver_Policy
+  --role-name AmazonEKS_EFS_CSI_Driver_Role
+
 #microk8s.kubectl kustomize "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4.6" > private-ecr-driver.yml
 microk8s.kubectl kustomize "/usr/src/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/" > private-ecr-driver.yml
 sed -i.bak -e 's|us-west-2|ap-southeast-1|' private-ecr-driver.yml
