@@ -1,2 +1,2 @@
 #!/bin/bash
-kubectl run --generator=run-pod/v1 my-shell --rm -i --tty --image khteh/ubuntu -- bash
+microk8s kubectl run -it ubuntu --image=khteh/ubuntu -- bash
