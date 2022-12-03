@@ -38,18 +38,18 @@ security_group_id=$(aws ec2 create-security-group \
     --description "My EFS security group" \
     --vpc-id $vpc_id \
     --output text)
-security_group_id="sg-087e76abc41a4d9aa"
+#security_group_id="sg-087e76abc41a4d9aa"
 aws ec2 authorize-security-group-ingress \
     --group-id $security_group_id \
     --protocol tcp \
     --port 2049 \
     --cidr $cidr_range
-#file_system_id=$(aws efs create-file-system \
-#    --region ap-southeast-1 \
-#    --performance-mode generalPurpose \
-#    --query 'FileSystemId' \
-#    --output text)
-file_system_id="fs-003de9e8c4b76af95"
+file_system_id=$(aws efs create-file-system \
+    --region ap-southeast-1 \
+    --performance-mode generalPurpose \
+    --query 'FileSystemId' \
+    --output text)
+#file_system_id="fs-003de9e8c4b76af95"
 echo file_system_id: $file_system_id
 #vpc_id="vpc-0dea1914b617cd308"
 aws ec2 describe-subnets \
@@ -57,10 +57,10 @@ aws ec2 describe-subnets \
     --query 'Subnets[*].{SubnetId: SubnetId,AvailabilityZone: AvailabilityZone,CidrBlock: CidrBlock}' \
     --output table
 aws efs create-mount-target \
-    --file-system-id fs-003de9e8c4b76af95 \
-    --subnet-id subnet-0a84125d4cf6eb3e9 \
-    --security-groups $security_group_id
+    --file-system-id fs-054f2d45b97fbb185 \
+    --subnet-id subnet-0be18da39750ed319 \
+    --security-groups sg-04e58e7c53b94b403
 aws efs create-mount-target \
-    --file-system-id fs-003de9e8c4b76af95 \
-    --subnet-id subnet-0facdc9e69a428363 \
-    --security-groups $security_group_id
+    --file-system-id fs-054f2d45b97fbb185 \
+    --subnet-id subnet-067f81675df8a2f2a \
+    --security-groups sg-04e58e7c53b94b403

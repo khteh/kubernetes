@@ -6,7 +6,7 @@ provisioner: efs.csi.aws.com
 reclaimPolicy: Retain
 parameters:
   provisioningMode: efs-ap
-  fileSystemId: fs-003de9e8c4b76af95 # aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
+  fileSystemId: fs-<id> # aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
   directoryPerms: "755"
   gidRangeStart: "1000" # optional
   gidRangeEnd: "2000" # optional
