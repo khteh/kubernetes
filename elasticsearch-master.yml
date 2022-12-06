@@ -4,98 +4,94 @@ metadata:
   name: elasticsearch-master
   labels:
     component: elasticsearch
-    app: app-elasticsearch
+    app: elasticsearch-master
     role: master
 spec:
   serviceName: svc-elasticsearch-discovery
   replicas: 3
   selector:
     matchLabels:
-      app: app-elasticsearch # Has to match .spec.template.metadata.labels
+      app: elasticsearch-master # Has to match .spec.template.metadata.labels
   template:
     metadata:
       labels:
         component: elasticsearch
-        app: app-elasticsearch # Has to match .spec.selector.matchLabels
+        app: elasticsearch-master # Has to match .spec.selector.matchLabels
         role: master
     spec:
       terminationGracePeriodSeconds: 10
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: role
-                operator: In
-                values:
-                - master
-            topologyKey: "kubernetes.io/hostname"
-      initContainers:
-      - name: fix-volume-mount-permission
-        image: busybox
-        command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
-        volumeMounts:
-        - name: es-master-persistent-storage
-          mountPath: /usr/share/elasticsearch/data
+      securityContext:
+        fsGroup: 2000
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #            - labelSelector:
+      #                matchExpressions:
+      #                  - key: role
+      #                    operator: In
+      #                    values:
+      #                      - master
+      #              topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: elasticsearch
-        securityContext:
-          capabilities:
-            add:
-              - IPC_LOCK
-              - SYS_RESOURCE
-        image: khteh/elasticsearch:latest
-        imagePullPolicy: Always
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", "ulimit -l unlimited"]
-        env:
-        - name: ES_JAVA_OPTS
-          valueFrom:
-            configMapKeyRef:
-              name: elasticsearch-config
-              key: ES_JAVA_OPTS
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: NUMBER_OF_MASTERS
-          value: "2"
-        - name: NODE_MASTER
-          value: "true"
-        - name: NODE_INGEST
-          value: "false"
-        - name: NODE_DATA
-          value: "false"
-        - name: HTTP_ENABLE
-          value: "false"
-        - name: PROCESSORS
-          valueFrom:
-            resourceFieldRef:
-              resource: limits.cpu
-        resources:
-          requests:
-            cpu: 0.25
-          limits:
-            cpu: 1
-        ports:
-        - containerPort: 9300
-          name: transport
-        livenessProbe:
-          tcpSocket:
-            port: transport
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 1
-          successThreshold: 1
-          failureThreshold: 3
-        volumeMounts:
-        - name: elasticsearch-config
-          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
-          subPath: elasticsearch.yml
-        - name: es-master-persistent-storage
-          mountPath: /usr/share/elasticsearch/data
+        - name: elasticsearch
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - IPC_LOCK
+                - SYS_RESOURCE
+          image: khteh/elasticsearch:latest
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "ulimit -l unlimited"]
+          env:
+            - name: ES_JAVA_OPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: elasticsearch-config
+                  key: ES_JAVA_OPTS
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NUMBER_OF_MASTERS
+              value: "2"
+            - name: NODE_MASTER
+              value: "true"
+            - name: NODE_INGEST
+              value: "false"
+            - name: NODE_DATA
+              value: "false"
+            - name: HTTP_ENABLE
+              value: "false"
+            - name: PROCESSORS
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.cpu
+          resources:
+            requests:
+              cpu: 0.25
+            limits:
+              cpu: 1
+          ports:
+            - containerPort: 9300
+              name: transport
+          livenessProbe:
+            tcpSocket:
+              port: transport
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - name: elasticsearch-config
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+            - name: es-master-persistent-storage
+              mountPath: /usr/share/elasticsearch/data
       volumes:
         - name: elasticsearch-config
           configMap:
@@ -104,10 +100,10 @@ spec:
               - key: elasticsearch-master.yml
                 path: elasticsearch.yml
   volumeClaimTemplates:
-  - metadata:
-      name: es-master-persistent-storage
-    spec:   
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
+    - metadata:
+        name: es-master-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

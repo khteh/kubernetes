@@ -1,12 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2018-12-28T04:09:38Z"
   name: elasticsearch-config
   namespace: default
-  resourceVersion: "789954"
-  selfLink: /api/v1/namespaces/default/configmaps/elasticsearch-config
-  uid: 6494f746-0a56-11e9-a34a-482ae31e6a94
 data:
   elasticsearch-master.yml: |+
     cluster.name: elasticsearch
@@ -23,8 +19,7 @@ data:
     http.cors.allow-origin: "*"
     network.host: _site_
     node.name: ${HOSTNAME}
-    node.master: true
-    node.data: false
+    node.roles: ["master"]
     bootstrap.memory_lock: true
 
   elasticsearch-data.yml: |+
@@ -42,8 +37,7 @@ data:
     http.cors.allow-origin: "*"
     network.host: _site_
     node.name: ${HOSTNAME}
-    node.master: false
-    node.data: true
+    node.roles: ["data"]
     bootstrap.memory_lock: true
 
-  ES_JAVA_OPTS: -Xms5g -Xmx5g -Djna.tmpdir=/tmp
+  ES_JAVA_OPTS: -Xms5g -Xmx5g -Djna.tmpdir=/tmp -Djava.lang.RuntimePermission=modifyThread

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: elasticsearch
-  labels: 
+  labels:
     component: elasticsearch
     app: elasticsearch
     role: data
@@ -23,94 +23,97 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: role
-                operator: In
-                values:
-                - data
-            topologyKey: "kubernetes.io/hostname"
+            - labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - data
+              topologyKey: "kubernetes.io/hostname"
       initContainers:
-      - name: fix-volume-mount-permission
-        image: busybox 
-        command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
-        volumeMounts:
-        - name: elasticsearch-persistent-storage
-          mountPath: /usr/share/elasticsearch/data
+        - name: fix-volume-mount-permission
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
+          volumeMounts:
+            - name: elasticsearch-pvc
+              mountPath: /usr/share/elasticsearch/data
       containers:
-      - name: elasticsearch
-        securityContext:
-          capabilities:
-            add:
-              - IPC_LOCK
-              - SYS_RESOURCE
-        image: khteh/elasticsearch:latest
-        imagePullPolicy: Always
-        env:
-        - name: ES_JAVA_OPTS
-          valueFrom:
-            configMapKeyRef:
-              name: elasticsearch-config
-              key: ES_JAVA_OPTS
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: NODE_MASTER
-          value: "false"
-        - name: NODE_INGEST
-          value: "false"
-        - name: HTTP_ENABLE
-          value: "true"
-        - name: PROCESSORS
-          valueFrom:
-            resourceFieldRef:
-              resource: limits.cpu
-        resources:
-          requests:
-            cpu: 0.25
-          limits:
-            cpu: 1
-#        livenessProbe:
-#          tcpSocket:
-#            port: transport
-#          initialDelaySeconds: 60
-#          periodSeconds: 10
-#          timeoutSeconds: 1
-#          successThreshold: 1
-#          failureThreshold: 3
-#        readinessProbe:
-#          httpGet:
-#            path: /_cluster/health
-#            port: http
-#          initialDelaySeconds: 60
-#          periodSeconds: 10
-#          timeoutSeconds: 5
-#          successThreshold: 1
-#          failureThreshold: 3
-        ports:
-        - containerPort: 9200
-          name: http
-        - containerPort: 9300
-          name: transport
-        volumeMounts:
-        - name: elasticsearch-config
-          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
-          subPath: elasticsearch.yml
-        - name: elasticsearch-persistent-storage
-          mountPath: /usr/share/elasticsearch/data
+        - name: elasticsearch
+          securityContext:
+            capabilities:
+              add:
+                - IPC_LOCK
+                - SYS_RESOURCE
+          image: khteh/elasticsearch:latest
+          imagePullPolicy: Always
+          env:
+            - name: ES_JAVA_OPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: elasticsearch-config
+                  key: ES_JAVA_OPTS
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE_MASTER
+              value: "false"
+            - name: NODE_INGEST
+              value: "false"
+            - name: HTTP_ENABLE
+              value: "true"
+            - name: PROCESSORS
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.cpu
+          resources:
+            requests:
+              cpu: 0.25
+            limits:
+              cpu: 1
+          #        livenessProbe:
+          #          tcpSocket:
+          #            port: transport
+          #          initialDelaySeconds: 60
+          #          periodSeconds: 10
+          #          timeoutSeconds: 1
+          #          successThreshold: 1
+          #          failureThreshold: 3
+          #        readinessProbe:
+          #          httpGet:
+          #            path: /_cluster/health
+          #            port: http
+          #          initialDelaySeconds: 60
+          #          periodSeconds: 10
+          #          timeoutSeconds: 5
+          #          successThreshold: 1
+          #          failureThreshold: 3
+          ports:
+            - containerPort: 9200
+              name: http
+            - containerPort: 9300
+              name: transport
+          volumeMounts:
+            - name: elasticsearch-config
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+            - name: elasticsearch-pvc
+              mountPath: /usr/share/elasticsearch/data
       volumes:
-      - name: elasticsearch-config
-        configMap:
-          name: elasticsearch-config
-          items:
-            - key: elasticsearch-data.yml
-              path: elasticsearch.yml
-  volumeClaimTemplates:
-  - metadata:
-      name: elasticsearch-persistent-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
+        - name: elasticsearch-pvc
+          persistentVolumeClaim:
+            claimName: pvc-elasticsearch
+        - name: elasticsearch-config
+          configMap:
+            name: elasticsearch-config
+            items:
+              - key: elasticsearch-data.yml
+                path: elasticsearch.yml
+#  volumeClaimTemplates:
+#  - metadata:
+#      name: elasticsearch-persistent-storage
+#    spec:
+#      accessModes: [ "ReadWriteOnce" ]
+#      resources:
+#        requests:
+#          storage: 10Gi

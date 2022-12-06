@@ -8,6 +8,6 @@ parameters:
   provisioningMode: efs-ap
   fileSystemId: fs-<id> # aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
   directoryPerms: "755"
-  gidRangeStart: "1000" # optional
-  gidRangeEnd: "2000" # optional
+  #  gidRangeStart: "1000" # optional
+  #  gidRangeEnd: "2000" # optional
   basePath: "/dynamic_provisioning" # optional
