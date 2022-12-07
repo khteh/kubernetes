@@ -1,52 +1,53 @@
 apiVersion: v1
-kind: Service 
+kind: Service
 metadata:
   name: svc-aspnetcorewebapi
-#  annotations:
-#    alb.ingress.kubernetes.io/healthcheck-path: /aspnetcorewebapi/actuator/health
-  labels: 
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+  #    alb.ingress.kubernetes.io/healthcheck-path: /aspnetcorewebapi/actuator/health
+  labels:
     component: aspnetcorewebapi
     app: aspnetcorewebapi
 spec:
-  ports:  
-  - name: https
-    protocol: TCP
-    port: 443
-    targetPort: https
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: aspnetcorewebapi
     component: aspnetcorewebapi
 #    tier: frontend
-#  type: LoadBalancer # Exposes web to traffic from outside of the cluster 
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster
 ---
 apiVersion: v1
-kind: Service 
+kind: Service
 metadata:
   name: svc-aspnetcorewebapi-nodeport
-  labels: 
+  labels:
     component: aspnetcorewebapi
     app: aspnetcorewebapi
 spec:
-  ports:  
-  - name: https
-    protocol: TCP
-    port: 443
-    targetPort: https
-    nodePort: 31004
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: https
+      nodePort: 31004
   type: NodePort
   selector:
     component: aspnetcorewebapi
     app: aspnetcorewebapi
 #---
 #apiVersion: v1
-#kind: Service 
+#kind: Service
 #metadata:
 #  name: svc-aspnetcorewebapi-ingress
-#  labels: 
+#  labels:
 #    app: aspnetcorewebapi
 #spec:
-#  ports:  
+#  ports:
 #  - name: https
 #    protocol: TCP
 #    port: 443
