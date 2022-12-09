@@ -1,5 +1,8 @@
 apiVersion: v1
 kind: Secret
 type: Opaque
+metadata:
+  name: aspnetcorewebapi
+  namespace: default
 data:
   aspnetcorewebapi.postgresql.json: ewogICAgIkNvbm5lY3Rpb25TdHJpbmdzIjogewogICAgICAgICJEZWZhdWx0IjogIkhvc3Q9c3ZjLXBvc3RncmVzcWw7RGF0YWJhc2U9QXNwTmV0Q29yZVdlYkFwaTtVc2VybmFtZT1ndWVzdDtQYXNzd29yZD1QQCQkdzByZCIKICAgIH0KfQo=
