@@ -4,7 +4,7 @@ metadata:
   name: svc-aspnetcorewebapi
   annotations:
     alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
-  #    alb.ingress.kubernetes.io/healthcheck-path: /aspnetcorewebapi/actuator/health
+    alb.ingress.kubernetes.io/healthcheck-path: /health/live
   labels:
     component: aspnetcorewebapi
     app: aspnetcorewebapi
@@ -15,6 +15,10 @@ spec:
       port: 443
       targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 60
   selector:
     app: aspnetcorewebapi
     component: aspnetcorewebapi

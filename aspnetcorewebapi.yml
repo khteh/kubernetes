@@ -9,7 +9,7 @@ spec:
   serviceName: svc-aspnetcorewebapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
-  updateStrategy: 
+  updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
@@ -22,113 +22,111 @@ spec:
         component: aspnetcorewebapi
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - aspnetcorewebapi
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - aspnetcorewebapi
+      #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: aspnetcorewebapi
-        image: khteh/asp.netcorewebapi:latest
-        imagePullPolicy: Always
-        env:
-          - name: ASPNETCORE_ENVIRONMENT
-            value: Production
-          - name: ASPNETCORE_URLS
-            value: "https://+;http://+"
-          - name: ASPNETCORE_HTTPS_PORT
-            value: "443"
-          - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
-            value: "true"
-          # This is enabled for Dynamic PGO
-          - name: DOTNET_TieredPGO
-            value: "1"
-          # The following 2 are enabled for Full PGO. This will result in longer startup time
-          - name: DOTNET_TC_QuickJitForLoops
-            value: "1"
-          - name: DOTNET_ReadyToRun
-            value: "0"
-          - name: COMPlus_ThreadPool_ForceMinWorkerThreads
-            value: "1000"
-          - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
-            value: "10000" 
-          - name: PATH_BASE
-            value: "/aspnetcorewebapi"
-        ports:
-        - containerPort: 5000
-          name: http
-          protocol: TCP
-#          hostPort: 8081
-        - containerPort: 443
-          name: https
-          protocol: TCP
-#          hostPort: 8082
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: https
-            scheme: HTTPS
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /health/live
-            port: https
-            scheme: HTTPS
-          initialDelaySeconds: 20
-          periodSeconds: 3
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        volumeMounts:
-        - name: postgresql-connection
-          mountPath: /app/appsettings.postgresql.json
-          subPath: appsettings.postgresql.json
-          readOnly: true
-        - name: log
-          mountPath: /var/log/aspnetcore
-        resources:
-          limits:
-            cpu: 250m
-            memory: 1024Mi
-      - name: fluentd
-        image: khteh/fluentd:latest
-        env:
-        - name: FLUENTD_ARGS
-          value: -c /etc/td-agent/td-agent.conf
-        volumeMounts:
-        - name: log
-          mountPath: /var/log/aspnetcore
-        - name: fluentd-config
-          mountPath: /etc/td-agent
-        - name: access-log-template
-          mountPath: /tmp/access_log_template.json
-          subPath: access_log_template.json
-          readOnly: true
-        resources:
-          limits:
-            cpu: 250m
-            memory: 1024Mi
+        - name: aspnetcorewebapi
+          image: khteh/asp.netcorewebapi:latest
+          imagePullPolicy: Always
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ASPNETCORE_URLS
+              value: "https://+;http://+"
+            - name: ASPNETCORE_HTTPS_PORT
+              value: "443"
+            - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+              value: "true"
+            # This is enabled for Dynamic PGO
+            - name: DOTNET_TieredPGO
+              value: "1"
+            # The following 2 are enabled for Full PGO. This will result in longer startup time
+            - name: DOTNET_TC_QuickJitForLoops
+              value: "1"
+            - name: DOTNET_ReadyToRun
+              value: "0"
+            - name: COMPlus_ThreadPool_ForceMinWorkerThreads
+              value: "1000"
+            - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
+              value: "10000"
+            - name: PATH_BASE
+              value: "/"
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          volumeMounts:
+            - name: postgresql-connection
+              mountPath: /app/appsettings.postgresql.json
+              subPath: appsettings.postgresql.json
+              readOnly: true
+            - name: log
+              mountPath: /var/log/aspnetcore
+          resources:
+            limits:
+              cpu: 250m
+              memory: 1024Mi
+        - name: fluentd
+          image: khteh/fluentd:latest
+          env:
+            - name: FLUENTD_ARGS
+              value: -c /etc/td-agent/td-agent.conf
+          volumeMounts:
+            - name: log
+              mountPath: /var/log/aspnetcore
+            - name: fluentd-config
+              mountPath: /etc/td-agent
+            - name: access-log-template
+              mountPath: /tmp/access_log_template.json
+              subPath: access_log_template.json
+              readOnly: true
+          resources:
+            limits:
+              cpu: 250m
+              memory: 1024Mi
       volumes:
-      - name: postgresql-connection
-        secret:
-          secretName: aspnetcorewebapi
-          items:
-          - key: aspnetcorewebapi.postgresql.json
-            path: appsettings.postgresql.json
-      - name: fluentd-config
-        configMap:
-          name: fluentd-config
-      - name: access-log-template
-        configMap:
-          name: access-log-template
-      - name: log
-        emptyDir: {}
+        - name: postgresql-connection
+          secret:
+            secretName: aspnetcorewebapi
+            items:
+              - key: aspnetcorewebapi.postgresql.json
+                path: appsettings.postgresql.json
+        - name: fluentd-config
+          configMap:
+            name: fluentd-config
+        - name: access-log-template
+          configMap:
+            name: access-log-template
+        - name: log
+          emptyDir: {}
