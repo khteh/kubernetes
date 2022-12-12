@@ -1,0 +1,27 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: kyberlife
+spec:
+  version: 8.5.3
+  nodeSets:
+    - name: default
+      count: 3
+      config:
+        # most Elasticsearch configuration parameters are possible to set, e.g: node.attr.attr_name: attr_value
+        #node.roles: ["master", "data", "ingest", "ml"]
+        node.roles: ["master", "data", "ingest"]
+        script.painless.regex.enabled: true
+        http.cors.enabled: true
+        http.cors.allow-origin: "*"
+        network.host: _site_
+        node.name: ${HOSTNAME}
+        bootstrap.memory_lock: true
+      podTemplate:
+        spec:
+          initContainers:
+            - name: sysctl
+              securityContext:
+                privileged: true
+                runAsUser: 0
+              command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"]
