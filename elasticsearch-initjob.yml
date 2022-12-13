@@ -14,6 +14,17 @@ spec:
       containers:
       - name: elasticsearch-init-job
         image: khteh/elasticsearch-init:latest
+        env:
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-secret
+              key: username
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-secret
+              key: password
         volumeMounts:
         - name: access-log-template
           mountPath: /tmp
