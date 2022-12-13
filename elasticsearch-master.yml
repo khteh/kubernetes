@@ -57,7 +57,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: NUMBER_OF_MASTERS
-              value: "2"
+              value: "3"
             - name: NODE_MASTER
               value: "true"
             - name: NODE_INGEST
