@@ -129,7 +129,7 @@ data:
         reload_on_failure true
         reload_connections false
         request_timeout 120s
-        host svc-elasticsearch
+        host <eck cluster name>-es-http
         port 9200
         flush_interval 1s
         # index_name fluentd.${tag}.%Y%m%d 
