@@ -1,21 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-01-29T02:12:55Z"
   name: kibana-config
   namespace: default
-  resourceVersion: "4178388"
-  selfLink: /api/v1/namespaces/default/configmaps/kibana-config
-  uid: 63b10866-236b-11e9-a14d-482ae31e6a94
 data:
   kibana.yml: |+
     csp.strict: true
     server.port: 5601
     server.host: "0.0.0.0"
-    server.basePath: "/kibana"
-    server.rewriteBasePath: false
-    elasticsearch.hosts: "http://svc-elasticsearch:9200"
-    kibana.index: ".kibana"
-    logging.silent: false
-    logging.quiet: false
-    logging.verbose: true
+    elasticsearch.username: "kyberlife"
+    elasticsearch.password: "P@$$w0rd"
+    elasticsearch.ssl.verificationMode: "none"
+    xpack.reporting.encryptionKey: "P@$$w0rd"
+    xpack.security.encryptionKey: "something_at_least_32_characters"
+    xpack.encryptedSavedObjects.encryptionKey: "min-32-byte-long-NEW-encryption-key"
+    elasticsearch.hosts: ["https://kyberlife-es-http:9200"]

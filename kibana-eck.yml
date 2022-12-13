@@ -1,0 +1,23 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kyberlife
+spec:
+  version: 8.5.3
+  count: 2
+  elasticsearchRef:
+    name: kyberlife
+    namespace: default
+  http:
+    service:
+      metadata:
+        annotations:
+          alb.ingress.kubernetes.io/healthcheck-path: /login
+          alb.ingress.kubernetes.io/backend-protocol: HTTPS
+          alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+          alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+      spec:
+        type: ClusterIP
+    tls:
+      selfSignedCertificate:
+        disabled: true

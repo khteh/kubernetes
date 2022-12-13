@@ -20,6 +20,8 @@ spec:
         role: data
     spec:
       terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 2000
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -30,13 +32,13 @@ spec:
                     values:
                       - data
               topologyKey: "kubernetes.io/hostname"
-      initContainers:
-        - name: fix-volume-mount-permission
-          image: busybox
-          command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
-          volumeMounts:
-            - name: elasticsearch-pvc
-              mountPath: /usr/share/elasticsearch/data
+      #initContainers:
+      #  - name: fix-volume-mount-permission
+      #    image: busybox
+      #    command: ["sh", "-c", "chown -R 1000:0 /usr/share/elasticsearch/data"]
+      #    volumeMounts:
+      #      - name: elasticsearch-pvc
+      #        mountPath: /usr/share/elasticsearch/data
       containers:
         - name: elasticsearch
           securityContext:
@@ -97,23 +99,40 @@ spec:
             - name: elasticsearch-config
               mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
               subPath: elasticsearch.yml
-            - name: elasticsearch-pvc
+            - name: elasticsearch-persistent-storage
               mountPath: /usr/share/elasticsearch/data
+            - name: server-key
+              mountPath: /usr/share/elasticsearch/config/server.key
+              subPath: server.key
+              readOnly: true
+            - name: server-cert
+              mountPath: /usr/share/elasticsearch/config/server.cert
+              subPath: server.cert
+              readOnly: true
       volumes:
-        - name: elasticsearch-pvc
-          persistentVolumeClaim:
-            claimName: pvc-elasticsearch
         - name: elasticsearch-config
           configMap:
             name: elasticsearch-config
             items:
               - key: elasticsearch-data.yml
                 path: elasticsearch.yml
-#  volumeClaimTemplates:
-#  - metadata:
-#      name: elasticsearch-persistent-storage
-#    spec:
-#      accessModes: [ "ReadWriteOnce" ]
-#      resources:
-#        requests:
-#          storage: 10Gi
+        - name: server-cert
+          secret:
+            secretName: server-cert
+            items:
+              - key: server.cert
+                path: server.cert
+        - name: server-key
+          secret:
+            secretName: server-key
+            items:
+              - key: server.key
+                path: server.key
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

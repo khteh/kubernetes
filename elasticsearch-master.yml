@@ -70,6 +70,11 @@ spec:
               valueFrom:
                 resourceFieldRef:
                   resource: limits.cpu
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: password
           resources:
             requests:
               cpu: 0.25
@@ -92,6 +97,14 @@ spec:
               subPath: elasticsearch.yml
             - name: es-master-persistent-storage
               mountPath: /usr/share/elasticsearch/data
+            - name: server-key
+              mountPath: /usr/share/elasticsearch/config/server.key
+              subPath: server.key
+              readOnly: true
+            - name: server-cert
+              mountPath: /usr/share/elasticsearch/config/server.cert
+              subPath: server.cert
+              readOnly: true
       volumes:
         - name: elasticsearch-config
           configMap:
@@ -99,6 +112,18 @@ spec:
             items:
               - key: elasticsearch-master.yml
                 path: elasticsearch.yml
+        - name: server-cert
+          secret:
+            secretName: server-cert
+            items:
+              - key: server.cert
+                path: server.cert
+        - name: server-key
+          secret:
+            secretName: server-key
+            items:
+              - key: server.key
+                path: server.key
   volumeClaimTemplates:
     - metadata:
         name: es-master-persistent-storage

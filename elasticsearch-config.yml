@@ -21,6 +21,9 @@ data:
     node.name: ${HOSTNAME}
     node.roles: ["master"]
     bootstrap.memory_lock: true
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.transport.ssl.key: /usr/share/elasticsearch/config/server.key
+    xpack.security.transport.ssl.certificate: /usr/share/elasticsearch/config/server.cert
 
   elasticsearch-data.yml: |+
     cluster.name: elasticsearch
@@ -39,5 +42,8 @@ data:
     node.name: ${HOSTNAME}
     node.roles: ["data"]
     bootstrap.memory_lock: true
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.transport.ssl.key: /usr/share/elasticsearch/config/server.key
+    xpack.security.transport.ssl.certificate: /usr/share/elasticsearch/config/server.cert
 
-  ES_JAVA_OPTS: -Xms5g -Xmx5g -Djna.tmpdir=/tmp -Djava.lang.RuntimePermission=modifyThread
+  ES_JAVA_OPTS: -Xms5g -Xmx5g -Djna.tmpdir=/tmp -Djava.lang.RuntimePermission=modifyThread --enable-preview
