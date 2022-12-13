@@ -8,6 +8,7 @@ microk8s kubectl scale sts kyberlife-es-default --replicas=0
 microk8s kubectl delete sts kyberlife-es-default --ignore-not-found=true
 microk8s kubectl delete secret kyberlife-es-elastic-user --ignore-not-found=true
 microk8s kubectl delete secret elasticsearch-secret --ignore-not-found=true
+microk8s kubectl delete crd -l app.kubernetes.io/name=eck-operator-crds
 microk8s kubectl create -f https://download.elastic.co/downloads/eck/2.5.0/crds.yaml
 microk8s kubectl apply -f https://download.elastic.co/downloads/eck/2.5.0/operator.yaml
 microk8s kubectl apply -f elasticsearch-eck-secret.yml,elasticsearch-secret.yml,elasticsearch-eck.yml
