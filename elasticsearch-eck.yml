@@ -4,6 +4,9 @@ metadata:
   name: kyberlife
 spec:
   version: 8.5.3
+  auth:
+    fileRealm:
+      - secretName: elasticsearch-secret
   nodeSets:
     - name: default
       count: 3
@@ -17,11 +20,3 @@ spec:
         network.host: _site_
         node.name: ${HOSTNAME}
         bootstrap.memory_lock: true
-      podTemplate:
-        spec:
-          initContainers:
-            - name: sysctl
-              securityContext:
-                privileged: true
-                runAsUser: 0
-              command: ["sh", "-c", "sysctl -w vm.max_map_count=262144"]
