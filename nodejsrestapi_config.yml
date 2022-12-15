@@ -5,7 +5,7 @@ metadata:
 data:
   default.json: |
     {
-        "DBHost": "svc-psotgresql",
+        "DBHost": "svc-postgresql",
         "Port": "5432",
         "Database" : "school"
     }

@@ -8,7 +8,7 @@ spec:
   serviceName: svc-nodejsrestapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
-  updateStrategy: 
+  updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
@@ -19,96 +19,94 @@ spec:
         app: nodejsrestapi # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - nodejsrestapi
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - nodejsrestapi
+      #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: nodejsrestapi
-        image: khteh/node.jsrestapi:latest
-        imagePullPolicy: Always
-        env:
-        - name: PORT
-          value: "4433"
-        - name: POSTGRESQL_HOST
-          value: "svc-postgresql"
-        - name: POSTGRESQL_PORT
-          value: "5432"
-        - name: POSTGRESQL_DB
-          value: "school"
-        - name: POSTGRESQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-user
-        - name: POSTGRESQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-password
-        ports:
-        - containerPort: 4433
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /healthchecks/ready
-            port: http
-            scheme: HTTPS
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /healthchecks/live
-            port: http
-            scheme: HTTPS
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        volumeMounts:
-        - name: nodejsrestapi-config
-          mountPath: config/default.json
-          subPath: default.json
-          readOnly: true
-#        - name: log
-#          mountPath: /var/log/aspnetcore
-        resources:
-          limits:
-            cpu: 250m
-            memory: 1024Mi
-#      - name: fluentd
-#        image: khteh/fluentd:latest
-#        env:
-#        - name: FLUENTD_ARGS
-#          value: -c /etc/td-agent/td-agent.conf
-#        volumeMounts:
-#        - name: log
-#          mountPath: /var/log/nodejsrestapi
-#        - name: fluentd-config
-#          mountPath: /etc/td-agent
-#        - name: access-log-template
-#          mountPath: /tmp/access_log_template.json
-#          subPath: access_log_template.json
-#          readOnly: true
-#        resources:
-#          limits:
-#            cpu: 250m
-#            memory: 1024Mi
+        - name: nodejsrestapi
+          image: khteh/node.jsrestapi:latest
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRESQL_HOST
+              value: "svc-postgresql"
+            - name: POSTGRESQL_PORT
+              value: "5432"
+            - name: POSTGRESQL_DB
+              value: "school"
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgresql-user
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgresql-password
+          ports:
+            - containerPort: 443
+              name: https
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthchecks/ready
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthchecks/live
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          volumeMounts:
+            - name: nodejsrestapi-config
+              mountPath: config/default.json
+              subPath: default.json
+              readOnly: true
+          #        - name: log
+          #          mountPath: /var/log/aspnetcore
+          resources:
+            limits:
+              cpu: 250m
+              memory: 1024Mi
+      #      - name: fluentd
+      #        image: khteh/fluentd:latest
+      #        env:
+      #        - name: FLUENTD_ARGS
+      #          value: -c /etc/td-agent/td-agent.conf
+      #        volumeMounts:
+      #        - name: log
+      #          mountPath: /var/log/nodejsrestapi
+      #        - name: fluentd-config
+      #          mountPath: /etc/td-agent
+      #        - name: access-log-template
+      #          mountPath: /tmp/access_log_template.json
+      #          subPath: access_log_template.json
+      #          readOnly: true
+      #        resources:
+      #          limits:
+      #            cpu: 250m
+      #            memory: 1024Mi
       volumes:
-      - name: nodejsrestapi-config
-        configMap:
-          name: nodejsrestapi
+        - name: nodejsrestapi-config
+          configMap:
+            name: nodejsrestapi
 #      - name: fluentd-config
 #        configMap:
 #          name: fluentd-config
