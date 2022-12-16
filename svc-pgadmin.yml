@@ -2,6 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: svc-pgadmin
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    #alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    alb.ingress.kubernetes.io/healthcheck-path: /login
+    alb.ingress.kubernetes.io/conditions.rule-path1: >
+      [{"field":"http-header","httpHeaderConfig":{"httpHeaderName": "X-Scheme", "values":["https"]}}]
   labels:
     app: pgadmin
     component: postgresql
@@ -10,14 +17,12 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: http
-      #    nodePort: 30001
       name: http
     - protocol: TCP
       port: 443
       targetPort: https
-      #    nodePort: 30001
       name: https
+  clusterIP: None
   selector:
     app: pgadmin
     component: postgresql
-  type: NodePort
