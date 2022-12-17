@@ -84,15 +84,17 @@ data:
       backend_library geoip2_c
 
       # Set adding field with placeholder (more than one settings are required.)
-      <record>
-        city          ${city.names.en["IP"]}
-        country_name  ${country.names.en["IP"]}
-        country_code  ${country.iso_code["IP"]}
-        postal_code   ${postal.code["IP"]}
+     <record>
+        city            ${city.names.en["IP"]}
+        latitude        ${location.latitude["IP"]}
+        longitude       ${location.longitude["IP"]}
+        country_code    ${country.iso_code["IP"]}
+        country_name    ${country.names.en["IP"]}
+        postal_code     ${postal.code["IP"]}
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
-      </record>
+      </record>      
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true
       # Set @log_level (default: warn)
