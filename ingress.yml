@@ -16,6 +16,7 @@ metadata:
     #alb.ingress.kubernetes.io/backend-protocol-version: HTTP2 Use this in individual Service
     alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=1800
     alb.ingress.kubernetes.io/auth-session-cookie: kyberlife
     alb.ingress.kubernetes.io/auth-session-timeout: "3600"
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
