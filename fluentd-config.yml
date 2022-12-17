@@ -131,6 +131,10 @@ data:
         request_timeout 120s
         host <eck cluster name>-es-http
         port 9200
+        scheme https
+        ssl_verify false
+        user elastic
+        password P@$$w0rd
         flush_interval 1s
         # index_name fluentd.${tag}.%Y%m%d 
         type_name _doc
