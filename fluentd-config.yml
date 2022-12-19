@@ -88,9 +88,11 @@ data:
         city            ${city.names.en["IP"]}
         latitude        ${location.latitude["IP"]}
         longitude       ${location.longitude["IP"]}
-        country_code    ${country.iso_code["IP"]}
+        country         ${country.iso_code["IP"]}
         country_name    ${country.names.en["IP"]}
         postal_code     ${postal.code["IP"]}
+        region_code     ${subdivisions.0.iso_code["IP"]}
+        region_name     ${subdivisions.0.names.en["IP"]}
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
