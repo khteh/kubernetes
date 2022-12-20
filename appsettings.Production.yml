@@ -12,18 +12,18 @@ data:
           },
           "Endpoints": {
              "Https": {
-                "Url": "https://*:5001",
+                "Url": "https://*",
                 "Protocols": "Http2",
                 "Certificate": {
                     "Path": "/tmp/localhost.pfx",
-                    "Password": "KyberlifeIAM"
+                    "Password": "AspNetCoreWebApi"
                 }
               }
           },
           "Certificates": {
               "Default": {
                 "Path": "/tmp/localhost.pfx",
-                "Password": "KyberlifeIAM"
+                "Password": "AspNetCoreWebApi"
               }
           }
        },
@@ -35,7 +35,8 @@ data:
               "System": "Warning",
               "Microsoft.AspNetCore": "Warning",
               "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Error",
-              "Microsoft.AspNetCore.Components.Server": "Debug"
+              "Microsoft.AspNetCore.Components.Server": "Debug",
+              "Microsoft.AspNetCore.Components": "Debug"
             },
             "Debug": {
                 "LogLevel": {
