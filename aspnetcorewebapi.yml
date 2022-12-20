@@ -87,6 +87,10 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
+            - name: appsettings-production
+              mountPath: /app/appsettings.Production.json
+              subPath: appsettings.Production.json
+              readOnly: true
             - name: postgresql-connection
               mountPath: /app/appsettings.postgresql.json
               subPath: appsettings.postgresql.json
@@ -116,6 +120,9 @@ spec:
               cpu: 250m
               memory: 1024Mi
       volumes:
+        - name: appsettings-production
+          configMap:
+            name: appsettings-production
         - name: postgresql-connection
           secret:
             secretName: aspnetcorewebapi

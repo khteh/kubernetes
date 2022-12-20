@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appsettings-production
+  namespace: default
+data:
+  appsettings.Production.json: |
+    {
+      "Kestrel": {
+          "EndpointDefaults": {
+            "Protocols": "Http2"
+          },
+          "Endpoints": {
+             "Https": {
+                "Url": "https://*:5001",
+                "Protocols": "Http2",
+                "Certificate": {
+                    "Path": "/tmp/localhost.pfx",
+                    "Password": "KyberlifeIAM"
+                }
+              }
+          },
+          "Certificates": {
+              "Default": {
+                "Path": "/tmp/localhost.pfx",
+                "Password": "KyberlifeIAM"
+              }
+          }
+       },
+       "DetailedErrors": true,
+       "Logging": {
+           "LogLevel": {
+              "Default": "Debug",
+              "Grpc": "Warning",
+              "System": "Warning",
+              "Microsoft.AspNetCore": "Warning",
+              "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Error",
+              "Microsoft.AspNetCore.Components.Server": "Debug"
+            },
+            "Debug": {
+                "LogLevel": {
+                    "Default": "Debug"
+                }
+            },
+            "Console": {
+                "IncludeScopes": true,
+                "LogLevel": {
+                    "Microsoft.AspNetCore.Mvc.Razor.Internal": "Warning",
+                    "Microsoft.AspNetCore.Mvc.Razor.Razor": "Debug",
+                    "Microsoft.AspNetCore.Mvc.Razor": "Error",
+                    "Default": "Debug"
+                }
+            },
+            "EventSource": {
+                "LogLevel": {
+                    "Microsoft": "Debug"
+                }
+            },
+            "EventLog": {
+                "LogLevel": {
+                    "Microsoft": "Debug"
+                }
+            }
+         }
+      }
