@@ -87,6 +87,10 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
+            - name: email-credentials
+              mountPath: /app/appsettings.email.json
+              subPath: appsettings.email.json
+              readOnly: true
             - name: appsettings-production
               mountPath: /app/appsettings.Production.json
               subPath: appsettings.Production.json
@@ -120,6 +124,12 @@ spec:
               cpu: 250m
               memory: 1024Mi
       volumes:
+        - name: email-credentials
+          secret:
+            secretName: email-credentials
+            items:
+              - key: appsettings.email.json
+                path: appsettings.email.json
         - name: appsettings-production
           configMap:
             name: appsettings-production
