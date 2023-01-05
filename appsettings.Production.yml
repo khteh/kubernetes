@@ -8,12 +8,12 @@ data:
     {
       "Kestrel": {
           "EndpointDefaults": {
-            "Protocols": "Http2"
+            "Protocols": "Http1AndHttp2AndHttp3"
           },
           "Endpoints": {
              "Https": {
                 "Url": "https://*",
-                "Protocols": "Http2",
+                "Protocols": "Http1AndHttp2AndHttp3",
                 "Certificate": {
                     "Path": "/tmp/localhost.pfx",
                     "Password": "AspNetCoreWebApi"
@@ -30,13 +30,20 @@ data:
        "DetailedErrors": true,
        "Logging": {
            "LogLevel": {
-              "Default": "Debug",
-              "Grpc": "Warning",
-              "System": "Warning",
-              "Microsoft.AspNetCore": "Warning",
-              "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Error",
-              "Microsoft.AspNetCore.Components.Server": "Debug",
-              "Microsoft.AspNetCore.Components": "Debug"
+                "Default": "Information",
+                "Grpc": "Warning",
+                "System": "Warning",
+                "Microsoft.AspNetCore": "Warning",
+                "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Warning",
+                "Microsoft.AspNetCore.Components.Server": "Warning",
+                "Microsoft.AspNetCore.Components": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.ApplicationError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.ApplicationNeverCompleted": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.BadRequests.ConnectionBadRequest": "Information",
+                "Microsoft.AspNetCore.Server.Kestrel.BadRequests.RequestProcessingError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.Connections.ConnectionAccepted": "Information",
+                "Microsoft.AspNetCore.Server.Kestrel.Http2.Http2ConnectionError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.Http3.Http3ConnectionError": "Warning"
             },
             "Debug": {
                 "LogLevel": {
@@ -47,30 +54,30 @@ data:
                 "IncludeScopes": true,
                 "LogLevel": {
                     "Microsoft.AspNetCore.Mvc.Razor.Internal": "Warning",
-                    "Microsoft.AspNetCore.Mvc.Razor.Razor": "Debug",
-                    "Microsoft.AspNetCore.Mvc.Razor": "Error",
-                    "Default": "Debug"
+                    "Microsoft.AspNetCore.Mvc.Razor.Razor": "Warning",
+                    "Microsoft.AspNetCore.Mvc.Razor": "Warning",
+                    "Default": "Information"
                 }
             },
             "EventSource": {
                 "LogLevel": {
-                    "Microsoft": "Debug"
+                    "Microsoft": "Information"
                 }
             },
             "EventLog": {
                 "LogLevel": {
-                    "Microsoft": "Debug"
+                    "Microsoft": "Information"
                 }
             }
          },
         "Serilog": {
             "Using": [ "Serilog.Sinks.File" ],
             "MinimumLevel": {
-                "Default": "Debug",
+                "Default": "Information",
                 "Override": {
-                    "Microsoft": "Debug",
+                    "Microsoft": "Warning",
                     "System": "Warning",
-                    "Microsoft.Hosting.Lifetime": "Information",
+                    "Microsoft.Hosting.Lifetime": "Warning",
                     "Microsoft.EntityFrameworkCore.Database.Command": "Warning"
                 }
             },
