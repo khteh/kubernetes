@@ -33,10 +33,13 @@ data:
                 "Default": "Information",
                 "Grpc": "Warning",
                 "System": "Warning",
+                "Microsoft.Hosting.Lifetime": "Warning",
                 "Microsoft.AspNetCore": "Warning",
+                "Microsoft.AspNetCore.Hosting": "Warning",
                 "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Warning",
                 "Microsoft.AspNetCore.Components.Server": "Warning",
                 "Microsoft.AspNetCore.Components": "Warning",
+                "Microsoft.AspNetCore.Server": "Warning",
                 "Microsoft.AspNetCore.Server.Kestrel.ApplicationError": "Warning",
                 "Microsoft.AspNetCore.Server.Kestrel.ApplicationNeverCompleted": "Warning",
                 "Microsoft.AspNetCore.Server.Kestrel.BadRequests.ConnectionBadRequest": "Information",
@@ -47,7 +50,7 @@ data:
             },
             "Debug": {
                 "LogLevel": {
-                    "Default": "Debug"
+                    "Default": "Information"
                 }
             },
             "Console": {
@@ -67,6 +70,11 @@ data:
             "EventLog": {
                 "LogLevel": {
                     "Microsoft": "Information"
+                }
+            },
+            "ApplicationInsights": {
+                "LogLevel": {
+                    "Default": "Information"
                 }
             }
          },
