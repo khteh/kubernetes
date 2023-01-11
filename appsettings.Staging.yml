@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appsettings-staging
+  namespace: default
+data:
+  appsettings.Staging.json: |
+    {
+      "Kestrel": {
+          "EndpointDefaults": {
+            "Protocols": "Http1AndHttp2AndHttp3"
+          },
+          "Endpoints": {
+             "Https": {
+                "Url": "https://*",
+                "Protocols": "Http1AndHttp2AndHttp3",
+                "Certificate": {
+                    "Path": "/tmp/localhost.pfx",
+                    "Password": "AspNetCoreWebApi"
+                }
+              }
+          },
+          "Certificates": {
+              "Default": {
+                "Path": "/tmp/localhost.pfx",
+                "Password": "AspNetCoreWebApi"
+              }
+          }
+       },
+       "DetailedErrors": true,
+       "Logging": {
+           "LogLevel": {
+                "Default": "Information",
+                "Grpc": "Warning",
+                "System": "Warning",
+                "Microsoft.Hosting.Lifetime": "Warning",
+                "Microsoft.AspNetCore": "Warning",
+                "Microsoft.AspNetCore.Hosting": "Warning",
+                "Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker": "Warning",
+                "Microsoft.AspNetCore.Components.Server": "Warning",
+                "Microsoft.AspNetCore.Components": "Warning",
+                "Microsoft.AspNetCore.Server": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.ApplicationError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.ApplicationNeverCompleted": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.BadRequests.ConnectionBadRequest": "Information",
+                "Microsoft.AspNetCore.Server.Kestrel.BadRequests.RequestProcessingError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.Connections.ConnectionAccepted": "Information",
+                "Microsoft.AspNetCore.Server.Kestrel.Http2.Http2ConnectionError": "Warning",
+                "Microsoft.AspNetCore.Server.Kestrel.Http3.Http3ConnectionError": "Warning"
+            },
+            "Debug": {
+                "LogLevel": {
+                    "Default": "Information"
+                }
+            },
+            "Console": {
+                "IncludeScopes": true,
+                "LogLevel": {
+                    "Microsoft.AspNetCore.Mvc.Razor.Internal": "Warning",
+                    "Microsoft.AspNetCore.Mvc.Razor.Razor": "Warning",
+                    "Microsoft.AspNetCore.Mvc.Razor": "Warning",
+                    "Default": "Information"
+                }
+            },
+            "EventSource": {
+                "LogLevel": {
+                    "Microsoft": "Information"
+                }
+            },
+            "EventLog": {
+                "LogLevel": {
+                    "Microsoft": "Information"
+                }
+            },
+            "ApplicationInsights": {
+                "LogLevel": {
+                    "Default": "Information"
+                }
+            }
+         },
+        "Serilog": {
+            "Using": [ "Serilog.Sinks.File" ],
+            "MinimumLevel": {
+                "Default": "Information",
+                "Override": {
+                    "Microsoft": "Warning",
+                    "Microsoft.AspNetCore": "Warning",
+                    "System": "Warning",
+                    "Microsoft.Hosting.Lifetime": "Warning",
+                    "Microsoft.EntityFrameworkCore.Database.Command": "Warning"
+                }
+            },
+            "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+            "WriteTo": [
+                {
+                    "Name": "File",
+                    "Args": {
+                        "Args": {
+                            "outputTemplate": "{Timestamp} {Level} {EventId} {Message:j} {Properties}{NewLine}{Exception}{NewLine}"
+                        },
+                        "Enrich": [ "FromLogContext" ],
+                        "path": "/var/log/aspnetcore/log",
+                        "rollingInterval": "Day",
+                        "retainedFileCountLimit": 3,
+                        "formatter": "Serilog.Formatting.Elasticsearch.ElasticsearchJsonFormatter, Serilog.Formatting.Elasticsearch, Version=0.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10"
+                    }
+                }
+            ]
+        }
+      }

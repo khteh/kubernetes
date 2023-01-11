@@ -91,6 +91,10 @@ spec:
               mountPath: /app/appsettings.email.json
               subPath: appsettings.email.json
               readOnly: true
+            - name: appsettings-staging
+              mountPath: /app/appsettings.Staging.json
+              subPath: appsettings.Staging.json
+              readOnly: true
             - name: appsettings-production
               mountPath: /app/appsettings.Production.json
               subPath: appsettings.Production.json
@@ -130,6 +134,9 @@ spec:
             items:
               - key: appsettings.email.json
                 path: appsettings.email.json
+        - name: appsettings-staging
+          configMap:
+            name: appsettings-staging
         - name: appsettings-production
           configMap:
             name: appsettings-production
