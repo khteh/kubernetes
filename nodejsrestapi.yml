@@ -75,6 +75,8 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
+            - name: nodejs-fluentd-config
+              mountPath: /etc/td-agent
             - name: nodejsrestapi-config
               mountPath: config/default.json
               subPath: default.json
@@ -107,6 +109,9 @@ spec:
         - name: nodejsrestapi-config
           configMap:
             name: nodejsrestapi
+        - name: nodejs-fluentd-config
+          configMap:
+            name: nodejs-fluentd-config
 #      - name: fluentd-config
 #        configMap:
 #          name: fluentd-config
