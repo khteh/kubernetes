@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: svc-aspnetcorewebapi
   annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
     alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
     alb.ingress.kubernetes.io/healthcheck-path: /health/live
   labels:
