@@ -1,5 +1,6 @@
 #!/bin/bash
 # https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
+# https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases
 curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.5/docs/install/iam_policy.json
 aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
 eksctl utils associate-iam-oidc-provider --cluster kyberlife --approve
