@@ -26,3 +26,21 @@ spec:
   selector:
     app: pgadmin
     component: postgresql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-pgadmin-nodeport
+  labels:
+    app: pgadmin
+    component: postgresql
+spec:
+  selector:
+    app: pgadmin
+    component: postgresql
+  #    tier: database
+  ports:
+    - port: 5432
+      name: postgresql
+      nodePort: 30001
+  type: NodePort
