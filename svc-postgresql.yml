@@ -10,7 +10,7 @@ spec:
     app: db-postgresql
     component: postgresql
 #    tier: database
-  ports:  
+  ports:
   - name: postgresql
     port: 5432
     targetPort: postgresql
@@ -31,7 +31,7 @@ spec:
     app: db-postgresql
     component: postgresql
 #    tier: database
-  ports:  
+  ports:
   - port: 5432
     name: postgresql
     nodePort: 30000
