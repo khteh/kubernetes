@@ -22,62 +22,62 @@ spec:
 #      affinity:
 #        podAntiAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - redis-cluster
-#            topologyKey: "kubernetes.io/hostname"
+#            - labelSelector:
+#                matchExpressions:
+#                  - key: app
+#                    operator: In
+#                    values:
+#                      - redis-cluster
+#              topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: redis
-        image: redis:latest
-        ports:
-        - containerPort: 6379
-          name: client
-        - containerPort: 16379
-          name: gossip
-        command: ["redis-server", "/conf/redis.conf"]
-        readinessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - "redis-cli -h $(hostname) ping"
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - "redis-cli -h $(hostname) ping"
-          initialDelaySeconds: 20
-          periodSeconds: 3
-        env:
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        volumeMounts:
-        - name: conf
-          mountPath: /conf
-          readOnly: false
-        - name: redis-cluster-persistent-storage
-          mountPath: /data
-          readOnly: false
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+              name: client
+            - containerPort: 16379
+              name: gossip
+          command: ["redis-server", "/conf/redis.conf"]
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "redis-cli -h $(hostname) ping"
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "redis-cli -h $(hostname) ping"
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+            - name: conf
+              mountPath: /conf
+              readOnly: false
+            - name: redis-cluster-persistent-storage
+              mountPath: /data
+              readOnly: false
       volumes:
-      - name: conf
-        configMap:
-          name: redis-cluster-config
-          defaultMode: 0755
+        - name: conf
+          configMap:
+            name: redis-cluster-config
+            defaultMode: 0755
   volumeClaimTemplates:
-  - metadata:
-      name: redis-cluster-persistent-storage
-      labels:
-        name: redis-cluster
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
+    - metadata:
+        name: redis-cluster-persistent-storage
+        labels:
+          name: redis-cluster
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
