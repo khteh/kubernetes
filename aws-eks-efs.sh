@@ -32,13 +32,13 @@ cidr_range=$(aws ec2 describe-vpcs \
     --vpc-ids $vpc_id \
     --query "Vpcs[].CidrBlock" \
     --output text \
-    --region ap-southeast-1)    
+    --region ap-southeast-1)
 security_group_id=$(aws ec2 create-security-group \
     --group-name MyEfsSecurityGroup \
     --description "My EFS security group" \
     --vpc-id $vpc_id \
     --output text)
-#security_group_id="sg-087e76abc41a4d9aa"
+
 aws ec2 authorize-security-group-ingress \
     --group-id $security_group_id \
     --protocol tcp \
@@ -49,18 +49,14 @@ file_system_id=$(aws efs create-file-system \
     --performance-mode generalPurpose \
     --query 'FileSystemId' \
     --output text)
-#file_system_id="fs-003de9e8c4b76af95"
 echo file_system_id: $file_system_id
-#vpc_id="vpc-0dea1914b617cd308"
+
 aws ec2 describe-subnets \
     --filters "Name=vpc-id,Values=$vpc_id" \
     --query 'Subnets[*].{SubnetId: SubnetId,AvailabilityZone: AvailabilityZone,CidrBlock: CidrBlock}' \
     --output table
+#Need to do the following for ALL subnets listed in the table.
 aws efs create-mount-target \
-    --file-system-id fs-054f2d45b97fbb185 \
-    --subnet-id subnet-0be18da39750ed319 \
-    --security-groups sg-04e58e7c53b94b403
-aws efs create-mount-target \
-    --file-system-id fs-054f2d45b97fbb185 \
-    --subnet-id subnet-067f81675df8a2f2a \
-    --security-groups sg-04e58e7c53b94b403
+    --file-system-id $file_system_id \
+    --subnet-id $subnet_id \
+    --security-groups $sg_id
