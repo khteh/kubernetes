@@ -70,8 +70,8 @@ spec:
           mountPath: /usr/local/tomcat/logs
         resources:
           limits:
-            cpu: 250m
-            memory: 1024Mi
+            cpu: 500m
+            memory: 2Gi
       - name: fluentd
         image: khteh/fluentd:latest
         env:
@@ -88,8 +88,8 @@ spec:
           readOnly: true
         resources:
           limits:
-            cpu: 250m
-            memory: 1024Mi
+            cpu: 500m
+            memory: 2Gi
       volumes:
       - name: application-config
         configMap:

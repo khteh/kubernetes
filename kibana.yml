@@ -99,10 +99,10 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 250m
+              cpu: 500m
             limits:
               cpu: 500m
-              memory: 1024Mi
+              memory: 2Gi
       volumes:
         - name: kibana-config
           configMap:

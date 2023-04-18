@@ -107,8 +107,8 @@ spec:
               mountPath: /var/log/aspnetcore
           resources:
             limits:
-              cpu: 250m
-              memory: 1024Mi
+              cpu: 500m
+              memory: 2Gi
         - name: fluentd
           image: khteh/fluentd:latest
           env:
@@ -125,8 +125,8 @@ spec:
               readOnly: true
           resources:
             limits:
-              cpu: 250m
-              memory: 1024Mi
+              cpu: 500m
+              memory: 2Gi
       volumes:
         - name: email-credentials
           secret:
