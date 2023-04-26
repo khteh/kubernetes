@@ -6,11 +6,15 @@ metadata:
 data:
   access_log_template.json: |
     {
-      "index_patterns": ["aspnetcorewebapi.logs-*", "biz4x-backend.logs-*", "biz4x-frontend.logs-*", "identityservice.logs-*"],
+      "index_patterns": ["aspnetcorewebapi.logs-*", "buyerportal.logs-*", "sellerportal.logs-*", "identityservice.logs-*"],
+      "version": 3,
       "settings": {
         "number_of_shards": 5
       },
       "mappings": {
+          "_source": {
+            "enabled": true
+          },          
           "properties": {
               "location_properties": { "type": "geo_point" },
               "location_string": { "type": "geo_point" },
