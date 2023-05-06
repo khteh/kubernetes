@@ -1,0 +1,32 @@
+apiVersion: apm.k8s.elastic.co/v1
+kind: ApmServer
+metadata:
+  name: kyberlife
+spec:
+  version: 8.7.1
+  count: 2
+  secureSettings:
+    - secretName: apm-secret
+  config:
+    output:
+      elasticsearch:
+        hosts: ["kyberlife-es-internal-http:9200"]
+        username: elastic
+        password: "${ES_PASSWORD}"
+        protocol: "https"
+        ssl.certificate_authorities:
+          ["/usr/share/apm-server/config/elasticsearch-ca/tls.crt"]
+  podTemplate:
+    spec:
+      containers:
+        - name: apm-server
+          volumeMounts:
+            - mountPath: /usr/share/apm-server/config/elasticsearch-ca
+              name: elasticsearch-ca
+              readOnly: true
+      volumes:
+        - name: elasticsearch-ca
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: es-ca # This is the secret that holds the Elasticsearch CA cert
