@@ -30,8 +30,6 @@ data:
        "DetailedErrors": true,
         "ElasticApm": {
             "ServiceName": "my-apm",
-            "SecretToken": "",
-            "apiKey": '',
             "ServerUrl": "https://my-apm-http:8200",
             "TransactionSampleRate": 1.0,
             "VerifyServerCert": false
