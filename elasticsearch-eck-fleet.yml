@@ -1,0 +1,41 @@
+apiVersion: agent.k8s.elastic.co/v1alpha1
+kind: Agent
+metadata:
+  name: fleet-server
+  namespace: default
+spec:
+  version: 8.7.1
+  kibanaRef:
+    name: kyberlife
+  elasticsearchRefs:
+  - name: kyberlife
+  mode: fleet
+  fleetServerEnabled: true
+  deployment:
+    replicas: 3
+    podTemplate:
+      spec:
+        serviceAccountName: elastic-agent
+        automountServiceAccountToken: true
+        securityContext:
+          runAsUser: 0
+---
+apiVersion: agent.k8s.elastic.co/v1alpha1
+kind: Agent
+metadata:
+  name: elastic-agent
+  namespace: default
+spec:
+  version: 8.7.1
+  kibanaRef:
+    name: kyberlife
+  fleetServerRef:
+    name: fleet-server
+  mode: fleet
+  daemonSet:
+    podTemplate:
+      spec:
+        serviceAccountName: elastic-agent
+        automountServiceAccountToken: true
+        securityContext:
+          runAsUser: 0
