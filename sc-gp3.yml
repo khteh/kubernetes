@@ -3,6 +3,7 @@ kind: StorageClass
 provisioner: kubernetes.io/aws-ebs
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
