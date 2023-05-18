@@ -4,7 +4,7 @@ metadata:
   name: my-cluster-role-binding
 roleRef:
   kind: ClusterRole
-  name: myclusterrole
+  name: mycluster-clusterrole
   apiGroup: rbac.authorization.k8s.io
 subjects:
   # Authorize specific service accounts:

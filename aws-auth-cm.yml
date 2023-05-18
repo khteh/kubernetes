@@ -5,26 +5,26 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-biz4x-nodegroup-ng-biz4x-1-NodeInstanceRole-F4WFPYKTY9KU
+    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-F4WFPYKTY9KU
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-biz4x-nodegroup-ng-biz4x-1-NodeInstanceRole-HU30BNAGFKYD
+    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-HU30BNAGFKYD
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-biz4x-nodegroup-ng-biz4x-1-NodeInstanceRole-HZ3GJFBFLFJ7
+    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-HZ3GJFBFLFJ7
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-biz4x-cluster-ServiceRole-1OT7XY602ZC3M
+    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-cluster-ServiceRole-1OT7XY602ZC3M
       groups:
-        - 4xlabs
+        - admin
   mapUsers: |
     - userarn: arn:aws:iam::699575179986:user/mickeymouse
       username: mickeymouse
       groups:
-        - MyCompany
+        - admin
