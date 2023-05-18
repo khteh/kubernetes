@@ -5,26 +5,26 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-F4WFPYKTY9KU
+    - rolearn: arn:aws:iam::<AWS Account>:role/eksctl-<clustername>-nodegroup-ng-<role of this nodegroup from IAM Roles>
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-HU30BNAGFKYD
+    - rolearn: arn:aws:iam::<AWS Account>:role/eksctl-<clustername>-nodegroup-ng-<role of this nodegroup from IAM Roles>
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-nodegroup-ng-biz4x-1-NodeInstanceRole-HZ3GJFBFLFJ7
+    - rolearn: arn:aws:iam::<AWS Account>:role/eksctl-<clustername>-nodegroup-ng-<role of this nodegroup from IAM Roles>
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::699575179986:role/eksctl-<clustername>-cluster-ServiceRole-1OT7XY602ZC3M
+    - rolearn: arn:aws:iam::<AWS Account>:role/eksctl-<clustername>-cluster-ServiceRole-<cluster service role from IAM Roles>
       groups:
         - admin
   mapUsers: |
-    - userarn: arn:aws:iam::699575179986:user/mickeymouse
+    - userarn: arn:aws:iam::<AWS Account>:user/mickeymouse
       username: mickeymouse
       groups:
         - admin
