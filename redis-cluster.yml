@@ -20,16 +20,16 @@ spec:
         component: redis
     spec:
       terminationGracePeriodSeconds: 10
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - redis-cluster
-              topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #            - labelSelector:
+      #                matchExpressions:
+      #                  - key: app
+      #                    operator: In
+      #                    values:
+      #                      - redis-cluster
+      #              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: redis
           image: redis:latest
