@@ -23,6 +23,31 @@ spec:
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
       podTemplate:
         spec:
+          initContainers:
+            - name: install-plugins
+              command:
+                - sh
+                - -c
+                - |
+                  bin/elasticsearch-plugin install --batch repository-s3
+            - name: add-aws-keys
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: elastic-eck-snapshots
+                      key: access-key-id
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: elastic-eck-snapshots
+                      key: access-secret-key
+              command:
+                - sh
+                - -c
+                - |
+                  echo $AWS_ACCESS_KEY_ID | bin/elasticsearch-keystore add --stdin --force s3.client.default.access_key
+                  echo $AWS_SECRET_ACCESS_KEY | bin/elasticsearch-keystore add --stdin --force s3.client.default.secret_key
           containers:
             - name: elasticsearch
               readinessProbe:
@@ -64,6 +89,31 @@ spec:
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
       podTemplate:
         spec:
+          initContainers:
+            - name: install-plugins
+              command:
+                - sh
+                - -c
+                - |
+                  bin/elasticsearch-plugin install --batch repository-s3
+            - name: add-aws-keys
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: elastic-eck-snapshots
+                      key: access-key-id
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: elastic-eck-snapshots
+                      key: access-secret-key
+              command:
+                - sh
+                - -c
+                - |
+                  echo $AWS_ACCESS_KEY_ID | bin/elasticsearch-keystore add --stdin --force s3.client.default.access_key
+                  echo $AWS_SECRET_ACCESS_KEY | bin/elasticsearch-keystore add --stdin --force s3.client.default.secret_key
           containers:
             - name: elasticsearch
               readinessProbe:
