@@ -20,4 +20,5 @@ done
 #microk8s kubectl create -f https://download.elastic.co/downloads/eck/2.5.0/crds.yaml
 #microk8s kubectl apply -f https://download.elastic.co/downloads/eck/2.5.0/operator.yaml
 microk8s kubectl delete elasticsearch kyberlife --ignore-not-found=true
+microk8s kubectl delete agent fleet-server elastic-agent --ignore-not-found=true
 microk8s kubectl apply -f elastic-agent-account.yml,elasticsearch-eck-secret.yml,elasticsearch-secret.yml,elasticsearch-eck-fleet.yml,elasticsearch-eck.yml

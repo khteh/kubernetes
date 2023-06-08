@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
   name: kyberlife
 spec:
-  version: 8.7.1
+  version: 8.8.0
   auth:
     fileRealm:
       - secretName: elasticsearch-secret
