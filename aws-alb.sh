@@ -7,5 +7,5 @@ eksctl utils associate-iam-oidc-provider --cluster kyberlife --approve
 eksctl create iamserviceaccount --cluster=kyberlife --namespace=kube-system --name=aws-alb-sa --role-name "AmazonEKSLoadBalancerControllerRole" --attach-policy-arn=arn:aws:iam::400679711653:policy/AWSLoadBalancerControllerIAMPolicy --approve
 microk8s.kubectl apply \
     --validate=false \
-    -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+    -f https://github.com/jetstack/cert-manager/releases/download/v1.12.2/cert-manager.yaml
 microk8s.kubectl apply -f aws-ingress-class.yml,aws-lb-controller.yml
