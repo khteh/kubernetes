@@ -1,8 +1,8 @@
 #!/bin/bash
-microk8s kubectl scale sts postgresql --replicas=0
-microk8s kubectl delete svc svc-{postgresql,postgresql-nodeport}
-microk8s kubectl delete configmap postgresql-initdb --ignore-not-found=true
-microk8s kubectl delete statefulset postgresql --ignore-not-found=true
-microk8s kubectl delete secret postgresql-secret --ignore-not-found=true
-microk8s kubectl delete pvc -l app=db-postgresql
-microk8s kubectl apply -f svc-postgresql.yml,postgresql-secret.yml,postgresql-initdb.yml,postgresql.yml
+kubectl scale sts postgresql --replicas=0
+kubectl delete svc svc-{postgresql,postgresql-nodeport}
+kubectl delete configmap postgresql-initdb --ignore-not-found=true
+kubectl delete statefulset postgresql --ignore-not-found=true
+kubectl delete secret postgresql-secret --ignore-not-found=true
+kubectl delete pvc -l app=db-postgresql
+kubectl apply -f svc-postgresql.yml,postgresql-secret.yml,postgresql-initdb.yml,postgresql.yml

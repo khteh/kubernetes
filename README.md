@@ -7,6 +7,36 @@ Kubernetes cluster which consists of the following components:
 * Redis cluster
 * RabbitMQ cluster
 
+## Prerequisites
+
+- Install microk8s
+- Install awscli
+- Run `aws config` to set up aws configurations and credentials
+
+## Update kubeconfig
+
+- `aws eks update-kubeconfig --region <region> --name <cluster name>`
+- The step above will update `~/.kube/config`
+- However, `microk8s.kubectl` uses the config in `/var/snap/microk8s/current/credentials/client.config`
+- So, copy the EKS config from `~/.kube/config` to `/var/snap/microk8s/current/credentials/client.config`
+
+## Set Aliases
+
+`snap alias microk8s.kubectl kubectl`
+
+## List and use contexts
+
+- `kubectl config get-contexts` will show available clusters, both local and remote:
+
+```
+$ k config get-contexts
+CURRENT   NAME        CLUSTER            AUTHINFO    NAMESPACE
+*         mycluster   mycluster          myuser
+          microk8s    microk8s-cluster   admin
+```
+
+- `kubectl config use-context` to select a cluster to work with.
+
 ![Kubernetes cluster](./k8s.jpg?raw=true "Kubernetes Cluster")
 ```
 $ k get all
