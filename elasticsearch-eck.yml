@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
   name: kyberlife
 spec:
-  version: 8.8.0
+  version: 8.8.2
   auth:
     fileRealm:
       - secretName: elasticsearch-secret
@@ -75,7 +75,7 @@ spec:
                 storage: 10Gi
             storageClassName: gp3
     - name: data
-      count: 2
+      count: 3
       config:
         # most Elasticsearch configuration parameters are possible to set, e.g: node.attr.attr_name: attr_value
         #node.roles: ["master", "data", "ingest", "ml"]
