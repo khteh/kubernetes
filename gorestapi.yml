@@ -72,12 +72,16 @@ spec:
           value: -c /etc/td-agent/td-agent.conf
         volumeMounts:
         - name: log
-          mountPath: /var/log/aspnetcore
+          mountPath: /var/log/gorestapi
         - name: fluentd-config
           mountPath: /etc/td-agent
         - name: access-log-template
           mountPath: /tmp/access_log_template.json
           subPath: access_log_template.json
+          readOnly: true
+        - mountPath: /fluentd/elastic/tls.crt
+          name: elasticsearch-ca
+          subPath: tls.crt
           readOnly: true
         resources:
           limits:
@@ -98,3 +102,8 @@ spec:
           name: access-log-template
       - name: log
         emptyDir: {}
+      - name: elasticsearch-ca
+        secret:
+          defaultMode: 420
+          optional: false
+          secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert

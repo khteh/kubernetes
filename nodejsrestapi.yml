@@ -87,24 +87,28 @@ spec:
             limits:
               cpu: 500m
               memory: 2Gi
-      #      - name: fluentd
-      #        image: khteh/fluentd:latest
-      #        env:
-      #        - name: FLUENTD_ARGS
-      #          value: -c /etc/td-agent/td-agent.conf
-      #        volumeMounts:
-      #        - name: log
-      #          mountPath: /var/log/nodejsrestapi
-      #        - name: fluentd-config
-      #          mountPath: /etc/td-agent
-      #        - name: access-log-template
-      #          mountPath: /tmp/access_log_template.json
-      #          subPath: access_log_template.json
-      #          readOnly: true
-      #        resources:
-      #          limits:
-      #            cpu: 500m
-      #            memory: 2Gi
+        - name: fluentd
+          image: khteh/fluentd:latest
+          env:
+            - name: FLUENTD_ARGS
+              value: -c /etc/td-agent/td-agent.conf
+          volumeMounts:
+            - name: log
+              mountPath: /var/log/nodejsrestapi
+            - name: fluentd-config
+              mountPath: /etc/td-agent
+            - name: access-log-template
+              mountPath: /tmp/access_log_template.json
+              subPath: access_log_template.json
+              readOnly: true
+            - mountPath: /fluentd/elastic/tls.crt
+              name: elasticsearch-ca
+              subPath: tls.crt
+              readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
       volumes:
         - name: nodejsrestapi-config
           configMap:
@@ -112,11 +116,16 @@ spec:
         - name: nodejs-fluentd-config
           configMap:
             name: nodejs-fluentd-config
-#      - name: fluentd-config
-#        configMap:
-#          name: fluentd-config
-#      - name: access-log-template
-#        configMap:
-#          name: access-log-template
-#      - name: log
-#        emptyDir: {}
+      - name: fluentd-config
+        configMap:
+          name: fluentd-config
+      - name: access-log-template
+        configMap:
+          name: access-log-template
+      - name: log
+        emptyDir: {}
+      - name: elasticsearch-ca
+        secret:
+          defaultMode: 420
+          optional: false
+          secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert

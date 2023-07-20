@@ -8,7 +8,7 @@ spec:
   serviceName: svc-pythonrestapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
-  updateStrategy: 
+  updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
@@ -19,98 +19,107 @@ spec:
         app: pythonrestapi # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - pythonrestapi
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - pythonrestapi
+      #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: pythonrestapi
-        image: khteh/pythonrestapi:latest
-        imagePullPolicy: Always
+        - name: pythonrestapi
+          image: khteh/pythonrestapi:latest
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgresql-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgresql-password
+          ports:
+            - containerPort: 8080
+              name: http2
+              protocol: TCP
+            #          hostPort: 8081
+            - containerPort: 4433
+              name: http3
+              protocol: UDP
+          #          hostPort: 8082
+          readinessProbe:
+            httpGet:
+              path: /healthz/ready
+              port: http2
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz/live
+              port: http2
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          volumeMounts:
+            - name: pythonrestapi-config
+              mountPath: /etc/pythonrestapi_config.json
+              subPath: pythonrestapi_config.json
+              readOnly: true
+          #        - name: log
+          #          mountPath: /var/log/aspnetcore
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+      - name: fluentd
+        image: khteh/fluentd:latest
         env:
-        - name: DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-user
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-secret
-              key: postgresql-password
-        ports:
-        - containerPort: 8080
-          name: http2
-          protocol: TCP
-#          hostPort: 8081
-        - containerPort: 4433
-          name: http3
-          protocol: UDP
-#          hostPort: 8082
-        readinessProbe:
-          httpGet:
-            path: /healthz/ready
-            port: http2
-            scheme: HTTPS
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /healthz/live
-            port: http2
-            scheme: HTTPS
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
+        - name: FLUENTD_ARGS
+          value: -c /etc/td-agent/td-agent.conf
         volumeMounts:
-        - name: pythonrestapi-config
-          mountPath: /etc/pythonrestapi_config.json
-          subPath: pythonrestapi_config.json
+        - name: log
+          mountPath: /var/log/pythonrestapi
+        - name: fluentd-config
+          mountPath: /etc/td-agent
+        - name: access-log-template
+          mountPath: /tmp/access_log_template.json
+          subPath: access_log_template.json
           readOnly: true
-#        - name: log
-#          mountPath: /var/log/aspnetcore
+        - mountPath: /fluentd/elastic/tls.crt
+          name: elasticsearch-ca
+          subPath: tls.crt
+          readOnly: true
         resources:
           limits:
             cpu: 500m
             memory: 2Gi
-#      - name: fluentd
-#        image: khteh/fluentd:latest
-#        env:
-#        - name: FLUENTD_ARGS
-#          value: -c /etc/td-agent/td-agent.conf
-#        volumeMounts:
-#        - name: log
-#          mountPath: /var/log/pythonrestapi
-#        - name: fluentd-config
-#          mountPath: /etc/td-agent
-#        - name: access-log-template
-#          mountPath: /tmp/access_log_template.json
-#          subPath: access_log_template.json
-#          readOnly: true
-#        resources:
-#          limits:
-#            cpu: 500m
-#            memory: 2Gi
       volumes:
-      - name: pythonrestapi-config
-        configMap:
-          name: pythonrestapi
-#      - name: fluentd-config
-#        configMap:
-#          name: fluentd-config
-#      - name: access-log-template
-#        configMap:
-#          name: access-log-template
-#      - name: log
-#        emptyDir: {}
+        - name: pythonrestapi-config
+          configMap:
+            name: pythonrestapi
+        - name: fluentd-config
+          configMap:
+            name: fluentd-config
+        - name: access-log-template
+          configMap:
+            name: access-log-template
+        - name: log
+          emptyDir: {}
+        - name: elasticsearch-ca
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert

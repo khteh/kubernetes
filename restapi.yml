@@ -8,7 +8,7 @@ spec:
   serviceName: svc-restapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
-  updateStrategy: 
+  updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
@@ -19,92 +19,101 @@ spec:
         app: restapi # Has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - restapi
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - restapi
+      #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: restapi
-        image: khteh/restapi:latest
-        imagePullPolicy: Always
-        env:
-        - name: SPRING_CONFIG_NAME
-          value: "application.yml"
-        - name: SPRING_CONFIG_LOCATION
-          value: "/etc/application/config/application.yml"
-        - name: SPRING_PROFILES_ACTIVE
-          value: "prod"
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: mysql-root-password
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-#          hostPort: 8081
-        - containerPort: 8443
-          name: https
-          protocol: TCP
-#          hostPort: 8082
-        volumeMounts:
-        - name: application-config
-          mountPath: /etc/application/config
-          readOnly: true
-        - name: tomcat-server-config
-          mountPath: /usr/local/tomcat/conf/server.xml
-          subPath: server.xml
-          readOnly: true
-        - name: tomcat-web-config
-          mountPath: /usr/local/tomcat/conf/web.xml
-          subPath: web.xml 
-          readOnly: true
-        - name: tomcat-log
-          mountPath: /usr/local/tomcat/logs
-        resources:
-          limits:
-            cpu: 500m
-            memory: 2Gi
-      - name: fluentd
-        image: khteh/fluentd:latest
-        env:
-        - name: FLUENTD_ARGS
-          value: -c /etc/td-agent/td-agent.conf
-        volumeMounts:
-        - name: tomcat-log
-          mountPath: /usr/local/tomcat/logs
-        - name: fluentd-tomcat-config
-          mountPath: /etc/td-agent
-        - name: access-log-template
-          mountPath: /tmp/access_log_template.json
-          subPath: access_log_template.json
-          readOnly: true
-        resources:
-          limits:
-            cpu: 500m
-            memory: 2Gi
+        - name: restapi
+          image: khteh/restapi:latest
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_CONFIG_NAME
+              value: "application.yml"
+            - name: SPRING_CONFIG_LOCATION
+              value: "/etc/application/config/application.yml"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-root-password
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            #          hostPort: 8081
+            - containerPort: 8443
+              name: https
+              protocol: TCP
+          #          hostPort: 8082
+          volumeMounts:
+            - name: application-config
+              mountPath: /etc/application/config
+              readOnly: true
+            - name: tomcat-server-config
+              mountPath: /usr/local/tomcat/conf/server.xml
+              subPath: server.xml
+              readOnly: true
+            - name: tomcat-web-config
+              mountPath: /usr/local/tomcat/conf/web.xml
+              subPath: web.xml
+              readOnly: true
+            - name: tomcat-log
+              mountPath: /usr/local/tomcat/logs
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+        - name: fluentd
+          image: khteh/fluentd:latest
+          env:
+            - name: FLUENTD_ARGS
+              value: -c /etc/td-agent/td-agent.conf
+          volumeMounts:
+            - name: tomcat-log
+              mountPath: /usr/local/tomcat/logs
+            - name: fluentd-tomcat-config
+              mountPath: /etc/td-agent
+            - name: access-log-template
+              mountPath: /tmp/access_log_template.json
+              subPath: access_log_template.json
+              readOnly: true
+            - mountPath: /fluentd/elastic/tls.crt
+              name: elasticsearch-ca
+              subPath: tls.crt
+              readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
       volumes:
-      - name: application-config
-        configMap:
-          name: webconfig
-      - name: tomcat-server-config
-        configMap:
-          name: tomcat-server-config
-      - name: tomcat-web-config
-        configMap:
-          name: tomcat-web-config
-      - name: fluentd-tomcat-config
-        configMap:
-          name: fluentd-tomcat-config
-      - name: access-log-template
-        configMap:
-          name: access-log-template
-      - name: tomcat-log
-        emptyDir: {}
+        - name: application-config
+          configMap:
+            name: webconfig
+        - name: tomcat-server-config
+          configMap:
+            name: tomcat-server-config
+        - name: tomcat-web-config
+          configMap:
+            name: tomcat-web-config
+        - name: fluentd-tomcat-config
+          configMap:
+            name: fluentd-tomcat-config
+        - name: access-log-template
+          configMap:
+            name: access-log-template
+        - name: tomcat-log
+          emptyDir: {}
+        - name: elasticsearch-ca
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
