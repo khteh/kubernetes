@@ -4,7 +4,7 @@ metadata:
   name: fleet-server
   namespace: default
 spec:
-  version: 8.8.0
+  version: 8.9.0
   kibanaRef:
     name: kyberlife
   elasticsearchRefs:
@@ -26,7 +26,7 @@ metadata:
   name: elastic-agent
   namespace: default
 spec:
-  version: 8.8.0
+  version: 8.9.0
   kibanaRef:
     name: kyberlife
   fleetServerRef:

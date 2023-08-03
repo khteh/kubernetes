@@ -12,11 +12,11 @@ kubectl scale sts kyberlife-es-master --replicas=0
 kubectl delete sts kyberlife-es-master --ignore-not-found=true
 kubectl delete secret kyberlife-es-elastic-user --ignore-not-found=true
 kubectl delete secret elasticsearch-secret --ignore-not-found=true
-kubectl delete pvc -l elasticsearch.k8s.elastic.co/cluster-name=kyberlife
-pvcs=(elasticsearch-data-kyberlife-es-data-0 elasticsearch-data-kyberlife-es-data-1 elasticsearch-data-kyberlife-es-master-0 elasticsearch-data-kyberlife-es-master-1 elasticsearch-data-kyberlife-es-master-2)
-for pvc in ${pvcs[@]}; do
-    kubectl patch pvc $pvc -p '{"metadata":{"finalizers":null}}'
-done
+#kubectl delete pvc -l elasticsearch.k8s.elastic.co/cluster-name=kyberlife
+#pvcs=(elasticsearch-data-kyberlife-es-data-0 elasticsearch-data-kyberlife-es-data-1 elasticsearch-data-kyberlife-es-master-0 elasticsearch-data-kyberlife-es-master-1 elasticsearch-data-kyberlife-es-master-2)
+#for pvc in ${pvcs[@]}; do
+#    kubectl patch pvc $pvc -p '{"metadata":{"finalizers":null}}'
+#done
 #kubectl create -f https://download.elastic.co/downloads/eck/2.5.0/crds.yaml
 #kubectl apply -f https://download.elastic.co/downloads/eck/2.5.0/operator.yaml
 kubectl delete elasticsearch kyberlife --ignore-not-found=true
