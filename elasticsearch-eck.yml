@@ -21,6 +21,7 @@ spec:
         #node.name: ${HOSTNAME} Forbidden: Configuration setting is reserved for internal use
         bootstrap.memory_lock: true
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
+        cluster.max_shards_per_node: 10000
       podTemplate:
         spec:
           initContainers:
@@ -87,6 +88,7 @@ spec:
         #node.name: ${HOSTNAME} Forbidden: Configuration setting is reserved for internal use
         bootstrap.memory_lock: true
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
+        cluster.max_shards_per_node: 10000
       podTemplate:
         spec:
           initContainers:
