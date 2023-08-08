@@ -49,6 +49,16 @@ spec:
                 - |
                   echo $AWS_ACCESS_KEY_ID | bin/elasticsearch-keystore add --stdin --force s3.client.default.access_key
                   echo $AWS_SECRET_ACCESS_KEY | bin/elasticsearch-keystore add --stdin --force s3.client.default.secret_key
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: elasticsearch.k8s.elastic.co/statefulset-name
+                      operator: In
+                      values:
+                        - kyberlife-es-master
+                topologyKey: kubernetes.io/hostname
           containers:
             - name: elasticsearch
               readinessProbe:
