@@ -18,8 +18,6 @@ spec:
     xpack.fleet.agents.fleet_server.hosts:
       ["https://fleet-server-agent-http:8220"]
     xpack.encryptedSavedObjects.encryptionKey: "something_at_least_32_characters"
-    elasticsearch.username: "kyberlife"
-    elasticsearch.password: "P@$$w0rd"
     xpack.fleet.packages:
       - name: system
         version: latest
