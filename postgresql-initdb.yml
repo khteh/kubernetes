@@ -334,9 +334,7 @@ data:
     --
 
     COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
-    20230306103423_Initial	7.0.3
-    20230306103432_Initial	7.0.3
-    20230608071429_UseNotMappedDataAnnotation	7.0.5
+    20230819082552_Initial	7.0.10
     \.
 
 
