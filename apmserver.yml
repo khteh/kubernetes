@@ -6,7 +6,7 @@ metadata:
     app: apmserver
     component: eck
 spec:
-  version: 8.9.0
+  version: 8.9.1
   count: 3
   secureSettings:
     - secretName: kyberlife-es-elastic-user

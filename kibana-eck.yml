@@ -4,7 +4,7 @@ metadata:
   name: kyberlife
   namespace: default
 spec:
-  version: 8.9.0
+  version: 8.9.1
   count: 2
   elasticsearchRef:
     name: kyberlife
