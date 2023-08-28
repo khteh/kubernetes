@@ -27,9 +27,25 @@ spec:
             - mountPath: /usr/share/apm-server/config/elasticsearch-ca
               name: elasticsearch-ca
               readOnly: true
+            - name: elastic-stack-tls-certs
+              mountPath: /usr/share/apm-server/config/localhost.crt
+              subPath: localhost.crt
+              readOnly: true
+            - name: elastic-stack-tls-certs
+              mountPath: /usr/share/apm-server/config/localhost.key
+              subPath: localhost.key
+              readOnly: true
       volumes:
         - name: elasticsearch-ca
           secret:
             defaultMode: 420
             optional: false
             secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
+        - name: elastic-stack-tls-certs
+          secret:
+            secretName: elastic-stack-tls-certs
+            items:
+              - key: localhost.crt
+                path: localhost.crt
+              - key: localhost.key
+                path: localhost.key
