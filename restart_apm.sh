@@ -8,4 +8,5 @@ kubectl get secret kyberlife-es-http-ca-internal -o go-template='{{index .data "
 kubectl get secret kyberlife-apm-http-ca-internal -o go-template='{{index .data "tls.crt" | base64decode }}' > elasticsearch-apm-ca.crt
 kubectl create secret generic elasticsearch-eck-ca --from-file=tls.crt=elasticsearch-ca.crt
 kubectl create secret generic elasticsearch-eck-apm-ca --from-file=tls.crt=elasticsearch-apm-ca.crt
-kubectl apply -f elastic-stack-tls-certs.yml,apmserver.yml
+kubectl create secret generic elastic-stack-tls-certs --from-file=localhost.crt=localhost.crt --from-file=localhost.key=localhost.key
+kubectl apply -f apmserver.yml
