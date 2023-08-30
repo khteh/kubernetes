@@ -23,29 +23,44 @@ spec:
     spec:
       containers:
         - name: apm-server
+          env:
+            - name: apm-server.ssl.enabled
+              value: "true"
+            - name: apm-server.ssl.certificate
+              value: "/usr/share/apm-server/config/tls.crt"
+            - name: apm-server.ssl.key
+              value: "/usr/share/apm-server/config/tls.key"
           volumeMounts:
-            - mountPath: /usr/share/apm-server/config/elasticsearch-ca
-              name: elasticsearch-ca
+            - name: elasticsearch-ca
+              mountPath: /usr/share/apm-server/config/elasticsearch-ca
               readOnly: true
-            - name: elastic-stack-tls-certs
-              mountPath: /usr/share/apm-server/config/localhost.crt
-              subPath: localhost.crt
+            - name: tls-crt
+              mountPath: /usr/share/apm-server/config/tls.crt
+              subPath: tls.crt
               readOnly: true
-            - name: elastic-stack-tls-certs
-              mountPath: /usr/share/apm-server/config/localhost.key
-              subPath: localhost.key
+            - name: tls-key
+              mountPath: /usr/share/apm-server/config/tls.key
+              subPath: tls.key
               readOnly: true
       volumes:
         - name: elasticsearch-ca
           secret:
+            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
             defaultMode: 420
             optional: false
-            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
-        - name: elastic-stack-tls-certs
+        - name: tls-crt
           secret:
-            secretName: elastic-stack-tls-certs
+            defaultMode: 420
+            optional: false
+            secretName: apm-internal-cert # This is the secret that holds the Elasticsearch CA cert
             items:
-              - key: localhost.crt
-                path: localhost.crt
-              - key: localhost.key
-                path: localhost.key
+              - key: tls.crt
+                path: tls.crt
+        - name: tls-key
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: apm-internal-cert # This is the secret that holds the Elasticsearch CA cert
+            items:
+              - key: tls.key
+                path: tls.key
