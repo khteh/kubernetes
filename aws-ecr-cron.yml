@@ -33,7 +33,7 @@ spec:
                   aws configure set default.region ${REGION}
                   aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
                   aws configure set aws_secret_access_key ${AWS_SECRET}
-                  TOKEN=`aws ecr get-login --region ${REGION} --registry-ids ${ACCOUNT} | cut -d' ' -f6`
+                  TOKEN=`aws ecr get-login --region ${REGION} --registry-ids ${AWS_ACCOUNT} | cut -d' ' -f6`
                   echo "ENV variables setup done."
                   kubectl delete secret --ignore-not-found $SECRET_NAME
                   kubectl create secret docker-registry $SECRET_NAME \
