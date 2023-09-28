@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+  name: postgresql-backup
+  namespace: default
+spec:
+  timeZone: "Asia/Singapore"
+  schedule: 0 * * * *
+  startingDeadlineSeconds: 60
+  successfulJobsHistoryLimit: 3
+  suspend: false
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          dnsPolicy: Default
+          hostNetwork: true
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+          imagePullSecrets:
+            - name: aws-ecr-registry
+          containers:
+            - name: postgresql-backup
+              image: khteh/postgresql_backup:latest
+              imagePullPolicy: Always
+              resources: {}
+              securityContext:
+                capabilities: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              env:
+                - name: CONNECTION_STRING
+                  value: <cluster>.ap-southeast-1.rds.amazonaws.com
+                - name: S3_BUCKET
+                  value: <bucketname>
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgresql-secret
+                      key: superUserPassword
+                - name: POSTGRESQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgresql-secret
+                      key: postgresql-user
+                - name: POSTGRES_DB
+                  value: <DB Name>
+                - name: AWS_ACCOUNT
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-secret
+                      key: account
+                - name: AWS_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-secret
+                      key: access-key
+                - name: AWS_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-secret
+                      key: secret-key
