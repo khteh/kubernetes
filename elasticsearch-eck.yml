@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
   name: kyberlife
 spec:
-  version: 8.9.1
+  version: 8.10.3
   auth:
     fileRealm:
       - secretName: elasticsearch-secret
@@ -52,13 +52,13 @@ spec:
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: elasticsearch.k8s.elastic.co/statefulset-name
-                      operator: In
-                      values:
-                        - kyberlife-es-master
-                topologyKey: kubernetes.io/hostname
+                - labelSelector:
+                    matchExpressions:
+                      - key: elasticsearch.k8s.elastic.co/statefulset-name
+                        operator: In
+                        values:
+                          - kyberlife-es-master
+                  topologyKey: kubernetes.io/hostname
           containers:
             - name: elasticsearch
               readinessProbe:
