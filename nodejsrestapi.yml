@@ -50,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: postgresql-secret
                   key: postgresql-password
+            - name: ELASTIC_APM_SECRET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: apm-public-cert-token
+                  key: token
           ports:
             - containerPort: 443
               name: https
@@ -75,6 +80,10 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
+            - name: apm-public-cert-token
+              mountPath: /etc/ca-certificates/tls.crt
+              subPath: tls.crt
+              readOnly: true
             - name: nodejs-fluentd-config
               mountPath: /etc/td-agent
             - name: nodejsrestapi-config
@@ -124,8 +133,16 @@ spec:
           name: access-log-template
       - name: log
         emptyDir: {}
-      - name: elasticsearch-ca
-        secret:
-          defaultMode: 420
-          optional: false
-          secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
+        - name: elasticsearch-ca
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
+        - name: apm-public-cert-token
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: apm-public-cert-token # This is the secret that holds the Elasticsearch CA cert
+            items:
+              - key: tls.crt
+                path: tls.crt
