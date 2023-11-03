@@ -926,7 +926,7 @@ spec:
             - --ingress-class=alb
             - --aws-vpc-id=<vpc_id>
             - --aws-region=ap-southeast-1
-          image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.1
+          image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.2
           livenessProbe:
             failureThreshold: 2
             httpGet:
