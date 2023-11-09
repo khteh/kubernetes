@@ -5,7 +5,6 @@
 #kubectl delete svc elastic-webhook-server -n elastic-system --ignore-not-found=true
 #kubectl delete ns elastic-system
 #kubectl delete crd -l app.kubernetes.io/name=eck-operator-crds
-
 kubectl scale sts kyberlife-es-data --replicas=0
 kubectl delete sts kyberlife-es-data --ignore-not-found=true
 kubectl scale sts kyberlife-es-master --replicas=0
@@ -17,8 +16,8 @@ pvcs=(elasticsearch-data-kyberlife-es-data-0 elasticsearch-data-kyberlife-es-dat
 for pvc in ${pvcs[@]}; do
     kubectl patch pvc $pvc -p '{"metadata":{"finalizers":null}}'
 done
-kubectl create -f https://download.elastic.co/downloads/eck/2.9.0/crds.yaml
-kubectl apply -f https://download.elastic.co/downloads/eck/2.9.0/operator.yaml
+kubectl create -f https://download.elastic.co/downloads/eck/2.10.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/2.10.0/operator.yaml
 kubectl delete elasticsearch kyberlife --ignore-not-found=true
 kubectl delete agent fleet-server elastic-agent --ignore-not-found=true
 kubectl apply -f elastic-agent-account.yml,elasticsearch-eck-secret.yml,elasticsearch-secret.yml,elasticsearch-eck-fleet.yml,elasticsearch-eck.yml
