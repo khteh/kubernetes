@@ -13,9 +13,8 @@ data:
     cluster-config-file /data/nodes.conf
     cluster-migration-barrier 1
     appendonly yes
+    appendfsync everysec
     protected-mode no
     loglevel notice
     logfile /var/log/redis.log
-    save 900 1
-    save 300 10
-    save 60 10000
+    save 30 10
