@@ -1,9 +1,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: kyberlife
+  name: MyPodDisruptionBudget
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: kyberlife
+      app.kubernetes.io/name: <name>

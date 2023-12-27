@@ -6,9 +6,9 @@ metadata:
 spec:
   version: 8.11.3
   kibanaRef:
-    name: kyberlife
+    name: MyFleetServer
   elasticsearchRefs:
-    - name: kyberlife
+    - name: <name>
   mode: fleet
   fleetServerEnabled: true
   policyID: eck-fleet-server
@@ -29,7 +29,7 @@ metadata:
 spec:
   version: 8.11.3
   kibanaRef:
-    name: kyberlife
+    name: <name>
   fleetServerRef:
     name: fleet-server
   mode: fleet

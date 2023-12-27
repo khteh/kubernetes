@@ -17,7 +17,7 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
     alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=1800
-    alb.ingress.kubernetes.io/auth-session-cookie: kyberlife
+    alb.ingress.kubernetes.io/auth-session-cookie: <name>
     alb.ingress.kubernetes.io/auth-session-timeout: "3600"
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS

@@ -1,7 +1,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: kyberlife
+  name: MyElasticSearch
 spec:
   version: 8.11.3
   auth:
@@ -57,7 +57,7 @@ spec:
                       - key: elasticsearch.k8s.elastic.co/statefulset-name
                         operator: In
                         values:
-                          - kyberlife-es-master
+                          - <name>-es-master
                   topologyKey: kubernetes.io/hostname
           containers:
             - name: elasticsearch

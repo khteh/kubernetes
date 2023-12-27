@@ -1,20 +1,20 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: kyberlife
+  name: MyKibana
   namespace: default
 spec:
   version: 8.11.3
   count: 2
   elasticsearchRef:
-    name: kyberlife
+    name: <name>
   http:
     tls:
       selfSignedCertificate:
         disabled: true
   config:
     xpack.fleet.agents.elasticsearch.hosts:
-      ["https://kyberlife-es-internal-http:9200"]
+      ["https://<name>-es-internal-http:9200"]
     xpack.fleet.agents.fleet_server.hosts:
       ["https://fleet-server-agent-http:8220"]
     xpack.encryptedSavedObjects.encryptionKey: "something_at_least_32_characters"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 aws iam create-policy --policy-name AmazonEKS_EFS_CSI_Driver_Policy --policy-document file://aws-efs-iam-policy.json
-oidc=$(aws eks describe-cluster --name kyberlife --query "cluster.identity.oidc.issuer" --output text)
+oidc=$(aws eks describe-cluster --name <name> --query "cluster.identity.oidc.issuer" --output text)
 oidc=${oidc##*/}
 echo $oidc
 aws iam create-role \
@@ -25,7 +25,7 @@ microk8s.kubectl delete pods \
 
 microk8s.kubectl apply -f private-ecr-driver.yml
 vpc_id=$(aws eks describe-cluster \
-    --name kyberlife \
+    --name <name> \
     --query "cluster.resourcesVpcConfig.vpcId" \
     --output text)
 cidr_range=$(aws ec2 describe-vpcs \

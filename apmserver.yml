@@ -1,7 +1,7 @@
 apiVersion: apm.k8s.elastic.co/v1
 kind: ApmServer
 metadata:
-  name: kyberlife
+  name: MyAPMServer
   labels:
     app: apmserver
     component: eck
@@ -9,11 +9,11 @@ spec:
   version: 8.11.3
   count: 3
   secureSettings:
-    - secretName: kyberlife-es-elastic-user
+    - secretName: <name>-es-elastic-user
   config:
     output:
       elasticsearch:
-        hosts: ["https://kyberlife-es-internal-http.default:9200"]
+        hosts: ["https://<name>-es-internal-http.default:9200"]
         username: elastic
         password: "${elastic}"
         protocol: "https"

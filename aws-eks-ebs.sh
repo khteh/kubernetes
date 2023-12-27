@@ -1,7 +1,7 @@
 #!/bin/bash
 # https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
 aws iam create-policy --policy-name AmazonEKS_EBS_CSI_Driver_Policy --policy-document file://aws-ebs-iam-policy.json
-oidc=$(aws eks describe-cluster --name kyberlife --query "cluster.identity.oidc.issuer" --output text)
+oidc=$(aws eks describe-cluster --name <name> --query "cluster.identity.oidc.issuer" --output text)
 oidc=${oidc##*/}
 echo $oidc
 aws iam create-role \
