@@ -1,12 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2019-01-28T07:54:33Z"
-  name: fluentd-identityservice-config
+  name: pythonrestapi-fluentd-config
   namespace: default
-  resourceVersion: "4104691"
-  selfLink: /api/v1/namespaces/default/configmaps/fluentd-identityservice-config
-  uid: f32e2db1-22d1-11e9-a14d-482ae31e6a94
 data:
   td-agent.conf: |
     ####
@@ -42,10 +38,10 @@ data:
     <source>
       @type tail
       format json
-      path /var/log/aspnetcore/log*
-      pos_file /var/log/td-agent/pos/aspnetcore_logs.pos
+      path /var/log/pythonrestapi/log*
+      pos_file /var/log/td-agent/pos/pythonrestapi_logs.pos
       read_from_head true
-      tag aspnetcore
+      tag pythonrestapi
     </source>
     <filter fluent.*>
       @type grep
@@ -54,18 +50,18 @@ data:
         pattern /fluent\.trace/
      </exclude>
     </filter>
-    <filter aspnetcore>
+    <filter pythonrestapi>
+      @type typecast
+      types ContentLength:integer,ResponseTime:float
+    </filter>    
+    <filter pythonrestapi>
       @type grep
       <exclude>
-        key $.fields.Path
-        pattern /health/
-     </exclude>
-      <exclude>
-        key $.fields.RequestPath
-        pattern /health/
+        key Path
+        pattern /healthchecks/
      </exclude>
     </filter>
-    <filter aspnetcore>
+    <filter pythonrestapi>
       @type parser
       key_name message
       reserve_data true
@@ -75,7 +71,7 @@ data:
         json_parser json
       </parse>
     </filter>
-    <filter aspnetcore>
+    <filter pythonrestapi>
       @type geoip
       # Specify one or more geoip lookup field which has ip address (default: host)
       geoip_lookup_keys IP
@@ -88,15 +84,19 @@ data:
       backend_library geoip2_c
 
       # Set adding field with placeholder (more than one settings are required.)
-      <record>
-        city          ${city.names.en["IP"]}
-        country_name  ${country.names.en["IP"]}
-        country_code  ${country.iso_code["IP"]}
-        postal_code   ${postal.code["IP"]}
+     <record>
+        city            ${city.names.en["IP"]}
+        latitude        ${location.latitude["IP"]}
+        longitude       ${location.longitude["IP"]}
+        country         ${country.iso_code["IP"]}
+        country_name    ${country.names.en["IP"]}
+        postal_code     ${postal.code["IP"]}
+        region_code     ${subdivisions.0.iso_code["IP"]}
+        region_name     ${subdivisions.0.names.en["IP"]}
         location_properties '{ "lat" : ${location.latitude["IP"]}, "lon" : ${location.longitude["IP"]} }'
         location_string     ${location.latitude["IP"]},${location.longitude["IP"]}
         location_array      '[${location.longitude["IP"]},${location.latitude["IP"]}]'
-      </record>
+      </record>      
       # To avoid get stacktrace error with `[null, null]` array for elasticsearch.
       skip_adding_null_record  true
       # Set @log_level (default: warn)
@@ -121,7 +121,7 @@ data:
       @type stdout
       @id output_stdout
     </match>
-    <match aspnetcore>
+    <match pythonrestapi>
       @type copy
       <store> 
         @type elasticsearch
@@ -133,13 +133,19 @@ data:
         reload_on_failure true
         reload_connections false
         request_timeout 120s
-        host svc-elasticsearch
+        host pythonrestapi-es-internal-http
         port 9200
+        scheme https
+        ssl_verify false
+        ssl_version TLSv1_2
+        ca_file "/fluentd/elastic/tls.crt"
+        user elastic
+        password P@$$w0rd
         flush_interval 1s
         # index_name fluentd.${tag}.%Y%m%d 
         type_name _doc
         logstash_format true # Setting this option to true will ignore the index_name setting. The default index name prefix is logstash-.
-        logstash_prefix identityservice.logs
+        logstash_prefix pythonrestapi.logs
         template_name access_log_template
         template_file /tmp/access_log_template.json
         template_overwrite true
