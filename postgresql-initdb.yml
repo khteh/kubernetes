@@ -977,18 +977,6 @@ data:
 
 
     --
-    -- Name: teacher_students_student; Type: TABLE; Schema: public; Owner: guest
-    --
-
-    CREATE TABLE public.teacher_students_student (
-        "teacherId" integer NOT NULL,
-        "studentId" integer NOT NULL
-    );
-
-
-    ALTER TABLE public.teacher_students_student OWNER TO guest;
-
-    --
     -- Name: student id; Type: DEFAULT; Schema: public; Owner: guest
     --
 
@@ -1027,14 +1015,6 @@ data:
 
 
     --
-    -- Data for Name: teacher_students_student; Type: TABLE DATA; Schema: public; Owner: guest
-    --
-
-    COPY public.teacher_students_student ("teacherId", "studentId") FROM stdin;
-    \.
-
-
-    --
     -- Name: student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: guest
     --
 
@@ -1046,14 +1026,6 @@ data:
     --
 
     SELECT pg_catalog.setval('public.teacher_id_seq', 1, false);
-
-
-    --
-    -- Name: teacher_students_student PK_0d36515ebf3797c63a3d65fd11e; Type: CONSTRAINT; Schema: public; Owner: guest
-    --
-
-    ALTER TABLE ONLY public.teacher_students_student
-        ADD CONSTRAINT "PK_0d36515ebf3797c63a3d65fd11e" PRIMARY KEY ("teacherId", "studentId");
 
 
     --
@@ -1097,20 +1069,6 @@ data:
 
 
     --
-    -- Name: IDX_099234f0e507f8d97fbcacd14b; Type: INDEX; Schema: public; Owner: guest
-    --
-
-    CREATE INDEX "IDX_099234f0e507f8d97fbcacd14b" ON public.teacher_students_student USING btree ("teacherId");
-
-
-    --
-    -- Name: IDX_46cf5ac1712979a26645705a0f; Type: INDEX; Schema: public; Owner: guest
-    --
-
-    CREATE INDEX "IDX_46cf5ac1712979a26645705a0f" ON public.teacher_students_student USING btree ("studentId");
-
-
-    --
     -- Name: IDX_b0ef0f5f4afbbdcd6984f41465; Type: INDEX; Schema: public; Owner: guest
     --
 
@@ -1122,22 +1080,6 @@ data:
     --
 
     CREATE INDEX "IDX_bbce22585af3071bbe4f355a12" ON public.student_teachers_teacher USING btree ("teacherId");
-
-
-    --
-    -- Name: teacher_students_student FK_099234f0e507f8d97fbcacd14b3; Type: FK CONSTRAINT; Schema: public; Owner: guest
-    --
-
-    ALTER TABLE ONLY public.teacher_students_student
-        ADD CONSTRAINT "FK_099234f0e507f8d97fbcacd14b3" FOREIGN KEY ("teacherId") REFERENCES public.teacher(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
-    --
-    -- Name: teacher_students_student FK_46cf5ac1712979a26645705a0f1; Type: FK CONSTRAINT; Schema: public; Owner: guest
-    --
-
-    ALTER TABLE ONLY public.teacher_students_student
-        ADD CONSTRAINT "FK_46cf5ac1712979a26645705a0f1" FOREIGN KEY ("studentId") REFERENCES public.student(id);
 
 
     --
@@ -1154,3 +1096,8 @@ data:
 
     ALTER TABLE ONLY public.student_teachers_teacher
         ADD CONSTRAINT "FK_bbce22585af3071bbe4f355a12b" FOREIGN KEY ("teacherId") REFERENCES public.teacher(id);
+
+
+    --
+    -- PostgreSQL database dump complete
+    --
