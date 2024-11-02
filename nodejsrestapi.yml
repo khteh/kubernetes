@@ -55,6 +55,11 @@ spec:
                 secretKeyRef:
                   name: apm-public-cert-token
                   key: token
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: google-gemini
+                  key: GEMINI_API_KEY
           ports:
             - containerPort: 443
               name: https
@@ -104,7 +109,7 @@ spec:
           volumeMounts:
             - name: log
               mountPath: /var/log/nodejsrestapi
-            - name: fluentd-config
+            - name: nodejsrestapi-config
               mountPath: /etc/td-agent
             - name: access-log-template
               mountPath: /tmp/access_log_template.json
@@ -125,14 +130,11 @@ spec:
         - name: nodejs-fluentd-config
           configMap:
             name: nodejs-fluentd-config
-      - name: fluentd-config
-        configMap:
-          name: fluentd-config
-      - name: access-log-template
-        configMap:
-          name: access-log-template
-      - name: log
-        emptyDir: {}
+        - name: access-log-template
+          configMap:
+            name: access-log-template
+        - name: log
+          emptyDir: {}
         - name: elasticsearch-ca
           secret:
             defaultMode: 420
