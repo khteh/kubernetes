@@ -9,7 +9,7 @@ spec:
   serviceName: svc-gorestapi
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
-  updateStrategy: 
+  updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
@@ -22,88 +22,85 @@ spec:
         component: gorestapi
     spec:
       terminationGracePeriodSeconds: 10
-#      affinity:
-#        podAntiAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#              - key: app
-#                operator: In
-#                values:
-#                - gorestapi
-#            topologyKey: "kubernetes.io/hostname"
+      #      affinity:
+      #        podAntiAffinity:
+      #          requiredDuringSchedulingIgnoredDuringExecution:
+      #          - labelSelector:
+      #              matchExpressions:
+      #              - key: app
+      #                operator: In
+      #                values:
+      #                - gorestapi
+      #            topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: gorestapi
-        image: khteh/gorestapi:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-          name: https
-          protocol: TCP
-#          hostPort: 8082
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: https
-            scheme: HTTPS
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /live
-            port: https
-            scheme: HTTPS
-          initialDelaySeconds: 20
-          periodSeconds: 3
-          timeoutSeconds: 10
-          failureThreshold: 3
-          successThreshold: 1
-        resources:
-          limits:
-            cpu: 500m
-            memory: 2Gi
-      - name: fluentd
-        image: khteh/fluentd:latest
-        env:
-        - name: FLUENTD_ARGS
-          value: -c /etc/td-agent/td-agent.conf
-        volumeMounts:
-        - name: log
-          mountPath: /var/log/gorestapi
-        - name: fluentd-config
-          mountPath: /etc/td-agent
-        - name: access-log-template
-          mountPath: /tmp/access_log_template.json
-          subPath: access_log_template.json
-          readOnly: true
-        - mountPath: /fluentd/elastic/tls.crt
-          name: elasticsearch-ca
-          subPath: tls.crt
-          readOnly: true
-        resources:
-          limits:
-            cpu: 500m
-            memory: 2Gi
+        - name: gorestapi
+          image: khteh/gorestapi:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: https
+              protocol: TCP
+          #          hostPort: 8082
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+        - name: fluentd
+          image: khteh/fluentd:latest
+          volumeMounts:
+            - name: log
+              mountPath: /var/log/gorestapi
+            - name: fluentd-config
+              mountPath: /etc/td-agent
+            - name: access-log-template
+              mountPath: /tmp/access_log_template.json
+              subPath: access_log_template.json
+              readOnly: true
+            - mountPath: /fluentd/elastic/tls.crt
+              name: elasticsearch-ca
+              subPath: tls.crt
+              readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
       volumes:
-      - name: mysql-connection
-        secret:
-          secretName: gorestapi
-          items:
-          - key: gorestapi.mysql.json
-            path: appsettings.mysql.json
-      - name: fluentd-config
-        configMap:
-          name: fluentd-config
-      - name: access-log-template
-        configMap:
-          name: access-log-template
-      - name: log
-        emptyDir: {}
-      - name: elasticsearch-ca
-        secret:
-          defaultMode: 420
-          optional: false
-          secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
+        - name: mysql-connection
+          secret:
+            secretName: gorestapi
+            items:
+              - key: gorestapi.mysql.json
+                path: appsettings.mysql.json
+        - name: fluentd-config
+          configMap:
+            name: fluentd-config
+        - name: access-log-template
+          configMap:
+            name: access-log-template
+        - name: log
+          emptyDir: {}
+        - name: elasticsearch-ca
+          secret:
+            defaultMode: 420
+            optional: false
+            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert

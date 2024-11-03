@@ -86,9 +86,6 @@ spec:
               memory: 2Gi
       - name: fluentd
         image: khteh/fluentd:latest
-        env:
-        - name: FLUENTD_ARGS
-          value: -c /etc/td-agent/td-agent.conf
         volumeMounts:
         - name: log
           mountPath: /var/log/pythonrestapi
