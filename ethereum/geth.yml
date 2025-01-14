@@ -30,8 +30,10 @@ spec:
           ports:
             - containerPort: 8545
               name: gethrpc
+              protocol: TCP
             - containerPort: 30303
               name: gethdiscovery
+              protocol: UDP
           volumeMounts:
             - name: data
               mountPath: "/data"

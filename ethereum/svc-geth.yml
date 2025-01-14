@@ -17,7 +17,7 @@ spec:
       port: 8545
       targetPort: gethrpc
     - name: gethdiscovery
-      protocol: TCP
+      protocol: UDP
       port: 30303
       targetPort: gethdiscovery
   clusterIP: None # Headless. type cannot be LoadBalancer
@@ -46,7 +46,7 @@ spec:
       targetPort: gethrpc
       nodePort: 31005
     - name: gethdiscovery
-      protocol: TCP
+      protocol: UDP
       port: 30303
       targetPort: gethdiscovery
       nodePort: 31006
