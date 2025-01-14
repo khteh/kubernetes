@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: geth-mainnet-full
+spec:
+  serviceName: svc-geth-mainnet-full
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geth-mainnet-full
+      component: geth-mainnet-full
+  template:
+    metadata:
+      labels:
+        app: geth-mainnet-full
+        component: geth-mainnet-full
+    spec:
+      containers:
+        - name: geth-mainnet-full
+          image: ethereum/client-go:v1.14.12
+          imagePullPolicy: Always
+          args:
+            - --http
+            - --http.addr=0.0.0.0
+            - --http.vhosts=geth-mainnet-full
+            - --http.api=eth,net,web3,txpool
+            - --ws
+            - --ws.addr=0.0.0.0
+            - --datadir=/data
+          ports:
+            - containerPort: 8545
+              name: gethrpc
+            - containerPort: 30303
+              name: gethdiscovery
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+          resources:
+            limits:
+              memory: 12000Mi
+            requests:
+              memory: 10000Mi
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1000Gi
+        #storageClassName: do-block-storage

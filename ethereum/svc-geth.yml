@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-geth
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    #alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    #alb.ingress.kubernetes.io/healthcheck-path: /health/live
+  labels:
+    component: geth
+    app: geth
+spec:
+  ports:
+    - name: gethrpc
+      protocol: TCP
+      port: 8545
+      targetPort: gethrpc
+    - name: gethdiscovery
+      protocol: TCP
+      port: 30303
+      targetPort: gethdiscovery
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 60
+  selector:
+    app: geth
+    component: geth
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-geth-nodeport
+  labels:
+    component: geth
+    app: geth
+spec:
+  ports:
+    - name: gethrpc
+      protocol: TCP
+      port: 8545
+      targetPort: gethrpc
+      nodePort: 31005
+    - name: gethdiscovery
+      protocol: TCP
+      port: 30303
+      targetPort: gethdiscovery
+      nodePort: 31006
+  type: NodePort
+  selector:
+    component: geth
+    app: geth
