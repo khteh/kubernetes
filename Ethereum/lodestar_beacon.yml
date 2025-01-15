@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lodestar-beacon
+spec:
+  serviceName: svc-lodestar-beacon
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lodestar-beacon
+      component: lodestar
+  template:
+    metadata:
+      labels:
+        app: lodestar-beacon
+        component: lodestar
+    spec:
+      containers:
+        - name: lodestar
+          image: chainsafe/lodestar:v1.25.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - ./lodestar
+            - beacon
+            - --rcConfig
+            - /tmp/beacon-config.yml
+          ports:
+            - name: lodestar-tcp
+              containerPort: 9000
+              protocol: TCP
+            - name: lodestar-udp
+              containerPort: 9000
+              protocol: UDP
+            - name: lodestar-http
+              containerPort: 9001
+              protocol: TCP
+            - name: metrics
+              containerPort: 9002
+              protocol: TCP
+          volumeMounts:
+            - name: beacon-config
+              mountPath: /tmp/beacon-config.yml
+              subPath: beacon-config.yml
+              readOnly: true
+            - name: jwtsecret
+              mountPath: /tmp/jwtsecret
+              subPath: jwtsecret
+              readOnly: true
+            - name: lodestar-data
+              mountPath: /data
+          resources:
+            limits:
+              memory: 16Gi
+            requests:
+              memory: 10Gi
+      volumes:
+        - name: jwtsecret
+          secret:
+            secretName: jwtsecret
+            items:
+              - key: jwtsecret
+                path: jwtsecret
+        - name: beacon-config
+          configMap:
+            name: beacon-config
+  volumeClaimTemplates:
+    - metadata:
+        name: lodestar-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1000Gi
+        #storageClassName: do-block-storage

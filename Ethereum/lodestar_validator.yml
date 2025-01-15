@@ -1,55 +1,65 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: lodestar
+  name: lodestar-validator
 spec:
-  serviceName: svc-lodestar
+  serviceName: svc-lodestar-validator
   replicas: 1
   selector:
     matchLabels:
-      app: lodestar
-      component: beacon
+      app: lodestar-validator
+      component: lodestar
   template:
     metadata:
       labels:
-        app: lodestar
-        component: beacon
+        app: lodestar-validator
+        component: lodestar
     spec:
+      initContainers:
+        - name: copy-keystores
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              chmod 777 /tmp/keystores_rw
+              cp -LH /tmp/keystores/* /tmp/keystores_rw
+              ls -alRH /tmp
+          volumeMounts:
+            - name: validator-keystore
+              mountPath: /tmp/keystores
+              readOnly: false
+            - name: workspace
+              mountPath: /tmp/keystores_rw
+              readOnly: false
       containers:
         - name: lodestar
           image: chainsafe/lodestar:v1.25.0
-          imagePullPolicy: Always
-          args:
-            - beacon
-            - --network=holesky
-            - --dataDir="/data"
-            - --eth1=true
-            - --execution.urls="http://0.0.0.1:8551"
-            - --jwtSecret="/tmp/jwtsecret"
-            - --rest
-            - --rest.address=0.0.0.0
-            - --rest.namespace='*'
-            - --metrics
-            - --logFile="/logs/beacon.log"
+          imagePullPolicy: IfNotPresent
+          command:
+            - ./lodestar
+            - validator
+            - --rcConfig
+            - /tmp/validator-config.yml
           lifecycle:
             postStart:
               exec:
                 command:
-                  - ./lodestar validator
-                  - --network=holesky
-                  - --dataDir=/data
-                  - --importKeystores /tmp/keystores --importKeystoresPassword /tmp/password.txt
-          env:
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=4096"
+                  - ls
+                  - -alRH
+                  - /tmp
           ports:
-            - containerPort: 8551
-              name: lodestarrpc
+            - name: metrics
+              containerPort: 9002
               protocol: TCP
           volumeMounts:
             - name: validator
               mountPath: /tmp/password.txt
-              subPath: pass.txt
+              subPath: password.txt
+              readOnly: true
+            - name: validator-config
+              mountPath: /tmp/validator-config.yml
+              subPath: validator-config.yml
               readOnly: true
             - name: validator-keystore
               mountPath: /tmp/keystores
@@ -60,6 +70,9 @@ spec:
               readOnly: true
             - name: lodestar-data
               mountPath: data
+            - name: workspace
+              mountPath: /tmp/keystores_rw
+              readOnly: false
           resources:
             limits:
               memory: 16Gi
@@ -76,12 +89,17 @@ spec:
           secret:
             secretName: validator
             items:
-              - key: validator
-                path: pass.txt
+              - key: password.txt
+                path: password.txt
+        - name: validator-config
+          configMap:
+            name: validator-config
         - name: validator-keystore
           configMap:
             name: validator-keystore
             defaultMode: 0755
+        - name: workspace
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: lodestar-data

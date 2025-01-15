@@ -18,7 +18,7 @@ spec:
       containers:
         - name: geth
           image: ethereum/client-go:v1.14.12
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           args:
             - --holesky
             - --http
@@ -26,6 +26,9 @@ spec:
             - --http.vhosts=geth
             - --ws
             - --ws.addr=0.0.0.0
+            - --authrpc.addr=0.0.0.0
+            - --authrpc.vhosts=0.0.0.0
+            - --authrpc.port=8551
             - --authrpc.jwtsecret=/tmp/jwtsecret
             - --datadir=/data
           ports:

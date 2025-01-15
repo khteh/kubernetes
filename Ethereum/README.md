@@ -15,10 +15,6 @@
 - Install microk8s: https://microk8s.io/docs/getting-started
 - I will use `alias k='kubectl'` throughout this README
 
-## Setup Execution and Beacon (with Validator) clients
-
-- Run `setup.sh`
-
 ### Run GETH on k8s cluster
 
 - Create a required JWT secret to work with consensus client:
@@ -28,15 +24,20 @@ $ openssl rand -hex 32 | tr -d "\n"
 $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 ```
 
+- Run `restart_geth.sh`.
+
 ### Run Lodestar validator on k8s cluster
 
 #### Install Staking deposit CLI
 
 - This is needed to generate keystore using user-provided password. Download and unpack from https://github.com/ethereum/staking-deposit-cli
 - Run `./deposit new-mnemonic`. Remember to copy the mnemonic shown in this interactive session in a safe place.
-- Create a k8s secret from the user-provided password: `kubectl create secret generic validator --from-literal=validator=<base64 encoded password>`
+- Create a k8s secret from the user-provided password: `kubectl create secret generic validator --from-literal=password.txt=<password>`
 - Create a ConfigMap from the generated keystore file: `kubectl create cm validator-keystore --from-file=keystore-<foo>.json`
 - The secret and ConfigMap will be used by lodestar to run validator.
+
+- Run `./restart_beacon.sh` to (re)start the beacon.
+- Run `./restart_validator.sh` to (re)start the validator.
 
 ## Check the statuses of the applications in the cluster
 
