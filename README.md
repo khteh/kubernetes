@@ -1,11 +1,16 @@
 # Kubernetes
+
 Kubernetes cluster which consists of the following components:
-* RestAPI application
-* Elasticsearch cluster
-  * 3 Master nodes
-  * 2 Slave nodes
-* Redis cluster
-* RabbitMQ cluster
+
+- RestAPI application
+- Elasticsearch cluster
+  - 3 Master nodes
+  - 2 Slave nodes
+- Redis cluster
+- RabbitMQ cluster
+- Ethereum node which consists of:
+  - Executor (GETH)
+  - Consensus (Lodestar Beacon and Validator)
 
 ## Prerequisites
 
@@ -38,6 +43,7 @@ CURRENT   NAME        CLUSTER            AUTHINFO    NAMESPACE
 - `kubectl config use-context` to select a cluster to work with.
 
 ![Kubernetes cluster](./k8s.jpg?raw=true "Kubernetes Cluster")
+
 ```
 $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
@@ -103,9 +109,12 @@ horizontalpodautoscaler.autoscaling/rabbitmq-hpa  StatefulSet/rabbitmq  15%/75% 
 NAME                           COMPLETIONS   DURATION   AGE
 job.batch/elasticsearch-init   1/1           6s         100m
 ```
+
 ## Redis Cluster:
-* 3 master nodes
-* 3 slave nodes
+
+- 3 master nodes
+- 3 slave nodes
+
 ```
 cluster_state:ok
 cluster_slots_assigned:16384
@@ -165,7 +174,9 @@ slave
 connected
 1666
 ```
+
 ## Elasticsearch Cluster:
+
 ```
 # curl svc-elasticsearch-discovery:9200/_cluster/health?pretty
 {
@@ -185,13 +196,15 @@ connected
   "task_max_waiting_in_queue_millis" : 0,
   "active_shards_percent_as_number" : 100.0
 }
-# curl svc-elasticsearch-discovery:9200/_cat/indices          
+# curl svc-elasticsearch-discovery:9200/_cat/indices
 green open .kibana_1                      CWOkws7gRMSJTGaDEDKFOQ 1 1   5 0  50.7kb 25.3kb
 green open restapi.logs-2019.03.27        4GFVDwVeSAq4SNAVfG7Lzg 5 1 228 0 467.7kb  236kb
 green open restapi.access.logs-2019.03.27 4azKaBXmTcmIa8R3Vz9imA 5 1  11 0 140.1kb   70kb
 green open restapi.access.logs-2019.03.28 oZjwRZdxQIybxWQ4NBZZSw 5 1   4 0  57.2kb 28.6kb
 ```
+
 ## RabbitMQ Cluster:
+
 ```
 # rabbitmqctl cluster_status
 Cluster status of node rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local ...
@@ -207,7 +220,9 @@ Cluster status of node rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local 
           {'rabbit@rabbitmq-1.svc-rabbitmq.default.svc.cluster.local',[]},
           {'rabbit@rabbitmq-0.svc-rabbitmq.default.svc.cluster.local',[]}]}]
 ```
+
 ## Horizontal Pod Autoscaler:
+
 ```
 $ k get hpa
 NAME          REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
@@ -215,7 +230,9 @@ kibana-hpa    StatefulSet/kibana    11%/75%   2         5         2          20s
 restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          22m
 rabbitmq-hpa  StatefulSet/rabbitmq  41%/75%   3         6         3          4d5h
 ```
+
 ## Cluster Information:
+
 ```
 $ microk8s.kubectl cluster-info
 Kubernetes master is running at https://127.0.0.1:16443
@@ -225,13 +242,17 @@ Metrics-server is running at https://127.0.0.1:16443/api/v1/namespaces/kube-syst
 Grafana is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/services/monitoring-grafana/proxy
 InfluxDB is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/services/monitoring-influxdb:http/proxy
 ```
+
 ## Dashboard:
-* Point the browser to the Grafana URL given by the cluster-info above
+
+- Point the browser to the Grafana URL given by the cluster-info above
 
 ## Kibana:
-* Point the browser to localhost/kibana
-* Supports GeoIP
+
+- Point the browser to localhost/kibana
+- Supports GeoIP
 
 ## Check the application:
-* `curl -L localhost/restapi/greeting --http2 --insecure`
-* `curl -L localhost/restapi/greeting?name=Mickey%20Mouse --http2 --insecure`
+
+- `curl -L localhost/restapi/greeting --http2 --insecure`
+- `curl -L localhost/restapi/greeting?name=Mickey%20Mouse --http2 --insecure`
