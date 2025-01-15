@@ -14,7 +14,8 @@ if [ $# -eq 2 -a -n "$1" -a -n "$2" ]; then
         echo Checking chainsafe/lodestar:$2...
         docker manifest inspect chainsafe/lodestar:$2 > /dev/null
         if [ $? -eq 0 ]; then
-            kubectl patch statefulset lodestar --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"chainsafe/lodestar:'$2'"}]'
+            kubectl patch statefulset lodestar-beacon --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"chainsafe/lodestar:'$2'"}]'
+            kubectl patch statefulset lodestar-validator --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"chainsafe/lodestar:'$2'"}]'
         else
             echo Invalid docker image chainsafe/lodestar:$2
             exit 1
