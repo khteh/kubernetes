@@ -76,8 +76,9 @@ lodestar-0     1/1     Running   0                20m
 ## Application updates
 
 - Run `update.sh [geth|lodestar] <tag>`. It does the following:
-  (1) It first checks if the tag of the image exists in docker hub
-  (2) If it does, update the docker image version of the running STS
+
+1. It first checks if the tag of the image exists in docker hub
+2. If it does, update the docker image version of the running STS
 
 ## Notes
 
