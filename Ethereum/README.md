@@ -13,6 +13,7 @@
 ## Run k8s cluster locally
 
 - Install microk8s: https://microk8s.io/docs/getting-started
+- I will use `alias k='kubectl'` throughout this README
 
 ## Setup Execution and Beacon (with Validator) clients
 
@@ -37,6 +38,37 @@ $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 - Create a ConfigMap from the generated keystore file: `kubectl create cm validator-keystore --from-file=keystore-<foo>.json`
 - The secret and ConfigMap will be used by lodestar to run validator.
 
+## Running apps in the cluster
+
+```
+$ k get svc
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                          AGE
+kubernetes                ClusterIP   10.152.183.1     <none>        443/TCP                          590d
+svc-postgresql            ClusterIP   None             <none>        5432/TCP                         186d
+svc-postgresql-nodeport   NodePort    10.152.183.108   <none>        5432:30000/TCP                   186d
+svc-geth                  ClusterIP   None             <none>        8545/TCP,30303/UDP               3h55m
+svc-geth-nodeport         NodePort    10.152.183.195   <none>        8545:31005/TCP,30303:31006/UDP   3h55m
+svc-lodestar              ClusterIP   None             <none>        8551/TCP                         3h55m
+svc-lodestar-nodeport     NodePort    10.152.183.57    <none>        8551:31007/TCP                   3h55m
+```
+
+```
+$ k get sts
+NAME         READY   AGE
+postgresql   1/1     186d
+geth         1/1     72m
+lodestar     1/1     20m
+```
+
+```
+$ k get pod
+NAME           READY   STATUS    RESTARTS         AGE
+ubuntu         1/1     Running   120 (6h5m ago)   81d
+postgresql-0   1/1     Running   267 (6h5m ago)   186d
+geth-0         1/1     Running   0                73m
+lodestar-0     1/1     Running   0                20m
+```
+
 ## Deploy to public cloud
 
 ### AWS
@@ -44,6 +76,7 @@ $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 - Create a k8s cluster with nodes of at least 8 cores and 32GB: Run https://github.com/khteh/kubernetes/blob/master/create_cluster.sh
 - Add `storageClassName: gp3` to the geth.yml and lodestar.yml to use local SSD attached to the nodes for the Ethereum client data.
 - Once the cluster is up and running, AWS Cloudformation will show the infrastructure setup.
+- When using microk8s to manage AWS EKS cluster, copy the configuration content found in `~/.kube/config` to `/var/snap/microk8s/current/credentials/client.config`
 
 ## Application updates
 
