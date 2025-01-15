@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lodestar
+spec:
+  serviceName: svc-lodestar
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lodestar
+      component: beacon
+  template:
+    metadata:
+      labels:
+        app: lodestar
+        component: beacon
+    spec:
+      containers:
+        - name: lodestar
+          image: chainsafe/lodestar:v1.25.0
+          imagePullPolicy: Always
+          args:
+            - beacon
+            - --network=holesky
+            - --dataDir="/data"
+            - --eth1=true
+            - --execution.urls="http://0.0.0.1:8551"
+            - --jwtSecret="/tmp/jwtsecret"
+            - --rest
+            - --rest.address=0.0.0.0
+            - --rest.namespace='*'
+            - --metrics
+            - --logFile="/logs/beacon.log"
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - ./lodestar validator
+                  - --network=holesky
+                  - --dataDir=/data
+                  - --importKeystores /tmp/keystores --importKeystoresPassword /tmp/password.txt
+          env:
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=4096"
+          ports:
+            - containerPort: 8551
+              name: lodestarrpc
+              protocol: TCP
+          volumeMounts:
+            - name: validator
+              mountPath: /tmp/password.txt
+              subPath: pass.txt
+              readOnly: true
+            - name: validator-keystore
+              mountPath: /tmp/keystores
+              readOnly: false
+            - name: jwtsecret
+              mountPath: /tmp/jwtsecret
+              subPath: jwtsecret
+              readOnly: true
+            - name: lodestar-data
+              mountPath: data
+          resources:
+            limits:
+              memory: 16Gi
+            requests:
+              memory: 10Gi
+      volumes:
+        - name: jwtsecret
+          secret:
+            secretName: jwtsecret
+            items:
+              - key: jwtsecret
+                path: jwtsecret
+        - name: validator
+          secret:
+            secretName: validator
+            items:
+              - key: validator
+                path: pass.txt
+        - name: validator-keystore
+          configMap:
+            name: validator-keystore
+            defaultMode: 0755
+  volumeClaimTemplates:
+    - metadata:
+        name: lodestar-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1000Gi
+        #storageClassName: do-block-storage

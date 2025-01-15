@@ -1,28 +1,29 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: geth-mainnet-full
+  name: geth
 spec:
-  serviceName: svc-geth-mainnet-full
+  serviceName: svc-geth
   replicas: 1
   selector:
     matchLabels:
-      app: geth-mainnet-full
-      component: geth-mainnet-full
+      app: geth
+      component: execution
   template:
     metadata:
       labels:
-        app: geth-mainnet-full
-        component: geth-mainnet-full
+        app: geth
+        component: execution
     spec:
       containers:
-        - name: geth-mainnet-full
+        - name: geth
           image: ethereum/client-go:v1.14.12
           imagePullPolicy: Always
           args:
+            - --holesky
             - --http
             - --http.addr=0.0.0.0
-            - --http.vhosts=geth-mainnet-full
+            - --http.vhosts=geth
             - --http.api=eth,net,web3,txpool
             - --ws
             - --ws.addr=0.0.0.0
@@ -40,13 +41,13 @@ spec:
               mountPath: /tmp/jwtsecret
               subPath: jwtsecret
               readOnly: true
-            - name: data
-              mountPath: "/data"
+            - name: geth-data
+              mountPath: data
           resources:
             limits:
-              memory: 12000Mi
+              memory: 16Gi
             requests:
-              memory: 10000Mi
+              memory: 10Gi
       volumes:
         - name: jwtsecret
           secret:
@@ -56,11 +57,11 @@ spec:
                 path: jwtsecret
   volumeClaimTemplates:
     - metadata:
-        name: data
+        name: geth-data
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1000Gi
+            storage: 100Gi
         #storageClassName: do-block-storage

@@ -8,7 +8,7 @@ metadata:
     #alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
     #alb.ingress.kubernetes.io/healthcheck-path: /health/live
   labels:
-    component: geth
+    component: execution
     app: geth
 spec:
   ports:
@@ -27,7 +27,7 @@ spec:
       timeoutSeconds: 60
   selector:
     app: geth
-    component: geth
+    component: execution
 #    tier: frontend
 #  type: LoadBalancer # Exposes web to traffic from outside of the cluster
 ---
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: svc-geth-nodeport
   labels:
-    component: geth
+    component: execution
     app: geth
 spec:
   ports:
@@ -52,5 +52,5 @@ spec:
       nodePort: 31006
   type: NodePort
   selector:
-    component: geth
+    component: execution
     app: geth

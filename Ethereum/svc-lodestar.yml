@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-lodestar
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    #alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    #alb.ingress.kubernetes.io/healthcheck-path: /health/live
+  labels:
+    component: beacon
+    app: lodestar
+spec:
+  ports:
+    - name: lodestarrpc
+      protocol: TCP
+      port: 8551
+      targetPort: lodestarrpc
+  clusterIP: None # Headless. type cannot be LoadBalancer
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 60
+  selector:
+    app: lodestar
+    component: beacon
+#    tier: frontend
+#  type: LoadBalancer # Exposes web to traffic from outside of the cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-lodestar-nodeport
+  labels:
+    component: beacon
+    app: lodestar
+spec:
+  ports:
+    - name: lodestarrpc
+      protocol: TCP
+      port: 8551
+      targetPort: lodestarrpc
+      nodePort: 31007
+  type: NodePort
+  selector:
+    component: beacon
+    app: lodestar
