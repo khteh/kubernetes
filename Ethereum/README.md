@@ -43,26 +43,29 @@ $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 
 ```
 $ k get svc
-NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                          AGE
-kubernetes                ClusterIP   10.152.183.1     <none>        443/TCP                          590d
-svc-geth                  ClusterIP   None             <none>        8545/TCP,30303/UDP               3h55m
-svc-geth-nodeport         NodePort    10.152.183.195   <none>        8545:31005/TCP,30303:31006/UDP   3h55m
-svc-lodestar              ClusterIP   None             <none>        8551/TCP                         3h55m
-svc-lodestar-nodeport     NodePort    10.152.183.57    <none>        8551:31007/TCP                   3h55m
+NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                               AGE
+kubernetes                ClusterIP   10.152.183.1     <none>        443/TCP                               590d
+svc-lodestar-validator    ClusterIP   None             <none>        9002/TCP                              69m
+svc-lodestar-nodeport     NodePort    10.152.183.122   <none>        9000:31007/TCP,9000:31008/UDP         157m
+svc-geth                  ClusterIP   None             <none>        8545/TCP,30303/UDP                    3m22s
+svc-geth-nodeport         NodePort    10.152.183.142   <none>        8545:31005/TCP,30303:31006/UDP        3m22s
+svc-lodestar-beacon       ClusterIP   None             <none>        9000/TCP,9000/UDP,9001/TCP,9002/TCP   3m20s
 ```
 
 ```
 $ k get sts
-NAME         READY   AGE
-geth         1/1     72m
-lodestar     1/1     20m
+NAME                 READY   AGE
+lodestar-validator   1/1     70m
+geth                 1/1     3m48s
+lodestar-beacon      1/1     3m46s
 ```
 
 ```
 $ k get pod
-NAME           READY   STATUS    RESTARTS         AGE
-geth-0         1/1     Running   0                73m
-lodestar-0     1/1     Running   0                20m
+NAME                   READY   STATUS    RESTARTS        AGE
+lodestar-validator-0   1/1     Running   0               69m
+geth-0                 1/1     Running   0               4m2s
+lodestar-beacon-0      1/1     Running   0               3m19s
 ```
 
 ## Deploy to public cloud
@@ -89,8 +92,6 @@ lodestar-0     1/1     Running   0                20m
 ## Outstanding issues and improvement suggestions
 
 ### Issues
-
-- I have not successfully been able to run validator on the consensus client due to the issue on github: https://github.com/ChainSafe/lodestar/issues/7362
 
 ### Improvements
 
