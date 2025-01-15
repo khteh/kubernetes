@@ -84,3 +84,14 @@ lodestar-0     1/1     Running   0                20m
 
 - I do not use Terraform to spin up cloud infrastructure in this case because I consider the infrastructure to be less likely to change compared to the applications running on it. However, Terraform is a great tool which can be used to document and version control the infrastructure setup.
 - We can use tool like https://github.com/DontShaveTheYak/cf2tf to convert from AWS Cloudformation to Terraform.
+
+## Outstanding issues and improvement suggestions
+
+### Issues
+
+- I have not successfully been able to run validator on the consensus client due to the issue on github: https://github.com/ChainSafe/lodestar/issues/7362
+
+### Improvements
+
+- https://github.com/ChainSafe/lodestar/discussions/7363
+- https://github.com/ethereum/go-ethereum/issues/31034
