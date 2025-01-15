@@ -23,11 +23,11 @@ spec:
             - --holesky
             - --http
             - --http.addr=0.0.0.0
-            - --http.vhosts=geth
+            - --http.vhosts=*
             - --ws
             - --ws.addr=0.0.0.0
             - --authrpc.addr=0.0.0.0
-            - --authrpc.vhosts=0.0.0.0
+            - --authrpc.vhosts=*
             - --authrpc.port=8551
             - --authrpc.jwtsecret=/tmp/jwtsecret
             - --datadir=/data

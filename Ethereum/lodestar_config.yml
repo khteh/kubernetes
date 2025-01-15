@@ -13,7 +13,7 @@ data:
     listenAddress: 0.0.0.0
     port: 9000
     eth1: true
-    execution.urls: http://svc-geth:8551
+    execution.urls: http://svc-geth:8545
     jwtSecret: /tmp/jwtsecret
     metrics: true
     metrics.address: 0.0.0.0
