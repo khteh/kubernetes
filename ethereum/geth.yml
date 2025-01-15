@@ -26,6 +26,7 @@ spec:
             - --http.api=eth,net,web3,txpool
             - --ws
             - --ws.addr=0.0.0.0
+            - --authrpc.jwtsecret=/tmp/jwtsecret
             - --datadir=/data
           ports:
             - containerPort: 8545
@@ -35,6 +36,10 @@ spec:
               name: gethdiscovery
               protocol: UDP
           volumeMounts:
+            - name: jwtsecret
+              mountPath: /tmp/jwtsecret
+              subPath: jwtsecret
+              readOnly: true
             - name: data
               mountPath: "/data"
           resources:
@@ -42,6 +47,13 @@ spec:
               memory: 12000Mi
             requests:
               memory: 10000Mi
+      volumes:
+        - name: jwtsecret
+          secret:
+            secretName: jwtsecret
+            items:
+              - key: jwtsecret
+                path: jwtsecret
   volumeClaimTemplates:
     - metadata:
         name: data
