@@ -38,14 +38,12 @@ $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 - Create a ConfigMap from the generated keystore file: `kubectl create cm validator-keystore --from-file=keystore-<foo>.json`
 - The secret and ConfigMap will be used by lodestar to run validator.
 
-## Running apps in the cluster
+## Check the statuses of the applications in the cluster
 
 ```
 $ k get svc
 NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                          AGE
 kubernetes                ClusterIP   10.152.183.1     <none>        443/TCP                          590d
-svc-postgresql            ClusterIP   None             <none>        5432/TCP                         186d
-svc-postgresql-nodeport   NodePort    10.152.183.108   <none>        5432:30000/TCP                   186d
 svc-geth                  ClusterIP   None             <none>        8545/TCP,30303/UDP               3h55m
 svc-geth-nodeport         NodePort    10.152.183.195   <none>        8545:31005/TCP,30303:31006/UDP   3h55m
 svc-lodestar              ClusterIP   None             <none>        8551/TCP                         3h55m
@@ -55,7 +53,6 @@ svc-lodestar-nodeport     NodePort    10.152.183.57    <none>        8551:31007/
 ```
 $ k get sts
 NAME         READY   AGE
-postgresql   1/1     186d
 geth         1/1     72m
 lodestar     1/1     20m
 ```
@@ -63,8 +60,6 @@ lodestar     1/1     20m
 ```
 $ k get pod
 NAME           READY   STATUS    RESTARTS         AGE
-ubuntu         1/1     Running   120 (6h5m ago)   81d
-postgresql-0   1/1     Running   267 (6h5m ago)   186d
 geth-0         1/1     Running   0                73m
 lodestar-0     1/1     Running   0                20m
 ```
