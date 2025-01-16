@@ -85,9 +85,11 @@ lodestar-beacon-0
 [lodestar-beacon-0] Jan-16 05:30:06.001[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425250 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 8
 [lodestar-beacon-0] Jan-16 05:30:18.000[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425251 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 11
 [lodestar-beacon-0] Jan-16 05:30:29.999[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425252 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 12
-[lodestar-beacon-0] Jan-16 05:30:42.001[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425253 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 12```
+[lodestar-beacon-0] Jan-16 05:30:42.001[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425253 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 12
 ```
+
 - Consensus client (Validator):
+
 ```
 $ t lodestar-validator
 Will tail 2 logs...
@@ -108,6 +110,7 @@ lodestar-validator-0 copy-keystores
 [lodestar-validator-0 lodestar] Jan-16 05:29:24.004[] warn: Node is syncing slot=3425247, headSlot=0, syncDistance=3425247
 [lodestar-validator-0 lodestar] Jan-16 05:29:36.003[] info: Validator statuses pending=1, total=1
 ```
+
 ## Deploy to public cloud
 
 ### AWS
@@ -138,5 +141,8 @@ lodestar-validator-0 copy-keystores
 - https://github.com/ChainSafe/lodestar/discussions/7363
 - https://github.com/ethereum/go-ethereum/issues/31034
 - https://github.com/ChainSafe/lodestar/issues/7367
+
+```
+
 ```
 ````
