@@ -42,6 +42,8 @@ $ kubectl create secret generic jwtsecret --from-literal=jwtsecret=$jwtsecret
 
 ## Check the statuses of the applications in the cluster
 
+- Services:
+
 ```
 $ k get svc
 NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                               AGE
@@ -53,6 +55,8 @@ svc-geth-nodeport         NodePort    10.152.183.142   <none>        8545:31005/
 svc-lodestar-beacon       ClusterIP   None             <none>        9000/TCP,9000/UDP,9001/TCP,9002/TCP   3m20s
 ```
 
+- Statefulsets:
+
 ```
 $ k get sts
 NAME                 READY   AGE
@@ -60,6 +64,8 @@ lodestar-validator   1/1     70m
 geth                 1/1     3m48s
 lodestar-beacon      1/1     3m46s
 ```
+
+- Pods:
 
 ```
 $ k get pod
@@ -69,6 +75,39 @@ geth-0                 1/1     Running   0               4m2s
 lodestar-beacon-0      1/1     Running   0               3m19s
 ```
 
+- Consensus client (Beacon):
+
+````
+$ t lodestar-beacon
+Will tail 1 logs...
+lodestar-beacon-0
+[lodestar-beacon-0] Jan-16 05:29:54.000[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425249 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 6
+[lodestar-beacon-0] Jan-16 05:30:06.001[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425250 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 8
+[lodestar-beacon-0] Jan-16 05:30:18.000[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425251 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 11
+[lodestar-beacon-0] Jan-16 05:30:29.999[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425252 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 12
+[lodestar-beacon-0] Jan-16 05:30:42.001[]                 info: Syncing - ? left - 0.00 slots/s - slot: 3425253 - head: 0 0xab09…f889 - exec-block: valid(0 0xb5f7…) - finalized: 0x0000…0000:0 - peers: 12```
+```
+- Consensus client (Validator):
+```
+$ t lodestar-validator
+Will tail 2 logs...
+lodestar-validator-0 lodestar
+lodestar-validator-0 copy-keystores
+[lodestar-validator-0 lodestar] Jan-16 05:28:12.001[] warn: Node is syncing slot=3425241, headSlot=0, syncDistance=3425241
+[lodestar-validator-0 lodestar] Jan-16 05:28:12.001[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425241
+[lodestar-validator-0 lodestar] Jan-16 05:28:24.002[] warn: Node is syncing slot=3425242, headSlot=0, syncDistance=3425242
+[lodestar-validator-0 lodestar] Jan-16 05:28:24.003[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425242
+[lodestar-validator-0 lodestar] Jan-16 05:28:36.002[] warn: Node is syncing slot=3425243, headSlot=0, syncDistance=3425243
+[lodestar-validator-0 lodestar] Jan-16 05:28:36.002[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425243
+[lodestar-validator-0 lodestar] Jan-16 05:28:48.001[] warn: Node is syncing slot=3425244, headSlot=0, syncDistance=3425244
+[lodestar-validator-0 lodestar] Jan-16 05:28:48.002[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425244
+[lodestar-validator-0 lodestar] Jan-16 05:29:00.002[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425245
+[lodestar-validator-0 lodestar] Jan-16 05:29:00.002[] warn: Node is syncing slot=3425245, headSlot=0, syncDistance=3425245
+[lodestar-validator-0 lodestar] Jan-16 05:29:12.004[] warn: Node is syncing slot=3425246, headSlot=0, syncDistance=3425246
+[lodestar-validator-0 lodestar] Jan-16 05:29:24.004[] warn: Node is syncing - getProposerDuties failed with status 503: Node is syncing - headSlot 0 currentSlot 3425247
+[lodestar-validator-0 lodestar] Jan-16 05:29:24.004[] warn: Node is syncing slot=3425247, headSlot=0, syncDistance=3425247
+[lodestar-validator-0 lodestar] Jan-16 05:29:36.003[] info: Validator statuses pending=1, total=1
+```
 ## Deploy to public cloud
 
 ### AWS
@@ -99,3 +138,5 @@ lodestar-beacon-0      1/1     Running   0               3m19s
 - https://github.com/ChainSafe/lodestar/discussions/7363
 - https://github.com/ethereum/go-ethereum/issues/31034
 - https://github.com/ChainSafe/lodestar/issues/7367
+```
+````
