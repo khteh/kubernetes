@@ -20,6 +20,10 @@ spec:
       protocol: UDP
       port: 30303
       targetPort: gethdiscovery
+    - name: metrics
+      protocol: TCP
+      port: 6060
+      targetPort: metrics
   clusterIP: None # Headless. type cannot be LoadBalancer
   sessionAffinity: ClientIP
   sessionAffinityConfig:

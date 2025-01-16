@@ -23,14 +23,21 @@ spec:
             - --holesky
             - --http
             - --http.addr=0.0.0.0
+            - --http.port=8545
             - --http.vhosts=*
+            - --http.corsdomain=*
             - --ws
             - --ws.addr=0.0.0.0
+            - --ws.port=8545
+            - --ws.origins=*
             - --authrpc.addr=0.0.0.0
             - --authrpc.vhosts=*
             - --authrpc.port=8551
             - --authrpc.jwtsecret=/tmp/jwtsecret
             - --datadir=/data
+            - --metrics
+            - --metrics.addr=0.0.0.0
+            - --metrics.port=6060
           ports:
             - containerPort: 8545
               name: gethrpc
@@ -38,6 +45,19 @@ spec:
             - containerPort: 30303
               name: gethdiscovery
               protocol: UDP
+            - containerPort: 6060
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: gethrpc
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: gethrpc
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: jwtsecret
               mountPath: /tmp/jwtsecret
