@@ -13,7 +13,7 @@
 ## Run k8s cluster locally
 
 - Install microk8s: https://microk8s.io/docs/getting-started
-- I will use `alias k='kubectl'` throughout this README
+- I will use `alias k='kubectl'` and `alias t='kubetail'` throughout this README
 
 ### Run GETH on k8s cluster
 
