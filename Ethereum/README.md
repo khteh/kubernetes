@@ -97,3 +97,4 @@ lodestar-beacon-0      1/1     Running   0               3m19s
 
 - https://github.com/ChainSafe/lodestar/discussions/7363
 - https://github.com/ethereum/go-ethereum/issues/31034
+- https://github.com/ChainSafe/lodestar/issues/7367
