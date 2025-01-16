@@ -14,6 +14,7 @@
 
 - Install microk8s: https://microk8s.io/docs/getting-started
 - I will use `alias k='kubectl'` throughout this README
+- Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README.md#update-kubeconfig
 
 ### Run GETH on k8s cluster
 
