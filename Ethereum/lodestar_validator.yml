@@ -28,7 +28,6 @@ spec:
           volumeMounts:
             - name: validator-keystore
               mountPath: /tmp/keystores
-              readOnly: false
             - name: workspace
               mountPath: /tmp/keystores_rw
               readOnly: false
@@ -64,9 +63,6 @@ spec:
               mountPath: /tmp/validator-config.yml
               subPath: validator-config.yml
               readOnly: true
-            - name: validator-keystore
-              mountPath: /tmp/keystores
-              readOnly: false
             - name: jwtsecret
               mountPath: /tmp/jwtsecret
               subPath: jwtsecret
@@ -100,7 +96,6 @@ spec:
         - name: validator-keystore
           configMap:
             name: validator-keystore
-            defaultMode: 0755
         - name: workspace
           emptyDir: {}
   volumeClaimTemplates:
