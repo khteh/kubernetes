@@ -41,17 +41,20 @@ spec:
             - validator
             - --rcConfig
             - /tmp/validator-config.yml
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - ls
-                  - -alRH
-                  - /tmp
           ports:
             - name: metrics
               containerPort: 9002
               protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: validator
               mountPath: /tmp/password.txt

@@ -37,6 +37,16 @@ spec:
             - name: metrics
               containerPort: 9002
               protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: lodestar-http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: lodestar-http
+            initialDelaySeconds: 30
+            periodSeconds: 10
           volumeMounts:
             - name: beacon-config
               mountPath: /tmp/beacon-config.yml
