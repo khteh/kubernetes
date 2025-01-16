@@ -4,7 +4,7 @@
 
 - https://ethereum.org/en/developers/docs/nodes-and-clients/run-a-node/
 - https://github.com/ethereum/go-ethereum
-- https://chainsafe.github.io/lodestar/run/getting-started/quick-start-custom-guide
+- https://chainsafe.github.io/lodestar/
 
 ## Assumptions
 
