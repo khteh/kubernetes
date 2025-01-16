@@ -77,7 +77,7 @@ lodestar-beacon-0      1/1     Running   0               3m19s
 
 - Consensus client (Beacon):
 
-````
+```
 $ t lodestar-beacon
 Will tail 1 logs...
 lodestar-beacon-0
@@ -145,4 +145,7 @@ lodestar-validator-0 copy-keystores
 ```
 
 ```
-````
+
+```
+
+```
