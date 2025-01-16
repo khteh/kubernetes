@@ -14,7 +14,6 @@
 
 - Install microk8s: https://microk8s.io/docs/getting-started
 - I will use `alias k='kubectl'` throughout this README
-- Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README.md#update-kubeconfig
 
 ### Run GETH on k8s cluster
 
@@ -118,7 +117,7 @@ lodestar-validator-0 copy-keystores
 - Create a k8s cluster with nodes of at least 8 cores and 32GB: Run https://github.com/khteh/kubernetes/blob/master/create_cluster.sh
 - Add `storageClassName: gp3` to the geth.yml and lodestar.yml to use local SSD attached to the nodes for the Ethereum client data.
 - Once the cluster is up and running, AWS Cloudformation will show the infrastructure setup.
-- When using microk8s to manage AWS EKS cluster, copy the configuration content found in `~/.kube/config` to `/var/snap/microk8s/current/credentials/client.config`
+- Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README.md#update-kubeconfig
 
 ## Application updates
 
