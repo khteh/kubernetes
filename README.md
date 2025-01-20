@@ -33,12 +33,12 @@ Kubernetes cluster which consists of the following components:
 
 - `kubectl config get-contexts` will show available clusters, both local and remote:
 
-```
-$ k config get-contexts
-CURRENT   NAME        CLUSTER            AUTHINFO    NAMESPACE
-*         mycluster   mycluster          myuser
-          microk8s    microk8s-cluster   admin
-```
+  ```
+  $ k config get-contexts
+  CURRENT   NAME        CLUSTER            AUTHINFO    NAMESPACE
+  *         mycluster   mycluster          myuser
+            microk8s    microk8s-cluster   admin
+  ```
 
 - `kubectl config use-context` to select a cluster to work with.
 
