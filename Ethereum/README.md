@@ -139,5 +139,4 @@
 ### Improvements
 
 - https://github.com/ChainSafe/lodestar/discussions/7363
-- https://github.com/ethereum/go-ethereum/issues/31034
 - https://github.com/ChainSafe/lodestar/issues/7367
