@@ -13,13 +13,21 @@ metadata:
 spec:
   ports:
     - name: gethrpc
-      protocol: TCP
       port: 8545
+      protocol: TCP
       targetPort: gethrpc
-    - name: gethdiscovery
-      protocol: UDP
+    - name: p2p-udp
       port: 30303
-      targetPort: gethdiscovery
+      protocol: UDP
+      targetPort: p2p-udp
+    - name: p2p-tcp
+      port: 30303
+      protocol: TCP
+      targetPort: p2p-tcp
+    - name: gethauth
+      port: 8551
+      protocol: TCP
+      targetPort: gethauth
     - name: metrics
       protocol: TCP
       port: 6060
