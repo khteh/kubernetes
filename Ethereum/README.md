@@ -13,8 +13,7 @@
 
 ## Run k8s cluster locally
 
-- Install microk8s: https://microk8s.io/docs/getting-started
-- I will use `alias k='kubectl'` and `alias t='kubetail'` throughout this README
+Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README.md to install the prerequisites and configuration.
 
 ### Run GETH on k8s cluster
 
@@ -36,7 +35,6 @@
 - Create a k8s secret from the user-provided password: `kubectl create secret generic validator --from-literal=password.txt=<password>`
 - Create a ConfigMap from the generated keystore file: `kubectl create cm validator-keystore --from-file=keystore-<foo>.json`
 - The secret and ConfigMap will be used by lodestar to run validator.
-
 - Run `./restart_beacon.sh` to (re)start the beacon.
 - Run `./restart_validator.sh` to (re)start the validator.
 
