@@ -53,10 +53,6 @@ spec:
               mountPath: /tmp/jwtsecret
               subPath: jwtsecret
               readOnly: true
-            - name: geth-config
-              mountPath: /tmp/geth-config.yml
-              subPath: geth-config.yml
-              readOnly: true
             - name: geth-data
               mountPath: data
           resources:
