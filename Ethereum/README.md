@@ -109,15 +109,6 @@ Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README
   [lodestar-validator-0 lodestar] Jan-16 05:29:36.003[] info: Validator statuses pending=1, total=1
   ```
 
-## Deploy to public cloud
-
-### AWS
-
-- Create a k8s cluster with nodes of at least 8 cores and 32GB: Run https://github.com/khteh/kubernetes/blob/master/create_cluster.sh
-- Add `storageClassName: gp3` to the geth.yml and lodestar.yml to use local SSD attached to the nodes for the Ethereum client data.
-- Once the cluster is up and running, AWS Cloudformation will show the infrastructure setup.
-- Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README.md#update-kubeconfig
-
 ## Application updates
 
 - Run `update.sh [geth|lodestar] <tag>`. It does the following:
