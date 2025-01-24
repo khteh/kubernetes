@@ -125,11 +125,6 @@ Refer to top-level README https://github.com/khteh/kubernetes/blob/master/README
 1. It first checks if the tag of the image exists in docker hub
 2. If it does, update the docker image version of the running STS
 
-## Notes
-
-- I do not use Terraform to spin up cloud infrastructure in this case because I consider the infrastructure to be less likely to change compared to the applications running on it. However, Terraform is a great tool which can be used to document and version control the infrastructure setup.
-- We can use tool like https://github.com/DontShaveTheYak/cf2tf to convert from AWS Cloudformation to Terraform.
-
 ## Outstanding issues and improvement suggestions
 
 ### Issues
