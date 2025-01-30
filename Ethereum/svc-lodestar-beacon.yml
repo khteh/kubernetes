@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-lodestar-nodeport
+  name: svc-lodestar-beacon-nodeport
   labels:
     component: lodestar
     app: lodestar-beacon
