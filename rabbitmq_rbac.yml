@@ -2,28 +2,28 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: svc-rabbitmq 
-  namespace: default 
+  name: sa-rabbitmq
+  namespace: default
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: svc-rabbitmq
-  namespace: default 
+  name: role-rabbitmq
+  namespace: default
 rules:
-- apiGroups: [""]
-  resources: ["endpoints"]
-  verbs: ["get"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get"]
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: svc-rabbitmq
+  name: rb-rabbitmq
   namespace: default
 subjects:
-- kind: ServiceAccount
-  name: svc-rabbitmq
+  - kind: ServiceAccount
+    name: sa-rabbitmq
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: svc-rabbitmq
+  name: rolec-rabbitmq
