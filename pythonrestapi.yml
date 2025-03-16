@@ -49,14 +49,14 @@ spec:
               name: http2
               protocol: TCP
             #          hostPort: 8081
-            - containerPort: 4433
+            - containerPort: 443
               name: http3
               protocol: UDP
           #          hostPort: 8082
           readinessProbe:
             httpGet:
               path: /healthz/ready
-              port: http2
+              port: http3
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -66,7 +66,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz/live
-              port: http2
+              port: http3
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -101,10 +101,10 @@ spec:
               mountPath: /tmp/access_log_template.json
               subPath: access_log_template.json
               readOnly: true
-            - mountPath: /fluentd/elastic/tls.crt
-              name: elasticsearch-ca
-              subPath: tls.crt
-              readOnly: true
+            #- mountPath: /fluentd/elastic/tls.crt
+            #  name: elasticsearch-ca
+            #  subPath: tls.crt
+            #  readOnly: true
           resources:
             limits:
               cpu: 500m
@@ -126,8 +126,8 @@ spec:
           emptyDir: {}
         - name: hypercornlog
           emptyDir: {}
-        - name: elasticsearch-ca
-          secret:
-            defaultMode: 420
-            optional: false
-            secretName: elasticsearch-eck-ca
+        #- name: elasticsearch-ca
+        #  secret:
+        #    defaultMode: 420
+        #    optional: false
+        #    secretName: elasticsearch-eck-ca
