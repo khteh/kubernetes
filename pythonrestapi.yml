@@ -45,18 +45,16 @@ spec:
                   name: postgresql-secret
                   key: postgresql-password
           ports:
-            - containerPort: 8080
-              name: http2
+            - containerPort: 80
+              name: http
               protocol: TCP
-            #          hostPort: 8081
             - containerPort: 443
-              name: http3
+              name: https
               protocol: UDP
-          #          hostPort: 8082
           readinessProbe:
             httpGet:
               path: /healthz/ready
-              port: http3
+              port: https
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -66,7 +64,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz/live
-              port: http3
+              port: https
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5

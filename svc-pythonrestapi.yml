@@ -9,14 +9,10 @@ metadata:
     app: pythonrestapi
 spec:
   ports:
-    - name: http2
-      protocol: TCP
-      port: 8080
-      targetPort: http2
-    - name: http3
+    - name: https
       protocol: UDP
       port: 443
-      targetPort: http3
+      targetPort: https
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: pythonrestapi
@@ -32,15 +28,10 @@ metadata:
     app: pythonrestapi
 spec:
   ports:
-    - name: http2
-      protocol: TCP
-      port: 8080
-      targetPort: http2
-      nodePort: 31000
-    - name: http3
+    - name: https
       protocol: UDP
       port: 443
-      targetPort: http3
+      targetPort: https
       nodePort: 31001
   type: NodePort
   selector:
