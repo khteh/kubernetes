@@ -256,3 +256,8 @@ InfluxDB is running at https://127.0.0.1:16443/api/v1/namespaces/kube-system/ser
 
 - `curl -L localhost/restapi/greeting --http2 --insecure`
 - `curl -L localhost/restapi/greeting?name=Mickey%20Mouse --http2 --insecure`
+
+## Manifest validation
+
+- `sudo apt install -y yamllint`
+- `yamllint <filename>.yml`

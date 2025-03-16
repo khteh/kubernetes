@@ -33,7 +33,7 @@ spec:
       protocol: TCP
       port: 443
       targetPort: https
-      nodePort: 31002
+      nodePort: 31005
   type: NodePort
   selector:
     app: nodejsrestapi

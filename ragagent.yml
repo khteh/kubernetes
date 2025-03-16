@@ -1,22 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pythonrestapi
+  name: ragagent
   labels:
-    app: pythonrestapi
+    app: ragagent
+    component: llm-rag
 spec:
-  serviceName: svc-pythonrestapi
+  serviceName: svc-ragagent
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 2 # Default is 1
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: pythonrestapi # Has to match .spec.template.metadata.labels
+      app: ragagent # Has to match .spec.template.metadata.labels
+      component: llm-rag
   template:
     metadata:
       labels:
-        app: pythonrestapi # Has to match .spec.selector.matchLabels
+        app: ragagent # Has to match .spec.selector.matchLabels
+        component: llm-rag
     spec:
       terminationGracePeriodSeconds: 10
       #      affinity:
@@ -27,11 +30,11 @@ spec:
       #              - key: app
       #                operator: In
       #                values:
-      #                - pythonrestapi
+      #                - ragagent
       #            topologyKey: "kubernetes.io/hostname"
       containers:
-        - name: pythonrestapi
-          image: khteh/pythonrestapi:latest
+        - name: ragagent
+          image: khteh/ragagent:latest
           imagePullPolicy: Always
           env:
             - name: DB_USERNAME
@@ -74,9 +77,9 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
-            - name: pythonrestapi-config
-              mountPath: /etc/pythonrestapi_config.json
-              subPath: pythonrestapi_config.json
+            - name: ragagent-config
+              mountPath: /etc/ragagent_config.json
+              subPath: ragagent_config.json
               readOnly: true
           #        - name: log
           #          mountPath: /var/log/aspnetcore
@@ -88,25 +91,25 @@ spec:
           image: khteh/fluentd:latest
           volumeMounts:
             - name: log
-              mountPath: /var/log/pythonrestapi
+              mountPath: /var/log/ragagent
             - name: fluentd-config
               mountPath: /etc/td-agent
             - name: access-log-template
               mountPath: /tmp/access_log_template.json
               subPath: access_log_template.json
               readOnly: true
-            - mountPath: /fluentd/elastic/tls.crt
-              name: elasticsearch-ca
-              subPath: tls.crt
-              readOnly: true
+            #- mountPath: /fluentd/elastic/tls.crt
+            #  name: elasticsearch-ca
+            #  subPath: tls.crt
+            #  readOnly: true
           resources:
             limits:
               cpu: 500m
               memory: 2Gi
       volumes:
-        - name: pythonrestapi-config
+        - name: ragagent-config
           configMap:
-            name: pythonrestapi
+            name: ragagent
         - name: fluentd-config
           configMap:
             name: fluentd-config
@@ -115,8 +118,8 @@ spec:
             name: access-log-template
         - name: log
           emptyDir: {}
-        - name: elasticsearch-ca
-          secret:
-            defaultMode: 420
-            optional: false
-            secretName: elasticsearch-eck-ca
+        #- name: elasticsearch-ca
+        #  secret:
+        #    defaultMode: 420
+        #    optional: false
+        #    secretName: elasticsearch-eck-ca
