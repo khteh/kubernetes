@@ -15,5 +15,5 @@ data:
         "HEALTHZ": {
                     "live": "src.app.liveness",
                     "ready": "src.app.readiness"
-                },
+                }
     }

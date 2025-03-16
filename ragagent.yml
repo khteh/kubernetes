@@ -77,6 +77,10 @@ spec:
             failureThreshold: 3
             successThreshold: 1
           volumeMounts:
+            - name: rag-agent-secret
+              mountPath: /app/.env
+              subPath: .env
+              readOnly: true
             - name: ragagent-config
               mountPath: /etc/ragagent_config.json
               subPath: ragagent_config.json
@@ -113,9 +117,15 @@ spec:
               cpu: 500m
               memory: 2Gi
       volumes:
+        - name: rag-agent-secret
+          secret:
+            secretName: rag-agent-secret
+            items:
+              - key: .env
+                path: .env
         - name: hypercorn-config
           configMap:
-            name: hypercorn
+            name: hypercorn-config
         - name: ragagent-config
           configMap:
             name: ragagent

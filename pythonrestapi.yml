@@ -112,7 +112,7 @@ spec:
       volumes:
         - name: hypercorn-config
           configMap:
-            name: hypercorn
+            name: hypercorn-config
         - name: pythonrestapi-config
           configMap:
             name: pythonrestapi
