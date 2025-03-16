@@ -89,7 +89,7 @@ spec:
           volumeMounts:
             - name: log
               mountPath: /var/log/pythonrestapi
-            - name: fluentd-config
+            - name: pythonrestapi-fluentd-config
               mountPath: /etc/td-agent
             - name: access-log-template
               mountPath: /tmp/access_log_template.json
@@ -107,9 +107,9 @@ spec:
         - name: pythonrestapi-config
           configMap:
             name: pythonrestapi
-        - name: fluentd-config
+        - name: pythonrestapi-fluentd-config
           configMap:
-            name: fluentd-config
+            name: pythonrestapi-fluentd-config
         - name: access-log-template
           configMap:
             name: access-log-template

@@ -92,7 +92,7 @@ spec:
           volumeMounts:
             - name: log
               mountPath: /var/log/ragagent
-            - name: fluentd-config
+            - name: ragagent-fluentd-config
               mountPath: /etc/td-agent
             - name: access-log-template
               mountPath: /tmp/access_log_template.json
@@ -110,9 +110,9 @@ spec:
         - name: ragagent-config
           configMap:
             name: ragagent
-        - name: fluentd-config
+        - name: ragagent-fluentd-config
           configMap:
-            name: fluentd-config
+            name: ragagent-fluentd-config
         - name: access-log-template
           configMap:
             name: access-log-template
