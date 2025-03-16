@@ -78,6 +78,10 @@ spec:
               mountPath: /etc/pythonrestapi_config.json
               subPath: pythonrestapi_config.json
               readOnly: true
+            - name: hypercorn-config
+              mountPath: /etc/hypercorn.toml
+              subPath: hypercorn.toml
+              readOnly: true
           #        - name: log
           #          mountPath: /var/log/aspnetcore
           resources:
@@ -89,6 +93,8 @@ spec:
           volumeMounts:
             - name: log
               mountPath: /var/log/pythonrestapi
+            - name: hypercornlog
+              mountPath: /var/log/hypercorn
             - name: pythonrestapi-fluentd-config
               mountPath: /etc/td-agent
             - name: access-log-template
@@ -104,6 +110,9 @@ spec:
               cpu: 500m
               memory: 2Gi
       volumes:
+        - name: hypercorn-config
+          configMap:
+            name: hypercorn
         - name: pythonrestapi-config
           configMap:
             name: pythonrestapi
@@ -114,6 +123,8 @@ spec:
           configMap:
             name: access-log-template
         - name: log
+          emptyDir: {}
+        - name: hypercornlog
           emptyDir: {}
         - name: elasticsearch-ca
           secret:

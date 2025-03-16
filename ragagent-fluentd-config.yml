@@ -43,6 +43,14 @@ data:
       read_from_head true
       tag ragagent
     </source>
+    <source>
+      @type tail
+      format json
+      path /var/log/hypercorn/log*
+      pos_file /var/log/td-agent/pos/hypercorn_logs.pos
+      read_from_head true
+      tag hypercorn
+    </source>
     <filter fluent.*>
       @type grep
       <exclude>

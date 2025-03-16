@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hypercorn-config
+data:
+  hypercorn.toml: |
+    accesslog = "/var/log/hypercorn"
+    errorlog = "/var/log/hypercorn"
+    loglevel = "DEBUG"
+    alt_svc_headers = ["h3=\":443\"; ma=3600, h3-29=\":443\"; ma=3600"]
+    bind = ["0.0.0.0:443"]
+    quic_bind = ["0.0.0.0:443"]
+    insecure_bind = ["0.0.0.0:80"]
+    certfile = "/tmp/server.crt"
+    keyfile = "/tmp/server.key"
+    server_names = ["hypercorn"]
+    worker_class = "asyncio"
+    workers = 100
