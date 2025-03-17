@@ -47,6 +47,8 @@ spec:
                 secretKeyRef:
                   name: postgresql-secret
                   key: postgresql-password
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/service-account.json
           ports:
             - containerPort: 80
               name: http
@@ -81,6 +83,10 @@ spec:
             - name: rag-agent-secret
               mountPath: /app/.env
               subPath: .env
+              readOnly: true
+            - name: gcloud-service-account
+              mountPath: /etc/service-account.json
+              subPath: service-account.json
               readOnly: true
             - name: ragagent-config
               mountPath: /etc/ragagent_config.json
@@ -126,6 +132,12 @@ spec:
             items:
               - key: .env
                 path: .env
+        - name: gcloud-service-account
+          secret:
+            secretName: gcloud-service-account
+            items:
+              - key: service-account.json
+                path: service-account.json
         - name: hypercorn-config
           configMap:
             name: hypercorn-config
