@@ -14,8 +14,8 @@ data:
         "DB_HOST": "svc-postgresql",
         "DB_MAX_CONNECTIONS": 10,
         "HEALTHZ": {
-                    "live": "src.app.liveness",
-                    "ready": "src.app.readiness"
+                    "live": "src.main.liveness",
+                    "ready": "src.main.readiness"
                 },
         "OIDC_CLIENT_SECRETS": "/tmp/oidc-secret.json",
         "OIDC_ID_TOKEN_COOKIE_SECURE": false,

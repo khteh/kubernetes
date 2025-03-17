@@ -6,7 +6,7 @@ metadata:
 data:
   access_log_template.json: |
     {
-      "index_patterns": ["aspnetcorewebapi.logs-*", "pythonrestapi.logs-*", "nodejsrestapi.logs-*"],
+      "index_patterns": ["aspnetcorewebapi.logs-*", "pythonrestapi.logs-*", "ragagent.logs-*", "hypoercorn.logs-*", "nodejsrestapi.logs-*"],
       "version": 3,
       "settings": {
         "number_of_shards": 3

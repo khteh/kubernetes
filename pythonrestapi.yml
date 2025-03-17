@@ -83,8 +83,10 @@ spec:
               mountPath: /etc/hypercorn.toml
               subPath: hypercorn.toml
               readOnly: true
-          #        - name: log
-          #          mountPath: /var/log/aspnetcore
+            - name: log
+              mountPath: /var/log/pythonrestapi
+            - name: hypercornlog
+              mountPath: /var/log/hypercorn
           resources:
             limits:
               cpu: 500m
