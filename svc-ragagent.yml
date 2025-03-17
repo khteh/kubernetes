@@ -9,14 +9,14 @@ metadata:
     app: ragagent
 spec:
   ports:
-    - name: http2
+    - name: https-tcp
       protocol: TCP
-      port: 8080
-      targetPort: http2
-    - name: http3
+      port: 4433
+      targetPort: https-tcp
+    - name: https-udp
       protocol: UDP
       port: 443
-      targetPort: http3
+      targetPort: https-udp
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: ragagent
@@ -33,16 +33,16 @@ metadata:
     app: ragagent
 spec:
   ports:
-    - name: http2
+    - name: https-tcp
       protocol: TCP
-      port: 8080
-      targetPort: http2
-      nodePort: 31002
-    - name: http3
-      protocol: UDP
       port: 4433
-      targetPort: http3
+      targetPort: https-tcp
       nodePort: 31003
+    - name: https-udp
+      protocol: UDP
+      port: 443
+      targetPort: https-udp
+      nodePort: 31004
   type: NodePort
   selector:
     app: ragagent

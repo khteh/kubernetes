@@ -40,7 +40,7 @@ spec:
       protocol: TCP
       port: 443
       targetPort: https
-      nodePort: 31004
+      nodePort: 31000
   type: NodePort
   selector:
     component: aspnetcorewebapi

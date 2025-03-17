@@ -49,12 +49,15 @@ spec:
               name: http
               protocol: TCP
             - containerPort: 443
-              name: https
+              name: https-udp
               protocol: UDP
+            - containerPort: 443
+              name: https-tcp
+              protocol: TCP
           readinessProbe:
             httpGet:
               path: /healthz/ready
-              port: https
+              port: https-udp
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -64,7 +67,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz/live
-              port: https
+              port: https-udp
               scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 5
