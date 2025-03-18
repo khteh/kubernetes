@@ -39,7 +39,7 @@ spec:
   ports:
     - name: https-tcp
       protocol: TCP
-      port: 4433
+      port: 443
       targetPort: https-tcp
       nodePort: 31003
     - name: https-udp
