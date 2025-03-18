@@ -53,6 +53,8 @@ spec:
               value: library
             - name: POSTGRES_DB_3
               value: school
+            - name: POSTGRES_DB_4
+              value: LangchainCheckpoint
           ports:
             - containerPort: 5432
               name: postgresql
