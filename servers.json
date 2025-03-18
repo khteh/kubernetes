@@ -1,0 +1,15 @@
+{
+	"Servers": {
+    "1": {
+      "Name": "pgadmin-k8s",
+      "Host": "svc-postgresql",
+      "Username": "guest",
+      "Password": "P@$$w0rd",
+      "Group": "pgadmin-k8s",
+      "Port": 5432,
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres",
+      "Include Error Detail": true
+    }
+  }
+}

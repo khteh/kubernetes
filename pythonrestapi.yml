@@ -58,7 +58,7 @@ spec:
             exec:
               command:
                 - curl
-                - -sf
+                - -v
                 #- --insecure
                 - http://localhost/healthz/ready
             #httpGet:
@@ -74,8 +74,8 @@ spec:
             exec:
               command:
                 - curl
-                - -sf
-                #- --insecure
+                - -v
+                #    - --insecure
                 - http://localhost/healthz/live
             #httpGet:
             #  path: /healthz/live
