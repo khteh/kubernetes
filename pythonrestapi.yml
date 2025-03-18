@@ -58,8 +58,7 @@ spec:
             exec:
               command:
                 - curl
-                - -s
-                - --fail
+                - -sf
                 #- --insecure
                 - http://localhost/healthz/ready
             #httpGet:
@@ -75,8 +74,7 @@ spec:
             exec:
               command:
                 - curl
-                - -s
-                - --fail
+                - -sf
                 #- --insecure
                 - http://localhost/healthz/live
             #httpGet:
