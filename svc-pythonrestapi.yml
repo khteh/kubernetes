@@ -9,6 +9,10 @@ metadata:
     app: pythonrestapi
 spec:
   ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
     - name: https-tcp
       protocol: TCP
       port: 443
