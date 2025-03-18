@@ -59,13 +59,14 @@ spec:
               command:
                 - curl
                 - -s
-                - --insecure
-                - https://localhost/healthz/ready
+                - --fail
+                #- --insecure
+                - http://localhost/healthz/ready
             #httpGet:
             #  path: /healthz/ready
-            #  port: https-udp
-            #  scheme: HTTPS
-            initialDelaySeconds: 10
+            #  port: http
+            #  scheme: HTTP
+            initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
             failureThreshold: 3
@@ -75,13 +76,14 @@ spec:
               command:
                 - curl
                 - -s
-                - --insecure
-                - https://localhost/healthz/live
+                - --fail
+                #- --insecure
+                - http://localhost/healthz/live
             #httpGet:
             #  path: /healthz/live
-            #  port: https-udp
-            #  scheme: HTTPS
-            initialDelaySeconds: 10
+            #  port: http
+            #  scheme: HTTP
+            initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
             failureThreshold: 3
