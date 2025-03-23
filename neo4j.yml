@@ -54,10 +54,8 @@ spec:
             periodSeconds: 10
             successThreshold: 1
           volumeMounts:
-            - name: neo4j-config
-              mountPath: /config/neo4j.conf
-              subPath: neo4j.conf
-              readOnly: true
+            - mountPath: /config/neo4j.conf
+              name: neo4j-conf
             - name: log
               mountPath: /var/log/neo4j
             #- name: neo4j-initdb
@@ -65,9 +63,12 @@ spec:
             #- name: neo4j-auth
             #  mountPath: /config/neo4j-auth
       volumes:
-        - name: neo4j-config
-          configMap:
-            name: neo4j-config
+        - name: neo4j-conf
+          projected:
+            defaultMode: 0440
+            sources:
+              - configMap:
+                  name: neo4j-config
         - name: log
           emptyDir: {}
         #- name: neo4j-initdb
