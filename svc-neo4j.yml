@@ -44,4 +44,7 @@ spec:
   - name: http
     port: 7474
     nodePort: 30003
+  - name: bolt
+    port: 7687
+    nodePort: 30004
   type: NodePort

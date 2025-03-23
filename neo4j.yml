@@ -22,12 +22,14 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: neo4j
-          #        image: postgres:latest
           image: neo4j:latest
           imagePullPolicy: Always
           env:
             - name: NEO4J_AUTH
-              value: none
+              valueFrom:
+                secretKeyRef:
+                  name: neo4j-secret
+                  key: NEO4J_AUTH
           ports:
             - name: https
               containerPort: 7473
@@ -42,7 +44,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           readinessProbe:
             tcpSocket:
               port: 7687
@@ -56,6 +58,8 @@ spec:
               mountPath: /config/neo4j.conf
               subPath: neo4j.conf
               readOnly: true
+            - name: log
+              mountPath: /var/log/neo4j
             #- name: neo4j-initdb
             #  mountPath: /import
             #- name: neo4j-auth
@@ -64,6 +68,8 @@ spec:
         - name: neo4j-config
           configMap:
             name: neo4j-config
+        - name: log
+          emptyDir: {}
         #- name: neo4j-initdb
         #  configMap:
         #    name: neo4j-initdb

@@ -2,7 +2,10 @@
 
 Kubernetes cluster which consists of the following components:
 
-- RestAPI application
+- RestAPI applications
+- Databases
+  - PostgreSQL
+  - Neo4J
 - Elasticsearch cluster
   - 3 Master nodes
   - 2 Slave nodes
@@ -57,7 +60,8 @@ pod/elasticsearch-master-1                    1/1     Running     0          108
 pod/elasticsearch-master-2                    1/1     Running     0          108m
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
-pod/mysql-0                                   1/1     Running     0          140m
+pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
+pod/neo4j-0                                   1/1     Running     0          14m
 pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
 pod/restapi-0                                 2/2     Running     0          49m
 pod/restapi-1                                 2/2     Running     0          49m
@@ -77,10 +81,17 @@ service/kubernetes                    ClusterIP   10.152.183.1     <none>       
 service/svc-elasticsearch             ClusterIP   None             <none>        9200/TCP,9300/TCP   108m
 service/svc-elasticsearch-discovery   ClusterIP   None             <none>        9300/TCP            108m
 service/svc-kibana                    ClusterIP   None             <none>        8080/TCP            14m
-service/svc-mysql                     ClusterIP   None             <none>        3306/TCP            140m
+service/svc-postgresql                ClusterIP   None             <none>        5432/TCP            3d22h
+service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
 service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   49m
-service/svc-rabbitmq                     ClusterIP   None             <none>        15672/TCP,5672/TCP   5d7h
-service/svc-redis-cluster                ClusterIP   None             <none>        6379/TCP,16379/TCP   61d
+service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/TCP,443/UDP                         2d21h
+service/svc-pythonrestapi-nodeport    NodePort    10.152.183.57    <none>        443:31001/TCP,443:31002/UDP                    2d21h
+service/svc-rabbitmq                  ClusterIP   None             <none>        15672/TCP,5672/TCP  5d7h
+service/svc-redis-cluster             ClusterIP   None             <none>        6379/TCP,16379/TCP  61d
+service/svc-ragagent                  ClusterIP   None             <none>        80/TCP,4433/TCP,443/UDP                        20h
+service/svc-ragagent-nodeport         NodePort    10.152.183.66    <none>        443:31003/TCP,443:31004/UDP                    20h
+service/svc-neo4j                     ClusterIP   None             <none>        7473/TCP,7474/TCP,7687/TCP                     5m56s
+service/svc-neo4j-nodeport            NodePort    10.152.183.170   <none>        7473:30002/TCP,7474:30003/TCP,7687:30004/TCP   5m56s
 
 NAME                                               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 daemonset.apps/daemonset                           1         1         1       1            1           <none>          108m
