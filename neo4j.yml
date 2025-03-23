@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: neo4j
+  labels:
+    app: db-neo4j
+    component: neo4j
+spec:
+  serviceName: svc-neo4j
+  podManagementPolicy: Parallel # Default is OrderedReady
+  replicas: 1 # Default is 1
+  selector:
+    matchLabels:
+      app: db-neo4j # Has to match .spec.template.metadata.labels
+      component: neo4j
+  template:
+    metadata:
+      labels:
+        app: db-neo4j # Has to match .spec.selector.matchLabels
+        component: neo4j
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: neo4j
+          #        image: postgres:latest
+          image: neo4j:latest
+          imagePullPolicy: Always
+          env:
+            - name: NEO4J_AUTH
+              value: none
+          ports:
+            - name: https
+              containerPort: 7473
+            - name: http
+              containerPort: 7474
+            - name: bolt
+              containerPort: 7687
+          livenessProbe:
+            tcpSocket:
+              port: 7687
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 7687
+            failureThreshold: 10
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+          volumeMounts:
+            - name: neo4j-config
+              mountPath: /config/neo4j.conf
+              subPath: neo4j.conf
+              readOnly: true
+            #- name: neo4j-initdb
+            #  mountPath: /import
+            #- name: neo4j-auth
+            #  mountPath: /config/neo4j-auth
+      volumes:
+        - name: neo4j-config
+          configMap:
+            name: neo4j-config
+        #- name: neo4j-initdb
+        #  configMap:
+        #    name: neo4j-initdb
+  volumeClaimTemplates:
+    - metadata:
+        name: neo4j-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

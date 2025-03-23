@@ -6,4 +6,4 @@ kubectl delete sts rabbitmq --ignore-not-found=true
 kubectl delete sa svc-rabbitmq --ignore-not-found=true
 kubectl delete role svc-rabbitmq --ignore-not-found=true
 kubectl delete rolebinding svc-rabbitmq --ignore-not-found=true
-kubectl apply -f rabbitmq_rbac.yml,rabbitmq-config.yml,rabbitmq-definitions.yml,svc-rabbitmq.yml,rabbitmq.yml
+kubectl apply -f rabbitmq_rbac.yml,rabbitmq_config.yml,rabbitmq-definitions.yml,svc-rabbitmq.yml,rabbitmq.yml

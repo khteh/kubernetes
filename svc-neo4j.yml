@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-neo4j
+  labels: 
+    app: db-neo4j
+    component: neo4j
+spec:
+  selector:
+    app: db-neo4j
+    component: neo4j
+#    tier: database
+  ports:
+  - name: https
+    port: 7473
+    targetPort: https
+  - name: http
+    port: 7474
+    targetPort: http
+  - name: bolt
+    port: 7687
+    targetPort: bolt
+  clusterIP: None # Headless
+  selector:
+    app: db-neo4j
+    component: neo4j
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-neo4j-nodeport
+  labels: 
+    app: db-neo4j
+    component: neo4j
+spec:
+  selector:
+    app: db-neo4j
+    component: neo4j
+#    tier: database
+  ports:
+  - name: https
+    port: 7473
+    nodePort: 30002
+  - name: http
+    port: 7474
+    nodePort: 30003
+  type: NodePort

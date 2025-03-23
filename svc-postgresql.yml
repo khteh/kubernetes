@@ -32,7 +32,7 @@ spec:
     component: postgresql
 #    tier: database
   ports:
-  - port: 5432
-    name: postgresql
+  - name: postgresql
+    port: 5432
     nodePort: 30000
   type: NodePort

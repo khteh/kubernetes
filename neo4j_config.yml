@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: neo4j-config
+  labels:
+    app: db-neo4j
+    component: neo4j
+data:
+  # Bolt keep alive
+  # this helps to ensure that LoadBalancers do not close bolt connections that are in use but appear idle
+  server.bolt.connection_keep_alive: "30s"
+  server.bolt.connection_keep_alive_for_requests: "ALL"
+  server.bolt.connection_keep_alive_streaming_scheduling_interval: "30s"
+  # Other
+  internal.dbms.ssl.system.ignore_dot_files: "true"
+  server.directories.logs: "/var/log/neo4j"
+  # Import
+  server.directories.import: "/import"
+  # Metrics
+  server.directories.metrics: "/metrics"
+  # Use more reliable defaults SSL / TLS settings for K8s
+  dbms.ssl.policy.bolt.client_auth: "NONE"
+  dbms.ssl.policy.https.client_auth: "NONE"
+  server.bolt.tls_level: "REQUIRED"
+  server.https.enabled: "true"
+  server.default_listen_address: "0.0.0.0"
