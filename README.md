@@ -107,10 +107,11 @@ NAME                                    READY   AGE
 statefulset.apps/elasticsearch          2/2     108m
 statefulset.apps/elasticsearch-master   3/3     108m
 statefulset.apps/kibana                 2/2     14m
-statefulset.apps/mysql                  1/1     140m
+statefulset.apps/postgresql             1/1     140m
+statefulset.apps/neo4j                  1/1     140m
 statefulset.apps/restapi                2/2     49m
-statefulset.apps/rabbitmq                     3/3     3d6h
-statefulset.apps/redis-cluster                6/6     14d
+statefulset.apps/rabbitmq               3/3     3d6h
+statefulset.apps/redis-cluster          6/6     14d
 
 NAME                                              REFERENCE             TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 horizontalpodautoscaler.autoscaling/kibana-hpa    StatefulSet/kibana    3%/75%    2         5         2          74s
