@@ -6,42 +6,42 @@ metadata:
     app: rabbitmq-publisher
     component: rabbitmq
 spec:
-#  ttlSecondsAfterFinished: 100
+  #  ttlSecondsAfterFinished: 100
   backoffLimit: 3
   activeDeadlineSeconds: 100
   template:
     spec:
       restartPolicy: OnFailure
       containers:
-      - name: rabbitmq-publisher-job
-        image: khteh/rabbitmq-publisher:latest
-        imagePullPolicy: Always
-        env:
-          - name: ASPNETCORE_ENVIRONMENT
-            value: Production
-          - name: ASPNETCORE_URLS
-            value: "https://+;http://+"
-          - name: ASPNETCORE_HTTPS_PORT
-            value: "5000"
-          - name: COMPlus_ThreadPool_ForceMinWorkerThreads
-            value: "1000"
-          - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
-            value: "10000"
-          - name: EXCHANGE
-            value: "topic_exchange"
-          - name: ROUTINGKEY
-            value: "kern.info"
-          - name: MESSAGE
-            value: "Hello World!!!"
-        volumeMounts:
-        - name: rabbitmq-secret
-          mountPath: /app/appsettings.secret.json
-          subPath: appsettings.secret.json
-          readOnly: true
+        - name: rabbitmq-publisher-job
+          image: khteh/rabbitmq-publisher:latest
+          imagePullPolicy: Always
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ASPNETCORE_URLS
+              value: "https://+;http://+"
+            - name: ASPNETCORE_HTTPS_PORT
+              value: "5000"
+            - name: COMPlus_ThreadPool_ForceMinWorkerThreads
+              value: "1000"
+            - name: COMPlus_ThreadPool_ForceMaxWorkerThreads
+              value: "10000"
+            - name: EXCHANGE
+              value: "topic_exchange"
+            - name: ROUTINGKEY
+              value: "kern.info"
+            - name: MESSAGE
+              value: "Hello World!!!"
+          volumeMounts:
+            - name: rabbitmq-secret
+              mountPath: /app/appsettings.secret.json
+              subPath: appsettings.secret.json
+              readOnly: true
       volumes:
-      - name: rabbitmq-secret
-        secret:
-          secretName: rabbitmq-secret
-          items:
-          - key: rabbitmq-secret.json
-            path: appsettings.secret.json
+        - name: rabbitmq-secret
+          secret:
+            secretName: rabbitmq-secret
+            items:
+              - key: rabbitmq_secret.json
+                path: appsettings.secret.json

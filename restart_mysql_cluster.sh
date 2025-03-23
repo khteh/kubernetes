@@ -6,4 +6,4 @@ kubectl delete sts mysql-{master,slave} --ignore-not-found=true
 kubectl delete secret mysql-secret --ignore-not-found=true
 kubectl delete pvc -l app=mysql-master
 kubectl delete pvc -l app=mysql-slave
-kubectl apply -f mysql-secret.yml,svc-mysql-cluster.yml,mysql-initdb.yml,mysql-master.yml,mysql-slave.yml
+kubectl apply -f mysql_secret.yml,svc-mysql-cluster.yml,mysql-initdb.yml,mysql-master.yml,mysql-slave.yml

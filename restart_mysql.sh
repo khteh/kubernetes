@@ -5,4 +5,4 @@ kubectl delete configmap mysql-initdb --ignore-not-found=true
 kubectl delete statefulset mysql --ignore-not-found=true
 kubectl delete secret mysql-secret --ignore-not-found=true
 kubectl delete pvc -l app=db-mysql
-kubectl apply -f svc-mysql.yml,mysql-secret.yml,mysql-initdb.yml,mysqlset.yml
+kubectl apply -f svc-mysql.yml,mysql_secret.yml,mysql-initdb.yml,mysqlset.yml

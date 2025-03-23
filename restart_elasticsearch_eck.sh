@@ -19,4 +19,4 @@ kubectl create -f https://download.elastic.co/downloads/eck/2.10.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/2.10.0/operator.yaml
 kubectl delete elasticsearch <name> --ignore-not-found=true
 kubectl delete agent fleet-server elastic-agent --ignore-not-found=true
-kubectl apply -f elastic-agent-account.yml,elasticsearch-secret.yml,elasticsearch-eck-fleet.yml,elasticsearch-eck.yml
+kubectl apply -f elastic-agent-account.yml,elasticsearch_secret.yml,elasticsearch-eck-fleet.yml,elasticsearch-eck.yml
