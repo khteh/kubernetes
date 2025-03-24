@@ -54,8 +54,8 @@ spec:
             periodSeconds: 10
             successThreshold: 1
           volumeMounts:
-            - mountPath: /config/neo4j.conf
-              name: neo4j-conf
+            - name: neo4j-conf
+              mountPath: /config/neo4j.conf
             - name: log
               mountPath: /var/log/neo4j
             #- name: neo4j-initdb

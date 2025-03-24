@@ -11,7 +11,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/de
 echo "Create the heapster cluster role binding for the dashboard..."
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/rbac/heapster-rbac.yaml
 #kubectl create clusterrolebinding iconverse-service-account --clusterrole=cluster-admin --serviceaccount=kube-system:iconverse-service-account
-kubectl apply -f eks-admin-service-account.yml
+kubectl apply -f eks_admin_service_account.yml
 
 pkill kubectl
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')

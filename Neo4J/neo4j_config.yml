@@ -14,7 +14,7 @@ data:
   # Other
   internal.dbms.ssl.system.ignore_dot_files: "true"
   server.directories.logs: "/var/log/neo4j"
-  # Import
+  # Import - Only works by copying the files to be imported into the pod in this folder, then run the import externally using GraphDatabase.driver
   server.directories.import: "/import"
   # Metrics
   server.directories.metrics: "/metrics"
@@ -22,6 +22,16 @@ data:
   dbms.ssl.policy.bolt.client_auth: "NONE"
   dbms.ssl.policy.https.client_auth: "NONE"
   dbms.security.allow_csv_import_from_file_urls: "true"
+  dbms.databases.default_to_read_only: "false"
   #server.bolt.tls_level: "REQUIRED"
   server.https.enabled: "false"
   server.default_listen_address: "0.0.0.0"
+  # Paths of directories in the installation.
+  server.directories.data: "data"
+  #server.directories.plugins=plugins
+  server.directories.logs: "/var/log/neo4j"
+  #server.directories.lib=lib
+  #server.directories.run=run
+  #server.directories.licenses=licenses
+  server.directories.transaction.logs.root: "/var/log/neo4j/transactions"
+

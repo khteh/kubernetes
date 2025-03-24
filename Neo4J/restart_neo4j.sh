@@ -1,6 +1,6 @@
 #!/bin/bash
 kubectl scale sts neo4j --replicas=0
-kubectl delete svc svc-{neo4j,neo4j-nodeport}
+#kubectl delete svc svc-{neo4j,neo4j-nodeport}
 kubectl delete configmap neo4j-config --ignore-not-found=true
 kubectl delete sts neo4j --ignore-not-found=true
 kubectl delete secret neo4j-secret --ignore-not-found=true

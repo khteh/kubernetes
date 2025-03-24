@@ -13,7 +13,7 @@ eksctl create iamserviceaccount \
 microk8s.kubectl annotate serviceaccount cluster-autoscaler \
   -n kube-system \
   eks.amazonaws.com/role-arn=arn:aws:iam::ACCOUNT_ID:role/<arn:aws:iam::<ACCOUNT_ID>:role/eksctl-<name>-addon-iamserviceaccount-kub-Role1-xxx>
-microk8s.kubectl apply -f cluster-autoscaler-autodiscover.yml
+microk8s.kubectl apply -f cluster_autoscaler_autodiscover.yml
 
 microk8s.kubectl patch deployment cluster-autoscaler \
   -n kube-system \
