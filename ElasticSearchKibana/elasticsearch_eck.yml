@@ -1,9 +1,11 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: MyElasticSearch
+  name: khteh-es
+  labels:
+    app: elasticsearch
 spec:
-  version: 8.11.3
+  version: 8.17.3 #https://www.elastic.co/guide/en/elasticsearch/reference/current/es-release-notes.html
   auth:
     fileRealm:
       - secretName: elasticsearch-secret
@@ -49,16 +51,16 @@ spec:
                 - |
                   echo $AWS_ACCESS_KEY_ID | bin/elasticsearch-keystore add --stdin --force s3.client.default.access_key
                   echo $AWS_SECRET_ACCESS_KEY | bin/elasticsearch-keystore add --stdin --force s3.client.default.secret_key
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: elasticsearch.k8s.elastic.co/statefulset-name
-                        operator: In
-                        values:
-                          - <name>-es-master
-                  topologyKey: kubernetes.io/hostname
+          #affinity:
+          #  podAntiAffinity:
+          #    requiredDuringSchedulingIgnoredDuringExecution:
+          #      - labelSelector:
+          #          matchExpressions:
+          #            - key: elasticsearch.k8s.elastic.co/statefulset-name
+          #              operator: In
+          #              values:
+          #                - khteh-es-master
+          #        topologyKey: kubernetes.io/hostname
           containers:
             - name: elasticsearch
               readinessProbe:
@@ -75,16 +77,21 @@ spec:
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "10"
+              volumeMounts:
+                - name: elasticsearch-data
+                  mountPath: /usr/share/elasticsearch/data
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
+            labels:
+              app: elasticsearch
           spec:
             accessModes:
               - ReadWriteOnce
             resources:
               requests:
                 storage: 10Gi
-            storageClassName: gp3
+            storageClassName: local-storage # gp3
     - name: data
       count: 5
       config:
@@ -142,13 +149,18 @@ spec:
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "10"
+              volumeMounts:
+                - name: elasticsearch-data
+                  mountPath: /usr/share/elasticsearch/data
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
+            labels:
+              app: elasticsearch
           spec:
             accessModes:
               - ReadWriteOnce
             resources:
               requests:
                 storage: 20Gi
-            storageClassName: gp3
+            storageClassName: local-storage # gp3

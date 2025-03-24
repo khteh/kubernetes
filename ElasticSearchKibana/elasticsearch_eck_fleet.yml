@@ -4,7 +4,7 @@ metadata:
   name: fleet-server
   namespace: default
 spec:
-  version: 8.11.3
+  version: 8.17.3
   kibanaRef:
     name: MyFleetServer
   elasticsearchRefs:
@@ -27,7 +27,7 @@ metadata:
   name: elastic-agent
   namespace: default
 spec:
-  version: 8.11.3
+  version: 8.17.3
   kibanaRef:
     name: <name>
   fleetServerRef:
