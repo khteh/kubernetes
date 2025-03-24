@@ -45,16 +45,16 @@ spec:
                 - |
                   echo $AWS_ACCESS_KEY_ID | bin/elasticsearch-keystore add --stdin --force s3.client.default.access_key
                   echo $AWS_SECRET_ACCESS_KEY | bin/elasticsearch-keystore add --stdin --force s3.client.default.secret_key
-          #affinity:
-          #  podAntiAffinity:
-          #    requiredDuringSchedulingIgnoredDuringExecution:
-          #      - labelSelector:
-          #          matchExpressions:
-          #            - key: elasticsearch.k8s.elastic.co/statefulset-name
-          #              operator: In
-          #              values:
-          #                - khteh-es-master
-          #        topologyKey: kubernetes.io/hostname
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: elasticsearch.k8s.elastic.co/statefulset-name
+                        operator: In
+                        values:
+                          - khteh-es-master
+                  topologyKey: kubernetes.io/hostname
           containers:
             - name: elasticsearch
               readinessProbe:
@@ -97,7 +97,7 @@ spec:
         http.cors.allow-origin: "*"
         #network.host: _site_ Forbidden: Configuration setting is reserved for internal use
         #node.name: ${HOSTNAME} Forbidden: Configuration setting is reserved for internal use
-        bootstrap.memory_lock: true # https://www.elastic.co/guide/en/elasticsearch/reference/8.17/bootstrap-checks-memory-lock.html
+        bootstrap.memory_lock: false # https://www.elastic.co/guide/en/elasticsearch/reference/8.17/bootstrap-checks-memory-lock.html
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
         cluster.max_shards_per_node: 10000
       podTemplate:
