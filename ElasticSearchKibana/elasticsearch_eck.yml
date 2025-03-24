@@ -91,7 +91,7 @@ spec:
             resources:
               requests:
                 storage: 10Gi
-            storageClassName: local-storage # gp3
+            #storageClassName: gp3
     - name: data
       count: 5
       config:
@@ -163,4 +163,4 @@ spec:
             resources:
               requests:
                 storage: 20Gi
-            storageClassName: local-storage # gp3
+            #storageClassName: gp3

@@ -11,7 +11,7 @@ kubectl scale sts khteh-es-es-master --replicas=0
 kubectl delete sts khteh-es-es-master --ignore-not-found=true
 kubectl delete secret elasticsearch-secret elastic-eck-snapshots --ignore-not-found=true
 kubectl delete pvc -l elasticsearch.k8s.elastic.co/cluster-name=khteh-es --ignore-not-found=true
-pvcs=(elasticsearch-data-khteh-es-es-data-0 elasticsearch-data-khteh-es-es-data-1 elasticsearch-data-khteh-es-es-master-0 elasticsearch-data-khteh-es-es-master-1 elasticsearch-data-khteh-es-es-master-2)
+pvcs=(elasticsearch-data-khteh-es-es-data-0 elasticsearch-data-khteh-es-es-data-1 elasticsearch-data-khteh-es-es-data-2 elasticsearch-data-khteh-es-es-data-3 elasticsearch-data-khteh-es-es-data-4 elasticsearch-data-khteh-es-es-master-0 elasticsearch-data-khteh-es-es-master-1 elasticsearch-data-khteh-es-es-master-2)
 for pvc in ${pvcs[@]}; do
     kubectl patch pvc $pvc -p '{"metadata":{"finalizers":null}}'
 done
