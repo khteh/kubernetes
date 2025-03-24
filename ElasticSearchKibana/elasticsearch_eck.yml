@@ -21,18 +21,12 @@ spec:
         http.cors.allow-origin: "*"
         #network.host: _site_ Forbidden: Configuration setting is reserved for internal use
         #node.name: ${HOSTNAME} Forbidden: Configuration setting is reserved for internal use
-        bootstrap.memory_lock: true
+        bootstrap.memory_lock: false # https://www.elastic.co/guide/en/elasticsearch/reference/8.17/bootstrap-checks-memory-lock.html
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
         cluster.max_shards_per_node: 10000
       podTemplate:
         spec:
           initContainers:
-            - name: install-plugins
-              command:
-                - sh
-                - -c
-                - |
-                  bin/elasticsearch-plugin install --batch repository-s3
             - name: add-aws-keys
               env:
                 - name: AWS_ACCESS_KEY_ID
@@ -71,9 +65,9 @@ spec:
                     - /mnt/elastic-internal/scripts/readiness-probe-script.sh
                 failureThreshold: 3
                 initialDelaySeconds: 10
-                periodSeconds: 12
+                periodSeconds: 10
                 successThreshold: 1
-                timeoutSeconds: 12
+                timeoutSeconds: 10
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "10"
@@ -103,18 +97,12 @@ spec:
         http.cors.allow-origin: "*"
         #network.host: _site_ Forbidden: Configuration setting is reserved for internal use
         #node.name: ${HOSTNAME} Forbidden: Configuration setting is reserved for internal use
-        bootstrap.memory_lock: true
+        bootstrap.memory_lock: true # https://www.elastic.co/guide/en/elasticsearch/reference/8.17/bootstrap-checks-memory-lock.html
         #xpack.security.transport.ssl.enabled: true Forbidden: Configuration setting is reserved for internal use
         cluster.max_shards_per_node: 10000
       podTemplate:
         spec:
           initContainers:
-            - name: install-plugins
-              command:
-                - sh
-                - -c
-                - |
-                  bin/elasticsearch-plugin install --batch repository-s3
             - name: add-aws-keys
               env:
                 - name: AWS_ACCESS_KEY_ID
@@ -143,9 +131,9 @@ spec:
                     - /mnt/elastic-internal/scripts/readiness-probe-script.sh
                 failureThreshold: 3
                 initialDelaySeconds: 10
-                periodSeconds: 12
+                periodSeconds: 10
                 successThreshold: 1
-                timeoutSeconds: 12
+                timeoutSeconds: 10
               env:
                 - name: READINESS_PROBE_TIMEOUT
                   value: "10"
