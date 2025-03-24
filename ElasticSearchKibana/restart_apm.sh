@@ -1,6 +1,6 @@
 #!/bin/bash
 # Follow https://www.elastic.co/guide/en/apm/guide/current/agent-tls.html to create the elastic-stack self-signed certs
-kubectl delete apm <name>
+kubectl delete apm khteh-apm
 kubectl delete secret elasticsearch-eck-ca --ignore-not-found=true
 kubectl delete secret apm-internal-cert --ignore-not-found=true
 kubectl delete secret apm-public-cert-token --ignore-not-found=true

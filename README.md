@@ -52,12 +52,14 @@ $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
 pod/daemonset-8s4zs                           1/1     Running     0          108m
 pod/default-http-backend-5769f6bc66-tslnj     1/1     Running     0          143m
-pod/elasticsearch-0                           1/1     Running     0          108m
-pod/elasticsearch-1                           1/1     Running     0          108m
-pod/elasticsearch-init-wl24z                  0/1     Completed   0          100m
-pod/elasticsearch-master-0                    1/1     Running     0          108m
-pod/elasticsearch-master-1                    1/1     Running     0          108m
-pod/elasticsearch-master-2                    1/1     Running     0          108m
+khteh-es-es-master-0                          1/1     Running     0          3m18s
+khteh-es-es-master-2                          1/1     Running     0          3m18s
+khteh-es-es-data-0                            1/1     Running     0          3m18s
+khteh-es-es-data-1                            1/1     Running     0          3m17s
+khteh-es-es-data-3                            1/1     Running     0          3m17s
+khteh-es-es-data-4                            1/1     Running     0          3m17s
+khteh-es-es-data-2                            1/1     Running     0          3m17s
+khteh-es-es-master-1                          1/1     Running     0          3m18s
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
@@ -78,8 +80,11 @@ redis-cluster-5                    1/1     Running     0          14d
 NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
 service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              143m
 service/kubernetes                    ClusterIP   10.152.183.1     <none>        443/TCP             145m
-service/svc-elasticsearch             ClusterIP   None             <none>        9200/TCP,9300/TCP   108m
-service/svc-elasticsearch-discovery   ClusterIP   None             <none>        9300/TCP            108m
+khteh-es-es-transport                 ClusterIP   None             <none>        9300/TCP            5m18s
+khteh-es-es-http                      ClusterIP   10.152.183.80    <none>        9200/TCP            5m18s
+khteh-es-es-internal-http             ClusterIP   10.152.183.49    <none>        9200/TCP            5m18s
+khteh-es-es-master                    ClusterIP   None             <none>        9200/TCP            5m16s
+khteh-es-es-data                      ClusterIP   None             <none>        9200/TCP            5m16s
 service/svc-kibana                    ClusterIP   None             <none>        8080/TCP            14m
 service/svc-postgresql                ClusterIP   None             <none>        5432/TCP            3d22h
 service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
@@ -190,29 +195,9 @@ connected
 ## Elasticsearch Cluster:
 
 ```
-# curl svc-elasticsearch-discovery:9200/_cluster/health?pretty
-{
-  "cluster_name" : "elasticsearch",
-  "status" : "green",
-  "timed_out" : false,
-  "number_of_nodes" : 5,
-  "number_of_data_nodes" : 2,
-  "active_primary_shards" : 16,
-  "active_shards" : 32,
-  "relocating_shards" : 0,
-  "initializing_shards" : 0,
-  "unassigned_shards" : 0,
-  "delayed_unassigned_shards" : 0,
-  "number_of_pending_tasks" : 0,
-  "number_of_in_flight_fetch" : 0,
-  "task_max_waiting_in_queue_millis" : 0,
-  "active_shards_percent_as_number" : 100.0
-}
-# curl svc-elasticsearch-discovery:9200/_cat/indices
-green open .kibana_1                      CWOkws7gRMSJTGaDEDKFOQ 1 1   5 0  50.7kb 25.3kb
-green open restapi.logs-2019.03.27        4GFVDwVeSAq4SNAVfG7Lzg 5 1 228 0 467.7kb  236kb
-green open restapi.access.logs-2019.03.27 4azKaBXmTcmIa8R3Vz9imA 5 1  11 0 140.1kb   70kb
-green open restapi.access.logs-2019.03.28 oZjwRZdxQIybxWQ4NBZZSw 5 1   4 0  57.2kb 28.6kb
+$ k get es
+NAME       HEALTH   NODES   VERSION   PHASE   AGE
+khteh-es   green    8       8.17.3    Ready   5m35s
 ```
 
 ## RabbitMQ Cluster:

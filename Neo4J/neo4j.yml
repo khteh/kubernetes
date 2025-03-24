@@ -22,7 +22,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: neo4j
-          image: neo4j:latest
+          image: khteh/neo4j:latest
           imagePullPolicy: Always
           env:
             - name: NEO4J_AUTH
@@ -56,12 +56,15 @@ spec:
           volumeMounts:
             - name: neo4j-conf
               mountPath: /config/neo4j.conf
+            - name: healthcare-neo4j
+              mountPath: /import/neo4j.dump
+              subPath: neo4j.dump
+              readOnly: false
+            - name: neo4j-persistent-storage
+              mountPath: /data
+              readOnly: false
             - name: log
               mountPath: /var/log/neo4j
-            #- name: neo4j-initdb
-            #  mountPath: /import
-            #- name: neo4j-auth
-            #  mountPath: /config/neo4j-auth
       volumes:
         - name: neo4j-conf
           projected:
@@ -69,11 +72,11 @@ spec:
             sources:
               - configMap:
                   name: neo4j-config
+        - name: healthcare-neo4j
+          configMap:
+            name: healthcare-neo4j
         - name: log
           emptyDir: {}
-        #- name: neo4j-initdb
-        #  configMap:
-        #    name: neo4j-initdb
   volumeClaimTemplates:
     - metadata:
         name: neo4j-persistent-storage
