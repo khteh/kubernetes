@@ -8,7 +8,7 @@ Kubernetes cluster which consists of the following components:
   - Neo4J
 - Elasticsearch cluster
   - 3 Master nodes
-  - 2 Slave nodes
+  - 5 Slave nodes
 - Redis cluster
 - RabbitMQ cluster
 - Ethereum node which consists of:
@@ -53,13 +53,13 @@ NAME                                          READY   STATUS      RESTARTS   AGE
 pod/daemonset-8s4zs                           1/1     Running     0          108m
 pod/default-http-backend-5769f6bc66-tslnj     1/1     Running     0          143m
 khteh-es-es-master-0                          1/1     Running     0          3m18s
+khteh-es-es-master-1                          1/1     Running     0          3m18s
 khteh-es-es-master-2                          1/1     Running     0          3m18s
 khteh-es-es-data-0                            1/1     Running     0          3m18s
 khteh-es-es-data-1                            1/1     Running     0          3m17s
 khteh-es-es-data-3                            1/1     Running     0          3m17s
 khteh-es-es-data-4                            1/1     Running     0          3m17s
 khteh-es-es-data-2                            1/1     Running     0          3m17s
-khteh-es-es-master-1                          1/1     Running     0          3m18s
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
