@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hypercorn-config
+data:
+  hypercorn.toml: |
+    accesslog = "/var/log/hypercorn/access.log"
+    errorlog = "/var/log/hypercorn/errors.log"
+    loglevel = "DEBUG" 
+    alt_svc_headers = ["h3=\":443\"; ma=86400"]
+    quic_bind = ["0.0.0.0:443", "[::]:443"]
+    certfile = "/tmp/server.crt"
+    keyfile = "/tmp/server.key"
+    server_names = ["hypercorn"]
+    worker_class = "trio"
