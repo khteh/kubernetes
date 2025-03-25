@@ -120,10 +120,10 @@ spec:
               mountPath: /tmp/access_log_template.json
               subPath: access_log_template.json
               readOnly: true
-            - mountPath: /fluentd/elastic/tls.crt
-              name: elasticsearch-ca
-              subPath: tls.crt
-              readOnly: true
+            #- mountPath: /fluentd/elastic/tls.crt
+            #  name: elasticsearch-ca
+            #  subPath: tls.crt
+            #  readOnly: true
           resources:
             limits:
               cpu: 500m
@@ -155,8 +155,8 @@ spec:
             name: access-log-template
         - name: log
           emptyDir: {}
-        - name: elasticsearch-ca
-          secret:
-            defaultMode: 420
-            optional: false
-            secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
+        #- name: elasticsearch-ca
+        #  secret:
+        #    defaultMode: 420
+        #    optional: false
+        #    secretName: elasticsearch-eck-ca # This is the secret that holds the Elasticsearch CA cert
