@@ -52,45 +52,46 @@ $ k get all
 NAME                                          READY   STATUS      RESTARTS   AGE
 pod/daemonset-8s4zs                           1/1     Running     0          108m
 pod/default-http-backend-5769f6bc66-tslnj     1/1     Running     0          143m
-khteh-es-es-master-0                          1/1     Running     0          3m18s
-khteh-es-es-master-1                          1/1     Running     0          3m18s
-khteh-es-es-master-2                          1/1     Running     0          3m18s
-khteh-es-es-data-0                            1/1     Running     0          3m18s
-khteh-es-es-data-1                            1/1     Running     0          3m17s
-khteh-es-es-data-3                            1/1     Running     0          3m17s
-khteh-es-es-data-4                            1/1     Running     0          3m17s
-khteh-es-es-data-2                            1/1     Running     0          3m17s
-khteh-kibana-kb-fcd8b8985-rjlwc               1/1     Running     0          3m58s
-khteh-kibana-kb-fcd8b8985-8sp56               1/1     Running     0          3m57s
+pod/khteh-es-es-master-0                      1/1     Running     0          3m18s
+pod/khteh-es-es-master-1                      1/1     Running     0          3m18s
+pod/khteh-es-es-master-2                      1/1     Running     0          3m18s
+pod/khteh-es-es-data-0                        1/1     Running     0          3m18s
+pod/khteh-es-es-data-1                        1/1     Running     0          3m17s
+pod/khteh-es-es-data-3                        1/1     Running     0          3m17s
+pod/khteh-es-es-data-4                        1/1     Running     0          3m17s
+pod/khteh-es-es-data-2                        1/1     Running     0          3m17s
+pod/khteh-kibana-kb-fcd8b8985-rjlwc           1/1     Running     0          3m58s
+pod/khteh-kibana-kb-fcd8b8985-8sp56           1/1     Running     0          3m57s
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
 pod/neo4j-0                                   1/1     Running     0          14m
 pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
-pod/restapi-0                                 2/2     Running     0          49m
-pod/restapi-1                                 2/2     Running     0          49m
-rabbitmq-0                         1/1     Running     0          3d6h
-rabbitmq-1                         1/1     Running     0          3d6h
-rabbitmq-2                         1/1     Running     0          3d6h
-redis-cluster-0                    1/1     Running     0          14d
-redis-cluster-1                    1/1     Running     0          14d
-redis-cluster-2                    1/1     Running     0          14d
-redis-cluster-3                    1/1     Running     0          14d
-redis-cluster-4                    1/1     Running     0          14d
-redis-cluster-5                    1/1     Running     0          14d
+pod/nodejsrestapi-0                    2/2     Running     0          30s
+pod/nodejsrestapi-1                    2/2     Running     0          30s
+pod/rabbitmq-0                         1/1     Running     0          3d6h
+pod/rabbitmq-1                         1/1     Running     0          3d6h
+pod/rabbitmq-2                         1/1     Running     0          3d6h
+pod/redis-cluster-0                    1/1     Running     0          14d
+pod/redis-cluster-1                    1/1     Running     0          14d
+pod/redis-cluster-2                    1/1     Running     0          14d
+pod/redis-cluster-3                    1/1     Running     0          14d
+pod/redis-cluster-4                    1/1     Running     0          14d
+pod/redis-cluster-5                    1/1     Running     0          14d
 
 NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
 service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              143m
 service/kubernetes                    ClusterIP   10.152.183.1     <none>        443/TCP             145m
-khteh-es-es-transport                 ClusterIP   None             <none>        9300/TCP            5m18s
-khteh-es-es-http                      ClusterIP   10.152.183.80    <none>        9200/TCP            5m18s
-khteh-es-es-internal-http             ClusterIP   10.152.183.49    <none>        9200/TCP            5m18s
-khteh-es-es-master                    ClusterIP   None             <none>        9200/TCP            5m16s
-khteh-es-es-data                      ClusterIP   None             <none>        9200/TCP            5m16s
-khteh-kibana-kb-http                  ClusterIP   10.152.183.49    <none>        5601/TCP            6m33s
+service/khteh-es-es-transport         ClusterIP   None             <none>        9300/TCP            5m18s
+service/khteh-es-es-http              ClusterIP   10.152.183.80    <none>        9200/TCP            5m18s
+service/khteh-es-es-internal-http     ClusterIP   10.152.183.49    <none>        9200/TCP            5m18s
+service/khteh-es-es-master            ClusterIP   None             <none>        9200/TCP            5m16s
+service/khteh-es-es-data              ClusterIP   None             <none>        9200/TCP            5m16s
+service/khteh-kibana-kb-http          ClusterIP   10.152.183.49    <none>        5601/TCP            6m33s
 service/svc-postgresql                ClusterIP   None             <none>        5432/TCP            3d22h
 service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
-service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   49m
+service/svc-nodejsrestapi             ClusterIP   None             <none>        443/TCP             70s
+service/svc-nodejsrestapi-nodeport    NodePort    10.152.183.243   <none>        443:31005/TCP       69s
 service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/TCP,443/UDP                         2d21h
 service/svc-pythonrestapi-nodeport    NodePort    10.152.183.57    <none>        443:31001/TCP,443:31002/UDP                    2d21h
 service/svc-rabbitmq                  ClusterIP   None             <none>        15672/TCP,5672/TCP  5d7h
@@ -112,11 +113,11 @@ NAME                                              DESIRED   CURRENT   READY   AG
 replicaset.apps/default-http-backend-5769f6bc66   1         1         1       143m
 
 NAME                                    READY   AGE
-khteh-es-es-master                      3/3     16m
-khteh-es-es-data                        5/5     16m
+statefulset.apps/khteh-es-es-master     3/3     16m
+statefulset.apps/khteh-es-es-data       5/5     16m
 statefulset.apps/postgresql             1/1     140m
 statefulset.apps/neo4j                  1/1     140m
-statefulset.apps/restapi                2/2     49m
+statefulset.apps/nodejsrestapi          2/2     105s
 statefulset.apps/rabbitmq               3/3     3d6h
 statefulset.apps/redis-cluster          6/6     14d
 
