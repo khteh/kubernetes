@@ -1,13 +1,15 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: MyKibana
-  namespace: default
+  name: khteh-kibana
+  labels:
+    app: kibana
+    component: elasticsearch-kibana
 spec:
   version: 8.17.3
   count: 2
   elasticsearchRef:
-    name: <name>
+    name: khteh-es
   http:
     tls:
       selfSignedCertificate:

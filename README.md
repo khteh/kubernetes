@@ -60,6 +60,8 @@ khteh-es-es-data-1                            1/1     Running     0          3m1
 khteh-es-es-data-3                            1/1     Running     0          3m17s
 khteh-es-es-data-4                            1/1     Running     0          3m17s
 khteh-es-es-data-2                            1/1     Running     0          3m17s
+khteh-kibana-kb-fcd8b8985-rjlwc               1/1     Running     0          3m58s
+khteh-kibana-kb-fcd8b8985-8sp56               1/1     Running     0          3m57s
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
@@ -85,7 +87,7 @@ khteh-es-es-http                      ClusterIP   10.152.183.80    <none>       
 khteh-es-es-internal-http             ClusterIP   10.152.183.49    <none>        9200/TCP            5m18s
 khteh-es-es-master                    ClusterIP   None             <none>        9200/TCP            5m16s
 khteh-es-es-data                      ClusterIP   None             <none>        9200/TCP            5m16s
-service/svc-kibana                    ClusterIP   None             <none>        8080/TCP            14m
+khteh-kibana-kb-http                  ClusterIP   10.152.183.49    <none>        5601/TCP            6m33s
 service/svc-postgresql                ClusterIP   None             <none>        5432/TCP            3d22h
 service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
 service/svc-restapi                   ClusterIP   None             <none>        8080/TCP,8443/TCP   49m
@@ -104,14 +106,14 @@ daemonset.apps/nginx-ingress-microk8s-controller   1         1         1       1
 
 NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/default-http-backend   1/1     1            1           143m
+khteh-kibana-kb                        2/2     2            2           7m45s
 
 NAME                                              DESIRED   CURRENT   READY   AGE
 replicaset.apps/default-http-backend-5769f6bc66   1         1         1       143m
 
 NAME                                    READY   AGE
-statefulset.apps/elasticsearch          2/2     108m
-statefulset.apps/elasticsearch-master   3/3     108m
-statefulset.apps/kibana                 2/2     14m
+khteh-es-es-master                      3/3     16m
+khteh-es-es-data                        5/5     16m
 statefulset.apps/postgresql             1/1     140m
 statefulset.apps/neo4j                  1/1     140m
 statefulset.apps/restapi                2/2     49m
@@ -198,6 +200,14 @@ connected
 $ k get es
 NAME       HEALTH   NODES   VERSION   PHASE   AGE
 khteh-es   green    8       8.17.3    Ready   5m35s
+```
+
+## Kibana
+
+```
+$ k get kibana
+NAME           HEALTH   NODES   VERSION   AGE
+khteh-kibana   green    2       8.17.3    5m5s
 ```
 
 ## RabbitMQ Cluster:
