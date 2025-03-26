@@ -22,7 +22,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: neo4j
-          image: neo4j:latest
+          image: khteh/neo4j:latest
           imagePullPolicy: Always
           env:
             - name: NEO4J_AUTH
