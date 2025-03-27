@@ -13,10 +13,6 @@ spec:
       protocol: TCP
       port: 80
       targetPort: http
-    - name: https-tcp
-      protocol: TCP
-      port: 4433
-      targetPort: https-tcp
     - name: https-udp
       protocol: UDP
       port: 443
@@ -37,11 +33,6 @@ metadata:
     app: ragagent
 spec:
   ports:
-    - name: https-tcp
-      protocol: TCP
-      port: 443
-      targetPort: https-tcp
-      nodePort: 31003
     - name: https-udp
       protocol: UDP
       port: 443

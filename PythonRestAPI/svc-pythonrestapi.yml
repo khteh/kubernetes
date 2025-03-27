@@ -13,10 +13,6 @@ spec:
       protocol: TCP
       port: 80
       targetPort: http
-    - name: https-tcp
-      protocol: TCP
-      port: 443
-      targetPort: https-tcp
     - name: https-udp
       protocol: UDP
       port: 443
@@ -36,11 +32,6 @@ metadata:
     app: pythonrestapi
 spec:
   ports:
-    - name: https-tcp
-      protocol: TCP
-      port: 443
-      targetPort: https-tcp
-      nodePort: 31001
     - name: https-udp
       protocol: UDP
       port: 443

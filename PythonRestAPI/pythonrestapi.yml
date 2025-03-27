@@ -51,17 +51,14 @@ spec:
             - containerPort: 443
               name: https-udp
               protocol: UDP
-            - containerPort: 443
-              name: https-tcp
-              protocol: TCP
           readinessProbe:
             httpGet:
               path: /health/ready
               port: https-udp
               scheme: HTTPS
-              httpHeaders:
-                - name: Host
-                  value: khteh.com
+              #httpHeaders:
+              #  - name: Host
+              #    value: khteh.com
             initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
@@ -72,9 +69,9 @@ spec:
               path: /health/live
               port: https-udp
               scheme: HTTPS
-              httpHeaders:
-                - name: Host
-                  value: khteh.com
+              #httpHeaders:
+              #  - name: Host
+              #    value: khteh.com
             initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
