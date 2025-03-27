@@ -60,33 +60,27 @@ spec:
               name: https-tcp
               protocol: TCP
           readinessProbe:
-            exec:
-              command:
-                - curl
-                - -v
-                #- --insecure
-                - http://localhost/healthz/ready
-            #httpGet:
-            #  path: /healthz/ready
-            #  port: https-udp
-            #  scheme: HTTPS
-            initialDelaySeconds: 10
+            httpGet:
+              path: /health/ready
+              port: https-udp
+              scheme: HTTPS
+              httpHeaders:
+                - name: Host
+                  value: khteh.com
+            initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
             failureThreshold: 3
             successThreshold: 1
           livenessProbe:
-            exec:
-              command:
-                - curl
-                - -v
-                #    - --insecure
-                - http://localhost/healthz/live
-            #httpGet:
-            #  path: /healthz/live
-            #  port: https-udp
-            #  scheme: HTTPS
-            initialDelaySeconds: 10
+            httpGet:
+              path: /health/live
+              port: https-udp
+              scheme: HTTPS
+              httpHeaders:
+                - name: Host
+                  value: khteh.com
+            initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
             failureThreshold: 3

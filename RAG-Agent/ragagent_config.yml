@@ -14,8 +14,4 @@ data:
         "DB_HOST": "svc-postgresql",
         "DB_MAX_CONNECTIONS": 10,
         "NEO4J_URI": "neo4j://svc-neo4j:7687",
-        "HEALTHZ": {
-                    "live": "src.app.liveness",
-                    "ready": "src.app.readiness"
-                }
     }

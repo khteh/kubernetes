@@ -13,10 +13,6 @@ data:
         "SQLALCHEMY_TRACK_MODIFICATIONS": false,
         "DB_HOST": "svc-postgresql",
         "DB_MAX_CONNECTIONS": 10,
-        "HEALTHZ": {
-                    "live": "src.main.liveness",
-                    "ready": "src.main.readiness"
-                },
         "OIDC_CLIENT_SECRETS": "/tmp/oidc-secret.json",
         "OIDC_ID_TOKEN_COOKIE_SECURE": false,
         "OIDC_USER_INFO_ENABLED": true,
