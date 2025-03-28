@@ -70,8 +70,7 @@ spec:
                 - /bin/sh
                 - -c
                 - -e
-                - |
-                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
             failureThreshold: 5
             initialDelaySeconds: 10
             periodSeconds: 10

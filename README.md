@@ -67,17 +67,19 @@ pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
 pod/neo4j-0                                   1/1     Running     0          14m
 pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
-pod/nodejsrestapi-0                    2/2     Running     0          30s
-pod/nodejsrestapi-1                    2/2     Running     0          30s
-pod/rabbitmq-0                         1/1     Running     0          3d6h
-pod/rabbitmq-1                         1/1     Running     0          3d6h
-pod/rabbitmq-2                         1/1     Running     0          3d6h
-pod/redis-cluster-0                    1/1     Running     0          14d
-pod/redis-cluster-1                    1/1     Running     0          14d
-pod/redis-cluster-2                    1/1     Running     0          14d
-pod/redis-cluster-3                    1/1     Running     0          14d
-pod/redis-cluster-4                    1/1     Running     0          14d
-pod/redis-cluster-5                    1/1     Running     0          14d
+pod/nodejsrestapi-0                           2/2     Running     0          30s
+pod/nodejsrestapi-1                           2/2     Running     0          30s
+pod/pythonrestapi-0                           2/2     Running     0          49m
+pod/pythonrestapi-1                           2/2     Running     0          49m
+pod/rabbitmq-0                                1/1     Running     0          3d6h
+pod/rabbitmq-1                                1/1     Running     0          3d6h
+pod/rabbitmq-2                                1/1     Running     0          3d6h
+pod/redis-cluster-0                           1/1     Running     0          14d
+pod/redis-cluster-1                           1/1     Running     0          14d
+pod/redis-cluster-2                           1/1     Running     0          14d
+pod/redis-cluster-3                           1/1     Running     0          14d
+pod/redis-cluster-4                           1/1     Running     0          14d
+pod/redis-cluster-5                           1/1     Running     0          14d
 
 NAME                                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
 service/default-http-backend          ClusterIP   10.152.183.205   <none>        80/TCP              143m
@@ -92,8 +94,8 @@ service/svc-postgresql                ClusterIP   None             <none>       
 service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
 service/svc-nodejsrestapi             ClusterIP   None             <none>        443/TCP             70s
 service/svc-nodejsrestapi-nodeport    NodePort    10.152.183.243   <none>        443:31005/TCP       69s
-service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/TCP,443/UDP                         2d21h
-service/svc-pythonrestapi-nodeport    NodePort    10.152.183.57    <none>        443:31001/TCP,443:31002/UDP                    2d21h
+service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/UDP      49m
+service/svc-pythonrestapi-nodeport    NodePort    10.152.183.195   <none>        443:31002/UDP       49m
 service/svc-rabbitmq                  ClusterIP   None             <none>        15672/TCP,5672/TCP  5d7h
 service/svc-redis-cluster             ClusterIP   None             <none>        6379/TCP,16379/TCP  61d
 service/svc-ragagent                  ClusterIP   None             <none>        80/TCP,4433/TCP,443/UDP                        20h
@@ -118,6 +120,7 @@ statefulset.apps/khteh-es-es-data       5/5     16m
 statefulset.apps/postgresql             1/1     140m
 statefulset.apps/neo4j                  1/1     140m
 statefulset.apps/nodejsrestapi          2/2     105s
+statefulset.apps/pythonrestapi          2/2     49m
 statefulset.apps/rabbitmq               3/3     3d6h
 statefulset.apps/redis-cluster          6/6     14d
 

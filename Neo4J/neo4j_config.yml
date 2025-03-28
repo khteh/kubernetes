@@ -13,19 +13,10 @@ data:
   server.bolt.connection_keep_alive_streaming_scheduling_interval: "30s"
   # Other
   internal.dbms.ssl.system.ignore_dot_files: "true"
-  server.directories.logs: "/var/log/neo4j"
   # Import - Only works by copying the files to be imported into the pod in this folder, then run the import externally using GraphDatabase.driver
   server.directories.import: "/import"
   # Metrics
   server.directories.metrics: "/metrics"
-  # Use more reliable defaults SSL / TLS settings for K8s
-  dbms.ssl.policy.bolt.client_auth: "NONE"
-  dbms.ssl.policy.https.client_auth: "NONE"
-  dbms.security.allow_csv_import_from_file_urls: "true"
-  dbms.databases.default_to_read_only: "false"
-  dbms.security.procedures.unrestricted: "gds.*,algo.*,apoc.*,apoc.trigger.*,apoc.meta.*,apoc.meta.data.*"
-  dbms.security.procedures.allowlist: "gds.*,algo.*,apoc.*,apoc.trigger.*,apoc.meta.*,apoc.meta.data.*"
-  dbms.security.http_auth_allowlist: "gds.*,algo.*,apoc.*,apoc.trigger.*,apoc.meta.*,apoc.meta.data.*"
   #server.bolt.tls_level: "REQUIRED"
   server.https.enabled: "false"
   server.default_listen_address: "0.0.0.0"
@@ -37,3 +28,11 @@ data:
   server.directories.run: "run"
   #server.directories.licenses=licenses
   server.directories.transaction.logs.root: "/var/log/neo4j/transactions"
+  # Use more reliable defaults SSL / TLS settings for K8s
+  dbms.ssl.policy.bolt.client_auth: "NONE"
+  dbms.ssl.policy.https.client_auth: "NONE"
+  dbms.security.allow_csv_import_from_file_urls: "true"
+  dbms.databases.default_to_read_only: "false"
+  dbms.security.procedures.unrestricted: "apoc.*"
+  dbms.security.procedures.allowlist: "apoc.*"
+  dbms.security.http_auth_allowlist: "apoc.*"
