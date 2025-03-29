@@ -30,6 +30,10 @@ spec:
                 secretKeyRef:
                   name: neo4j-secret
                   key: NEO4J_AUTH
+            - name: NEO4J_CONF
+              value: "/config"
+            - name: EXTENDED_CONF
+              value: "yes"
           ports:
             - name: https
               containerPort: 7473
@@ -55,8 +59,10 @@ spec:
             successThreshold: 1
           # https://neo4j.com/docs/operations-manual/current/kubernetes/persistent-volumes/
           volumeMounts:
-            - name: neo4j-conf
+            - name: neo4j-config
               mountPath: /config/neo4j.conf
+              subPath: neo4j.conf
+              readOnly: true
             #- name: healthcare-neo4j
             #  mountPath: /import/neo4j.dump
             #  subPath: neo4j.dump
@@ -67,12 +73,9 @@ spec:
             - name: log
               mountPath: /var/log/neo4j
       volumes:
-        - name: neo4j-conf
-          projected:
-            defaultMode: 0440
-            sources:
-              - configMap:
-                  name: neo4j-config
+        - name: neo4j-config
+          configMap:
+            name: neo4j-config
         #- name: healthcare-neo4j
         #  configMap:
         #    name: healthcare-neo4j
