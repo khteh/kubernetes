@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fluentd-config
+  name: ollama-fluentd-config
   namespace: default
 data:
   td-agent.conf: |
@@ -54,11 +54,11 @@ data:
       @type grep
       <exclude>
         key $.fields.Path
-        pattern /health/
+        pattern /api/version
      </exclude>
       <exclude>
         key $.fields.RequestPath
-        pattern /health/
+        pattern /api/version
      </exclude>
     </filter>
     <filter ollama>

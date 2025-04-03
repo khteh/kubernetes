@@ -149,7 +149,7 @@ spec:
                 path: appsettings.postgresql.json
         - name: fluentd-config
           configMap:
-            name: fluentd-config
+            name: aspnetcore-fluentd-config
         - name: access-log-template
           configMap:
             name: access-log-template

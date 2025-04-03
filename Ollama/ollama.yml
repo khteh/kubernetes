@@ -37,9 +37,6 @@ spec:
               path: /api/version
               port: ollama
               scheme: HTTP
-              #httpHeaders:
-              #  - name: Host
-              #    value: khteh.com
             initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
@@ -50,9 +47,6 @@ spec:
               path: /api/version
               port: ollama
               scheme: HTTP
-              #httpHeaders:
-              #  - name: Host
-              #    value: khteh.com
             initialDelaySeconds: 20
             periodSeconds: 5
             timeoutSeconds: 10
@@ -87,7 +81,7 @@ spec:
             name: ollama-config
         - name: fluentd-config
           configMap:
-            name: fluentd-config
+            name: ollama-fluentd-config
         - name: access-log-template
           configMap:
             name: access-log-template

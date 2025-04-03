@@ -40,3 +40,4 @@ spec:
   type: NodePort
   selector:
     app: pythonrestapi
+    component: pythonrestapi

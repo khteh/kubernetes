@@ -93,7 +93,7 @@ spec:
                 path: appsettings.mysql.json
         - name: fluentd-config
           configMap:
-            name: fluentd-config
+            name: go-fluentd-config
         - name: access-log-template
           configMap:
             name: access-log-template

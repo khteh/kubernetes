@@ -66,7 +66,7 @@ data:
       @type grep
       <exclude>
         key Path
-        pattern /healthchecks/
+        pattern /health/
      </exclude>
     </filter>
     <filter pythonrestapi>

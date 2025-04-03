@@ -6,4 +6,7 @@ data:
   OLLAMA_MODELS: "/models"
   OLLAMA_SCHED_SPREAD: "true"
   OLLAMA_CONTEXT_LENGTH: "8192"
-  OLLAMA_HOST: "0.0.0.0"
+  OLLAMA_HOST: "http://0.0.0.0:11434"
+  OLLAMA_ORIGINS: "*"
+  OLLAMA_DEBUG: "true"
+  MODELS: "llama3.2"

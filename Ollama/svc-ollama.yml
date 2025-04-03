@@ -4,21 +4,23 @@ metadata:
   name: svc-ollama
   labels: 
     app: ollama
-    component: al-ml-llm
+    component: ai-ml-llm
 spec:
   selector:
     app: ollama
-    component: al-ml-llm
+    component: ai-ml-llm
 #    tier: database
+  ipFamilyPolicy: PreferDualStack
+  #ipFamilies: ["IPv4","IPv6"]
   ports:
   - name: ollama
-    port: 11434
+    port: 80
     protocol: TCP
     targetPort: ollama
   clusterIP: None # Headless
   selector:
     app: ollama
-    component: al-ml-llm
+    component: ai-ml-llm
 ---
 apiVersion: v1
 kind: Service 
@@ -26,15 +28,21 @@ metadata:
   name: svc-ollama-nodeport
   labels: 
     app: ollama
-    component: al-ml-llm
+    component: ai-ml-llm
 spec:
   selector:
     app: ollama
-    component: al-ml-llm
+    component: ai-ml-llm
 #    tier: database
+  ipFamilyPolicy: PreferDualStack
+  #ipFamilies: ["IPv4","IPv6"]
   ports:
   - name: ollama
-    port: 11434
+    port: 80
     protocol: TCP
+    targetPort: ollama
     nodePort: 32000
   type: NodePort
+  selector:
+    app: ollama
+    component: ai-ml-llm
