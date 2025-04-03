@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ollama-config
+data:
+  OLLAMA_MODELS: "/models"
+  OLLAMA_SCHED_SPREAD: "true"
+  OLLAMA_CONTEXT_LENGTH: "8192"
+  OLLAMA_HOST: "0.0.0.0"

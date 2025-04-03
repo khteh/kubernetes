@@ -9,6 +9,7 @@ Kubernetes cluster which consists of the following components:
 - Elasticsearch cluster
   - 3 Master nodes
   - 5 Slave nodes
+- Ollama LLM model server
 - Redis cluster
 - RabbitMQ cluster
 - Ethereum node which consists of:
@@ -71,6 +72,8 @@ pod/nodejsrestapi-0                           2/2     Running     0          30s
 pod/nodejsrestapi-1                           2/2     Running     0          30s
 pod/pythonrestapi-0                           2/2     Running     0          49m
 pod/pythonrestapi-1                           2/2     Running     0          49m
+pod/ollama-0                                  2/2     Running     0          19m
+pod/ollama-1                                  2/2     Running     0          19m
 pod/rabbitmq-0                                1/1     Running     0          3d6h
 pod/rabbitmq-1                                1/1     Running     0          3d6h
 pod/rabbitmq-2                                1/1     Running     0          3d6h
@@ -96,6 +99,8 @@ service/svc-nodejsrestapi             ClusterIP   None             <none>       
 service/svc-nodejsrestapi-nodeport    NodePort    10.152.183.243   <none>        443:31005/TCP       69s
 service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/UDP      49m
 service/svc-pythonrestapi-nodeport    NodePort    10.152.183.195   <none>        443:31002/UDP       49m
+service/svc-ollama                    ClusterIP   None             <none>        11434/TCP           19m
+service/svc-ollama-nodeport           NodePort    10.152.183.76    <none>        11434:32000/TCP     19m
 service/svc-rabbitmq                  ClusterIP   None             <none>        15672/TCP,5672/TCP  5d7h
 service/svc-redis-cluster             ClusterIP   None             <none>        6379/TCP,16379/TCP  61d
 service/svc-ragagent                  ClusterIP   None             <none>        80/TCP,4433/TCP,443/UDP                        20h
@@ -121,6 +126,7 @@ statefulset.apps/postgresql             1/1     140m
 statefulset.apps/neo4j                  1/1     140m
 statefulset.apps/nodejsrestapi          2/2     105s
 statefulset.apps/pythonrestapi          2/2     49m
+statefulset.apps/ollama                 2/2     19m
 statefulset.apps/rabbitmq               3/3     3d6h
 statefulset.apps/redis-cluster          6/6     14d
 
