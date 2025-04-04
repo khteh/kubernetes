@@ -32,6 +32,20 @@ spec:
             - name: ollama
               containerPort: 11434
               protocol: TCP
+          #lifecycle:
+          #  postStart:
+          #    exec:
+          #      command:
+          #        - bash
+          #        - -c
+          #        - |
+          #          for i in $(seq 10); do
+          #            /bin/ollama ps && break
+          #            sleep 1
+          #          done
+          #          for model in "${MODELS//,/ }"; do
+          #            /bin/ollama pull "$model"
+          #          done
           readinessProbe:
             httpGet:
               path: /api/version
