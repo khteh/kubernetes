@@ -4,6 +4,7 @@ metadata:
   name: pythonrestapi
   labels:
     app: pythonrestapi
+    component: pythonrestapi
 spec:
   serviceName: svc-pythonrestapi
   podManagementPolicy: Parallel # Default is OrderedReady
@@ -13,10 +14,12 @@ spec:
   selector:
     matchLabels:
       app: pythonrestapi # Has to match .spec.template.metadata.labels
+      component: pythonrestapi
   template:
     metadata:
       labels:
         app: pythonrestapi # Has to match .spec.selector.matchLabels
+        component: pythonrestapi
     spec:
       terminationGracePeriodSeconds: 10
       #      affinity:

@@ -5,8 +5,8 @@ metadata:
   #  annotations:
   #    alb.ingress.kubernetes.io/healthcheck-path: /ragagent/actuator/health
   labels:
-    component: llm-rag
     app: ragagent
+    component: llm-rag
 spec:
   ports:
     - name: http
@@ -29,8 +29,8 @@ kind: Service
 metadata:
   name: svc-ragagent-nodeport
   labels:
-    component: llm-rag
     app: ragagent
+    component: llm-rag
 spec:
   ports:
     - name: https-udp

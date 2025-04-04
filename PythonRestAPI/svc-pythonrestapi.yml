@@ -5,8 +5,8 @@ metadata:
   #  annotations:
   #    alb.ingress.kubernetes.io/healthcheck-path: /pythonrestapi/actuator/health
   labels:
-    component: pythonrestapi
     app: pythonrestapi
+    component: pythonrestapi
 spec:
   ports:
     - name: http
@@ -20,6 +20,7 @@ spec:
   clusterIP: None # Headless. type cannot be LoadBalancer
   selector:
     app: pythonrestapi
+    component: pythonrestapi
 #    tier: frontend
 #  type: LoadBalancer # Exposes web to traffic from outside of the cluster
 ---
@@ -28,8 +29,8 @@ kind: Service
 metadata:
   name: svc-pythonrestapi-nodeport
   labels:
-    component: pythonrestapi
     app: pythonrestapi
+    component: pythonrestapi
 spec:
   ports:
     - name: https-udp
