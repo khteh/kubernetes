@@ -67,6 +67,8 @@ spec:
               mountPath: /tmp/access_log_template.json
               subPath: access_log_template.json
               readOnly: true
+            - name: log
+              mountPath: /var/log/ollama
             #- mountPath: /fluentd/elastic/tls.crt
             #  name: elasticsearch-ca
             #  subPath: tls.crt
