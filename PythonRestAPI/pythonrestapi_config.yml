@@ -8,6 +8,7 @@ data:
         "ENVIRONMENT": "development",
         "DEBUG": true,
         "TESTING": true,
+        "LOGLEVEL": "INFO",
         "SECRET_KEY": "PythonRestAPI",
         "JWT_SECRET_KEY": "PythonRestAPI",
         "SQLALCHEMY_TRACK_MODIFICATIONS": false,

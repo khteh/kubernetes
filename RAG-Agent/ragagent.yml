@@ -100,7 +100,7 @@ spec:
               subPath: hypercorn.toml
               readOnly: true
             - name: log
-              mountPath: /var/log/pythonrestapi
+              mountPath: /var/log/ragagent
             - name: hypercornlog
               mountPath: /var/log/hypercorn
           resources:
@@ -111,7 +111,7 @@ spec:
           image: khteh/fluentd:latest
           volumeMounts:
             - name: log
-              mountPath: /var/log/pythonrestapi
+              mountPath: /var/log/ragagent
             - name: hypercornlog
               mountPath: /var/log/hypercorn
             - name: ragagent-fluentd-config

@@ -8,6 +8,7 @@ data:
         "ENVIRONMENT": "development",
         "DEBUG": true,
         "TESTING": true,
+        "LOGLEVEL": "INFO",
         "SECRET_KEY": "RAGAgent",
         "JWT_SECRET_KEY": "RAGAgent",
         "SQLALCHEMY_TRACK_MODIFICATIONS": false,
