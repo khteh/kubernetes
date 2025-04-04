@@ -56,11 +56,11 @@ spec:
             - name: ollama-persistent-storage
               mountPath: /models
               readOnly: false
+            - name: log
+              mountPath: /var/log/ollama
         - name: fluentd
           image: khteh/fluentd:latest
           volumeMounts:
-            - name: log
-              mountPath: /var/log/ollama
             - name: fluentd-config
               mountPath: /etc/td-agent
             - name: access-log-template
