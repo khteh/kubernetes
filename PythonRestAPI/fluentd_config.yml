@@ -37,19 +37,62 @@ data:
     </source>
     <source>
       @type tail
-      format json
+      #dummy [{"python_log": "2025-04-04 05:16:07 INFO     Running app..."}]
       path /var/log/pythonrestapi/log*
       pos_file /var/log/td-agent/pos/pythonrestapi_logs.pos
       read_from_head true
       tag pythonrestapi
+      key_name message
+      reserve_data true
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S
+      keep_time_key true
+      # even if we failed to parse the time send the record over to splunk
+      emit_invalid_record_to_error false
+      reserve_time true
+      <parse>
+          @type regexp
+          expression /^(?<time>.+?)\s+(?<level>\w+)\s+(?<message>.*)$/
+      </parse>      
     </source>
     <source>
       @type tail
-      format json
-      path /var/log/hypercorn/log*
+      path /var/log/hypercorn/errors.log
       pos_file /var/log/td-agent/pos/hypercorn_logs.pos
       read_from_head true
       tag hypercorn
+      <parse>
+        @type multi_format
+        <pattern>
+          #format json
+          time_type string
+          time_key time
+          keep_time_key true
+          time_format %Y-%m-%d %H:%M:%S
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%d %H:%M:%S
+        </pattern>
+      </parse>
+    </source>
+    <source>
+      @type tail
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S [+-]HHMM
+      keep_time_key true
+      ## 12:36:00 0:0:0:0:0:0:0:1 0:0:0:0:0:0:0:1 POST /restapi-admin/api/getEnquiries cacheBuster=1549802159278 200 115646 0.778
+      #format /^(?<time>[0-9]{2}:[0-9]{2}:[0-9]{2}) (?<ip>[^ ]*) (?<dns>[^ ]*) (?<method>[A-Z]*) (?<url>[^ ]*) (?<querystring>\S*) (?<code>[^ ]*) (?<size>[^ ]*) (?<duration>[^ ]*)?$/
+      path /var/log/hypercorn/access.log
+      pos_file /var/log/td-agent/pos/hypercorn_access_logs.pos
+      read_from_head true
+      tag hypercorn-access
+      emit_invalid_record_to_error false
+      reserve_time true
+      <parse>
+          @type regexp
+          expression /^[(?<time>.+?)]\s+[\d{2}]\s+[(?<level>\w+)]\s+(?<ip>[^ ]*)\s+\"(?<method>[A-Z]*) (?<url>[^ ]*)\"\s+(?<code>[^ ]*)\s+(?<size>[^ ]*)\s+(?<duration>[^ ]*)(?<message>.*)$/
+      </parse>      
     </source>
     <filter fluent.*>
       @type grep
@@ -68,6 +111,28 @@ data:
         key Path
         pattern /health/
      </exclude>
+    </filter>
+    <filter hypercorn-access>
+      @type grep
+      <exclude>
+        key url
+        pattern (^/$|health|^/$)
+     </exclude>
+    </filter>
+    <filter pythonrestapi>
+      @type parser
+      key_name message
+      reserve_data true
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S
+      keep_time_key true
+      # even if we failed to parse the time send the record over to splunk
+      emit_invalid_record_to_error false
+      reserve_time true
+      <parse> 
+        @type regexp
+        expression /^(?<time>.+?)\s+(?<level>\w+)\s+(?<message>.*)$/
+      </parse>
     </filter>
     <filter pythonrestapi>
       @type parser
