@@ -134,9 +134,6 @@ NAME                                              REFERENCE             TARGETS 
 horizontalpodautoscaler.autoscaling/kibana-hpa    StatefulSet/kibana    3%/75%    2         5         2          74s
 horizontalpodautoscaler.autoscaling/restapi-hpa   StatefulSet/restapi   1%/75%    2         5         2          23m
 horizontalpodautoscaler.autoscaling/rabbitmq-hpa  StatefulSet/rabbitmq  15%/75%   3         6         3          4d5h
-
-NAME                           COMPLETIONS   DURATION   AGE
-job.batch/elasticsearch-init   1/1           6s         100m
 ```
 
 ## Redis Cluster:
