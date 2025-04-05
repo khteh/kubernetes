@@ -8,4 +8,5 @@ data:
   OLLAMA_CONTEXT_LENGTH: "8192"
   OLLAMA_HOST: "http://0.0.0.0:11434"
   OLLAMA_DEBUG: "true"
+  OLLAMA_FLASH_ATTENTION: "true"
   MODELS: "llama3.3"
