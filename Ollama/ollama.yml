@@ -8,7 +8,7 @@ metadata:
 spec:
   serviceName: svc-ollama
   podManagementPolicy: Parallel # Default is OrderedReady
-  replicas: 2 # Default is 1
+  replicas: 1 #  1 Insufficient memory, 1 Insufficient nvidia.com/gpu if set to more than 1
   selector:
     matchLabels:
       app: ollama # Has to match .spec.template.metadata.labels
@@ -32,20 +32,6 @@ spec:
             - name: ollama
               containerPort: 11434
               protocol: TCP
-          #lifecycle:
-          #  postStart:
-          #    exec:
-          #      command:
-          #        - bash
-          #        - -c
-          #        - |
-          #          for i in $(seq 10); do
-          #            /bin/ollama ps && break
-          #            sleep 1
-          #          done
-          #          for model in "${MODELS//,/ }"; do
-          #            /bin/ollama pull "$model"
-          #          done
           readinessProbe:
             httpGet:
               path: /api/version
@@ -72,6 +58,12 @@ spec:
               readOnly: false
             - name: log
               mountPath: /var/log/ollama
+          resources:
+            requests:
+              memory: 42Gi
+              nvidia.com/gpu: 1 # Use kubectl describe node <node_name> to check nvidia.com/gpu in Capacity and Allocatable section of the output
+            limits:
+              nvidia.com/gpu: 1
         - name: fluentd
           image: khteh/fluentd:latest
           volumeMounts:
