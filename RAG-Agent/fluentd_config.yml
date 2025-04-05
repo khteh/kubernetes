@@ -37,19 +37,67 @@ data:
     </source>
     <source>
       @type tail
-      format json
+      @id input_tail
+      tag ragagent
+      #dummy [{"python_log": "2025-04-04 05:16:07 INFO     Running app..."}]
       path /var/log/ragagent/log*
       pos_file /var/log/td-agent/pos/ragagent_logs.pos
       read_from_head true
-      tag ragagent
+      key_name message
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S
+      keep_time_key true
+      # even if we failed to parse the time send the record over to splunk
+      emit_invalid_record_to_error false
+      reserve_time true
+      reserve_data true
+      <parse>
+          @type regexp
+          expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
+      </parse>      
     </source>
     <source>
       @type tail
-      format json
-      path /var/log/hypercorn/log*
+      @id input_tail
+      tag hypercorn
+      # [2025-04-04 09:09:23 +0000] [10] [INFO] Running on https://0.0.0.0:443 (QUIC) (CTRL + C to quit)
+      path /var/log/hypercorn/errors.log
       pos_file /var/log/td-agent/pos/hypercorn_logs.pos
       read_from_head true
-      tag hypercorn
+      key_name message
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S
+      keep_time_key true
+      emit_invalid_record_to_error false
+      reserve_data true
+      reserve_time true
+      <parse>
+          @type regexp
+          expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
+      </parse>      
+    </source>
+    <source>
+      @type tail
+      @id input_tail
+      tag hypercorn-access
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S [+-]HHMM
+      keep_time_key true
+      # https://docs.fluentd.org/configuration/parse-section
+      # nginx:    127.0.0.1 192.168.0.1 - [28/Feb/2013:12:00:00 +0900] "GET / HTTP/1.1" 200 777 "-" "Opera/12.0" -
+      # apache2:  192.168.0.1 - - [28/Feb/2013:12:00:00 +0900] "GET / HTTP/1.1" 200 777 "-" "Opera/12.0"
+      # hypercorn:192.168.0.149:43472 - - [04/Apr/2025:08:44:16 +0000] "GET /health/live 2" 200 2 "-" "kube-probe/1.27"
+      # expression /^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>(?:[^\"]|\\.)*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>(?:[^\"]|\\.)*)" "(?<agent>(?:[^\"]|\\.)*)")?$/
+      path /var/log/hypercorn/access.log
+      pos_file /var/log/td-agent/pos/hypercorn_access_logs.pos
+      read_from_head true
+      emit_invalid_record_to_error false
+      reserve_time true
+      reserve_data true
+      <parse>
+          @type regexp
+          expression /^(?<time>.+?) (?<level>\w{0,8}) (?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>(?:[^\"]|\\.)*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>(?:[^\"]|\\.)*)" "(?<agent>(?:[^\"]|\\.)*)")$/
+      </parse>      
     </source>
     <filter fluent.*>
       @type grep
@@ -61,14 +109,44 @@ data:
     <filter ragagent>
       @type typecast
       types ContentLength:integer,ResponseTime:float
-    </filter>    
-    <filter ragagent>
+    </filter>
+
+    <filter hypercorn-access>
       @type grep
       <exclude>
-        key Path
-        pattern /health/
+        key path
+        pattern (^/$|health|^/$)
      </exclude>
     </filter>
+
+    <filter hypercorn>
+      @type parser
+      key_name message
+      reserve_data true
+      time_type string
+      time_format %Y-%m-%d %H:%M:%S
+      keep_time_key true
+      # even if we failed to parse the time send the record over to splunk
+      emit_invalid_record_to_error false
+      reserve_time true
+      reserve_data true
+      <parse> 
+        @type regexp
+        expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
+      </parse>
+    </filter>
+    <filter hypercorn>
+      @type parser
+      key_name message
+      reserve_time true
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type json
+        json_parser json
+      </parse>
+    </filter>
+
     <filter ragagent>
       @type parser
       key_name message

@@ -111,13 +111,6 @@ data:
       @type typecast
       types ContentLength:integer,ResponseTime:float
     </filter>    
-    <filter pythonrestapi>
-      @type grep
-      <exclude>
-        key Path
-        pattern /health/
-     </exclude>
-    </filter>
 
     <filter hypercorn-access>
       @type grep
