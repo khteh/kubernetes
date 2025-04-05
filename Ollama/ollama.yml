@@ -22,7 +22,6 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: ollama
-          #        image: postgres:latest
           image: khteh/ollama:latest
           imagePullPolicy: Always
           envFrom:
