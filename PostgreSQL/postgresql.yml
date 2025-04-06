@@ -3,21 +3,21 @@ kind: StatefulSet
 metadata:
   name: postgresql
   labels:
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 spec:
   serviceName: svc-postgresql
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 1 # Default is 1
   selector:
     matchLabels:
-      app: db-postgresql # Has to match .spec.template.metadata.labels
-      component: postgresql
+      app: postgresql # Has to match .spec.template.metadata.labels
+      component: sql-db
   template:
     metadata:
       labels:
-        app: db-postgresql # Has to match .spec.selector.matchLabels
-        component: postgresql
+        app: postgresql # Has to match .spec.selector.matchLabels
+        component: sql-db
     spec:
       terminationGracePeriodSeconds: 10
       containers:

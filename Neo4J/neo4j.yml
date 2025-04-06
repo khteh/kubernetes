@@ -3,21 +3,21 @@ kind: StatefulSet
 metadata:
   name: neo4j
   labels:
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 spec:
   serviceName: svc-neo4j
   podManagementPolicy: Parallel # Default is OrderedReady
   replicas: 1 # Default is 1
   selector:
     matchLabels:
-      app: db-neo4j # Has to match .spec.template.metadata.labels
-      component: neo4j
+      app: neo4j # Has to match .spec.template.metadata.labels
+      component: graph-db
   template:
     metadata:
       labels:
-        app: db-neo4j # Has to match .spec.selector.matchLabels
-        component: neo4j
+        app: neo4j # Has to match .spec.selector.matchLabels
+        component: graph-db
     spec:
       terminationGracePeriodSeconds: 10
       containers:

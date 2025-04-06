@@ -11,7 +11,7 @@ metadata:
       [{"field":"http-header","httpHeaderConfig":{"httpHeaderName": "X-Scheme", "values":["https"]}}]
   labels:
     app: pgadmin
-    component: postgresql
+    component: sql-db
 spec:
   ports:
     - protocol: TCP
@@ -25,7 +25,7 @@ spec:
   clusterIP: None
   selector:
     app: pgadmin
-    component: postgresql
+    component: sql-db
 ---
 apiVersion: v1
 kind: Service
@@ -33,11 +33,11 @@ metadata:
   name: svc-pgadmin-nodeport
   labels:
     app: pgadmin
-    component: postgresql
+    component: sql-db
 spec:
   selector:
     app: pgadmin
-    component: postgresql
+    component: sql-db
   #    tier: database
   ports:
     - port: 5432

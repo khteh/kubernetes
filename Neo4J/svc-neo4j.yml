@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: svc-neo4j
   labels: 
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 spec:
   selector:
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 #    tier: database
   ports:
   - name: https
@@ -22,20 +22,20 @@ spec:
     targetPort: bolt
   clusterIP: None # Headless
   selector:
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 ---
 apiVersion: v1
 kind: Service 
 metadata:
   name: svc-neo4j-nodeport
   labels: 
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 spec:
   selector:
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 #    tier: database
   ports:
   - name: https

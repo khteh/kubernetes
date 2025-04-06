@@ -4,7 +4,7 @@ metadata:
   name: pvc-pgadmin
   labels:
     app: pgadmin
-    component: postgresql
+    component: sql-db
 spec:
   storageClassName: efs-sc
   accessModes:

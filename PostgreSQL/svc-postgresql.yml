@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: svc-postgresql
   labels: 
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 spec:
   selector:
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 #    tier: database
   ports:
   - name: postgresql
@@ -16,20 +16,20 @@ spec:
     targetPort: postgresql
   clusterIP: None # Headless
   selector:
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 ---
 apiVersion: v1
 kind: Service 
 metadata:
   name: svc-postgresql-nodeport
   labels: 
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 spec:
   selector:
-    app: db-postgresql
-    component: postgresql
+    app: postgresql
+    component: sql-db
 #    tier: database
   ports:
   - name: postgresql

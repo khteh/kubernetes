@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: neo4j-config
   labels:
-    app: db-neo4j
-    component: neo4j
+    app: neo4j
+    component: graph-db
 data:
   neo4j.conf: |
     # Bolt keep alive
