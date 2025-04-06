@@ -6,19 +6,20 @@ metadata:
     app: chroma
     component: vector-db
 data:
-  CHROMA_SERVER_AUTH_CREDENTIALS_PROVIDER: "chromadb.auth.token.TokenConfigServerAuthCredentialsProvider"
-  CHROMA_SERVER_AUTH_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
-  CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: "Authorization"
+  # https://cookbook.chromadb.dev/security/auth/#token-authentication
+  # https://stackoverflow.com/questions/78943168/using-a-stored-in-azure-chromadb-instance-with-python-client
+  #CHROMA_SERVER_AUTH_CREDENTIALS_PROVIDER: "chromadb.auth.token.TokenConfigServerAuthCredentialsProvider"
+  CHROMA_SERVER_AUTHN_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
+  CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: "X-Chroma-Token"
   IS_PERSISTENT: "true"
   PERSIST_DIRECTORY: "/data"
   ALLOW_RESET: "false"
   ANONYMIZED_TELEMETRY: "false"
   CHROMA_SERVER_CORS_ALLOW_ORIGINS: "*"
-  CHROMA_SERVER_HTTP_PORT: "80"
+  #CHROMA_SERVER_HTTP_PORT: "8000"
   CHROMA_LOG_CONFIG: "/chroma/log_config.yml"
   ROOT_LOG_LEVEL: "INFO"
   CHROMA_LOG_LEVEL: "DEBUG"
   UVICORN_LOG_LEVEL_UVICORN: "INFO"
   CHROMA_SEGMENT_CACHE_POLICY: "LRU"
   CHROMA_MEMORY_LIMIT_BYTES: "1000000000"
-

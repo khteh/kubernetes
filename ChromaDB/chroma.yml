@@ -20,32 +20,32 @@ spec:
         component: vector-db
     spec:
       terminationGracePeriodSeconds: 10
-      initContainers: # Only needed whenusing Basic auth
-        - name: generate-htpasswd
-          image: httpd:latest
-          env:
-            - name: CHROMA_BASIC_USER
-              valueFrom:
-                secretKeyRef:
-                  name: chroma-secret
-                  key: username
-            - name: CHROMA_BASIC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: chroma-secret
-                  key: password
-          command:
-            - sh
-            - -c
-            - |
-              htpasswd -Bbn ${CHROMA_BASIC_USER} ${CHROMA_BASIC_PASSWORD} > /chroma/auth/server.htpasswd
-              chmod 444 /chroma/auth/server.htpasswd
-          volumeMounts:
-            - mountPath: /chroma/auth/
-              name: htpasswd-volume
+      #initContainers: # Only needed whenusing Basic auth
+      #  - name: generate-htpasswd
+      #    image: httpd:latest
+      #    env:
+      #      - name: CHROMA_BASIC_USER
+      #        valueFrom:
+      #          secretKeyRef:
+      #            name: chroma-secret
+      #            key: username
+      #      - name: CHROMA_BASIC_PASSWORD
+      #        valueFrom:
+      #          secretKeyRef:
+      #            name: chroma-secret
+      #            key: password
+      #    command:
+      #      - sh
+      #      - -c
+      #      - |
+      #        htpasswd -Bbn ${CHROMA_BASIC_USER} ${CHROMA_BASIC_PASSWORD} > /chroma/auth/server.htpasswd
+      #        chmod 444 /chroma/auth/server.htpasswd
+      #    volumeMounts:
+      #      - mountPath: /chroma/auth/
+      #        name: htpasswd-volume
       containers:
         - name: chroma
-          image: chromadb/chroma:latest #https://github.com/chroma-core/chroma/blob/main/Dockerfile
+          image: chromadb/chroma:latest # https://github.com/chroma-core/chroma/blob/main/Dockerfile
           imagePullPolicy: Always
           envFrom:
             - configMapRef:

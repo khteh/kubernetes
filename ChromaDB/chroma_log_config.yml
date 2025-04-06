@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: chroma-log-config
 data:
-  log_config.yml: |-
+  log_config.yaml: |-
     version: 1
     disable_existing_loggers: False
     formatters:
