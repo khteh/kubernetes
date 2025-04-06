@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-chroma
+  labels: 
+    app: chroma
+    component: vector-db
+spec:
+  selector:
+    app: chroma
+    component: vector-db
+#    tier: database
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  clusterIP: None # Headless
+  selector:
+    app: chroma
+    component: vector-db
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-chroma-nodeport
+  labels: 
+    app: chroma
+    component: vector-db
+spec:
+  selector:
+    app: chroma
+    component: vector-db
+#    tier: database
+  ports:
+  - name: http
+    port: 80
+    nodePort: 30005
+  type: NodePort

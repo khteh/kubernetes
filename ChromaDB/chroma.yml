@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: chroma
+  labels:
+    app: chroma
+    component: vector-db
+spec:
+  serviceName: svc-chroma
+  podManagementPolicy: Parallel # Default is OrderedReady
+  replicas: 1 # Default is 1
+  selector:
+    matchLabels:
+      app: chroma # Has to match .spec.template.metadata.labels
+      component: vector-db
+  template:
+    metadata:
+      labels:
+        app: chroma # Has to match .spec.selector.matchLabels
+        component: vector-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      initContainers: # Only needed whenusing Basic auth
+        - name: generate-htpasswd
+          image: httpd:latest
+          env:
+            - name: CHROMA_BASIC_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chroma-secret
+                  key: username
+            - name: CHROMA_BASIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chroma-secret
+                  key: password
+          command:
+            - sh
+            - -c
+            - |
+              htpasswd -Bbn ${CHROMA_BASIC_USER} ${CHROMA_BASIC_PASSWORD} > /chroma/auth/server.htpasswd
+              chmod 444 /chroma/auth/server.htpasswd
+          volumeMounts:
+            - mountPath: /chroma/auth/
+              name: htpasswd-volume
+      containers:
+        - name: chroma
+          image: chromadb/chroma:latest #https://github.com/chroma-core/chroma/blob/main/Dockerfile
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: chroma-config
+          env:
+            - name: CHROMA_SERVER_AUTHN_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: chroma-secret
+                  key: token
+          ports:
+            - name: http
+              containerPort: 8000
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            tcpSocket:
+              port: http
+            failureThreshold: 10
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+          readinessProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 10
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+          livenessProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          # https://chroma.com/docs/operations-manual/current/kubernetes/persistent-volumes/
+          volumeMounts:
+            - name: chroma-log-config
+              mountPath: /chroma/log_config.yml
+              subPath: log_config.yml
+              readOnly: true
+            #- name: healthcare-chroma
+            #  mountPath: /import/chroma.dump
+            #  subPath: chroma.dump
+            #  readOnly: false
+            - name: chroma-persistent-storage
+              mountPath: /data
+              readOnly: false
+            - mountPath: /chroma/auth/
+              name: htpasswd-volume
+            - name: log
+              mountPath: /var/log/chroma
+      volumes:
+        - name: chroma-config
+          configMap:
+            name: chroma-config
+            defaultMode: 0644
+        - name: chroma-log-config
+          configMap:
+            name: chroma-log-config
+            defaultMode: 0644
+        - name: htpasswd-volume
+          emptyDir: {}
+        - name: log
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: chroma-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

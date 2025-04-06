@@ -31,6 +31,16 @@ spec:
             - name: ollama
               containerPort: 11434
               protocol: TCP
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            httpGet:
+              path: /api/version
+              port: ollama
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /api/version

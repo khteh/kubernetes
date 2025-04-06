@@ -30,5 +30,5 @@ spec:
   ports:
     - port: 3306
       name: mysql
-      nodePort: 30005
+      nodePort: 30006
   type: NodePort

@@ -41,22 +41,30 @@ spec:
               containerPort: 7474
             - name: bolt
               containerPort: 7687
-          livenessProbe:
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
             tcpSocket:
-              port: 7687
-            failureThreshold: 5
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 7687
+              port: bolt
             failureThreshold: 10
             timeoutSeconds: 10
             initialDelaySeconds: 10
             periodSeconds: 10
             successThreshold: 1
+          readinessProbe:
+            tcpSocket:
+              port: bolt
+            failureThreshold: 10
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+          livenessProbe:
+            tcpSocket:
+              port: bolt
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
           # https://neo4j.com/docs/operations-manual/current/kubernetes/persistent-volumes/
           volumeMounts:
             - name: neo4j-config

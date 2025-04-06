@@ -66,6 +66,16 @@ spec:
             - containerPort: 443
               name: https
               protocol: TCP
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            httpGet:
+              path: /health/ready
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /health/ready

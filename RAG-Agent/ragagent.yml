@@ -56,6 +56,19 @@ spec:
             - containerPort: 443
               name: https-udp
               protocol: UDP
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            httpGet:
+              path: /health/ready
+              port: https-udp
+              scheme: HTTPS
+              #httpHeaders:
+              #  - name: Host
+              #    value: khteh.com
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: /health/ready

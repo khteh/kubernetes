@@ -38,6 +38,11 @@ spec:
             - containerPort: 6060
               name: metrics
               protocol: TCP
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            tcpSocket:
+              port: gethrpc
+            initialDelaySeconds: 10
+            periodSeconds: 10
           readinessProbe:
             tcpSocket:
               port: gethrpc

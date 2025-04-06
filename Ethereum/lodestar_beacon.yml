@@ -37,6 +37,11 @@ spec:
             - name: metrics
               containerPort: 9002
               protocol: TCP
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
+            tcpSocket:
+              port: lodestar-http
+            initialDelaySeconds: 10
+            periodSeconds: 10
           readinessProbe:
             tcpSocket:
               port: lodestar-http

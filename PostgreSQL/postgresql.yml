@@ -53,11 +53,12 @@ spec:
           ports:
             - containerPort: 5432
               name: postgresql
-          livenessProbe:
+          startupProbe: # failureThreshold * periodSeconds long enough to cover the worst case startup time
             exec:
               command:
                 - /bin/sh
                 - -c
+                - -e
                 - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
             failureThreshold: 5
             initialDelaySeconds: 10
@@ -70,6 +71,17 @@ spec:
                 - /bin/sh
                 - -c
                 - -e
+                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
                 - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
             failureThreshold: 5
             initialDelaySeconds: 10
