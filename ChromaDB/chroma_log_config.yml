@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: chroma-log-config
 data:
-  log_config.yaml: |-
+  log_config.yml: |-
     version: 1
     disable_existing_loggers: False
     formatters:
@@ -26,14 +26,19 @@ data:
         class: logging.StreamHandler
         stream: ext://sys.stdout
       console:
+        formatter: default
         class: logging.StreamHandler
         stream: ext://sys.stdout
+      file:
         formatter: default
+        class : logging.handlers.RotatingFileHandler
+        filename: chroma.log
     loggers:
       root:
         level: "INFO"
-        handlers: [console]
+        handlers: [console, file]
       chromadb:
         level: "DEBUG"
+        handlers: [console, file]
       uvicorn:
         level: "INFO"
