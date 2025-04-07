@@ -39,7 +39,7 @@ data:
       @type tail
       @id input_tail
       tag ragagent
-      #dummy [{"python_log": "2025-04-04 05:16:07 INFO     Running app..."}]
+      #sample [{"python_log": "2025-04-07 02:38:02 INFO     Running on https://0.0.0.0:443 (QUIC) (CTRL + C to quit)"}]
       path /var/log/ragagent/log*
       pos_file /var/log/td-agent/pos/ragagent_logs.pos
       read_from_head true
@@ -60,7 +60,7 @@ data:
       @type tail
       @id input_tail
       tag hypercorn
-      # [2025-04-04 09:09:23 +0000] [10] [INFO] Running on https://0.0.0.0:443 (QUIC) (CTRL + C to quit)
+      #sample [{"hypercorn": "2025-04-07 02:38:02 INFO     Running on https://0.0.0.0:443 (QUIC) (CTRL + C to quit)"}]
       path /var/log/hypercorn/errors.log
       pos_file /var/log/td-agent/pos/hypercorn_logs.pos
       read_from_head true
