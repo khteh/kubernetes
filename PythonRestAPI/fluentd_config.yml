@@ -45,15 +45,15 @@ data:
       pos_file /var/log/td-agent/pos/pythonrestapi_logs.pos
       read_from_head true
       key_name message
-      time_type string
-      time_format %Y-%m-%d %H:%M:%S
-      keep_time_key true
       # even if we failed to parse the time send the record over to splunk
       emit_invalid_record_to_error false
       reserve_time true
       reserve_data true
       <parse>
           @type regexp
+          time_type string
+          time_format %Y-%m-%d %H:%M:%S
+          keep_time_key true
           expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
       </parse>      
     </source>
@@ -66,14 +66,14 @@ data:
       pos_file /var/log/td-agent/pos/hypercorn_logs.pos
       read_from_head true
       key_name message
-      time_type string
-      time_format %Y-%m-%d %H:%M:%S
-      keep_time_key true
       emit_invalid_record_to_error false
       reserve_data true
       reserve_time true
       <parse>
           @type regexp
+          time_type string
+          time_format %Y-%m-%d %H:%M:%S
+          keep_time_key true
           expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
       </parse>      
     </source>
@@ -81,9 +81,6 @@ data:
       @type tail
       @id input_tail
       tag hypercorn-access
-      time_type string
-      time_format %Y-%m-%d %H:%M:%S [+-]HHMM
-      keep_time_key true
       # https://docs.fluentd.org/configuration/parse-section
       # nginx:    127.0.0.1 192.168.0.1 - [28/Feb/2013:12:00:00 +0900] "GET / HTTP/1.1" 200 777 "-" "Opera/12.0" -
       # apache2:  192.168.0.1 - - [28/Feb/2013:12:00:00 +0900] "GET / HTTP/1.1" 200 777 "-" "Opera/12.0"
@@ -97,6 +94,9 @@ data:
       reserve_data true
       <parse>
           @type regexp
+          time_type string
+          time_format %Y-%m-%d %H:%M:%S [+-]HHMM
+          keep_time_key true
           expression /^(?<time>.+?) (?<level>\w{0,8}) (?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>(?:[^\"]|\\.)*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>(?:[^\"]|\\.)*)" "(?<agent>(?:[^\"]|\\.)*)")$/
       </parse>      
     </source>
@@ -111,69 +111,12 @@ data:
       @type typecast
       types ContentLength:integer,ResponseTime:float
     </filter>    
-
     <filter hypercorn-access>
       @type grep
       <exclude>
         key path
         pattern (^/$|health|^/$)
      </exclude>
-    </filter>
-
-    <filter hypercorn>
-      @type parser
-      key_name message
-      reserve_data true
-      time_type string
-      time_format %Y-%m-%d %H:%M:%S
-      keep_time_key true
-      # even if we failed to parse the time send the record over to splunk
-      emit_invalid_record_to_error false
-      reserve_time true
-      reserve_data true
-      <parse> 
-        @type regexp
-        expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
-      </parse>
-    </filter>
-    <filter hypercorn>
-      @type parser
-      key_name message
-      reserve_time true
-      reserve_data true
-      remove_key_name_field true
-      <parse>
-        @type json
-        json_parser json
-      </parse>
-    </filter>
-
-    <filter pythonrestapi>
-      @type parser
-      key_name message
-      reserve_data true
-      time_type string
-      time_format %Y-%m-%d %H:%M:%S
-      keep_time_key true
-      # even if we failed to parse the time send the record over to splunk
-      emit_invalid_record_to_error false
-      reserve_time true
-      reserve_data true
-      <parse> 
-        @type regexp
-        expression /^(?<time>.+?) (?<level>\w{0,8}) (?<message>.*)$/
-      </parse>
-    </filter>
-    <filter pythonrestapi>
-      @type parser
-      key_name message
-      reserve_time true
-      reserve_data true
-      remove_key_name_field true
-      <parse>
-        @type json
-        json_parser json
-      </parse>
     </filter>
     <filter pythonrestapi>
       @type geoip
