@@ -69,7 +69,7 @@ spec:
               mountPath: /var/log/ollama
           resources:
             requests:
-              memory: 42Gi
+              memory: 45Gi
               nvidia.com/gpu: 1 # Use kubectl describe node <node_name> to check nvidia.com/gpu in Capacity and Allocatable section of the output
             limits:
               nvidia.com/gpu: 1 # Required value: Limit must be set for non overcommitable resources
