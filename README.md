@@ -66,6 +66,7 @@ pod/khteh-kibana-kb-fcd8b8985-8sp56           1/1     Running     0          3m5
 pod/kibana-0                                  1/1     Running     0          14m
 pod/kibana-1                                  1/1     Running     0          14m
 pod/postgresql-0                              1/1     Running     8 (4h10m ago)     3d22h
+pod/chroma-0                                  1/1     Running     1 (5h50m ago)   23h
 pod/neo4j-0                                   1/1     Running     0          14m
 pod/nginx-ingress-microk8s-controller-ppplj   1/1     Running     0          142m
 pod/nodejsrestapi-0                           2/2     Running     0          30s
@@ -95,6 +96,8 @@ service/khteh-es-es-data              ClusterIP   None             <none>       
 service/khteh-kibana-kb-http          ClusterIP   10.152.183.49    <none>        5601/TCP            6m33s
 service/svc-postgresql                ClusterIP   None             <none>        5432/TCP            3d22h
 service/svc-postgresql-nodeport       NodePort    10.152.183.70    <none>        5432:30000/TCP      3d22h
+service/svc-chroma                    ClusterIP   None             <none>        80/TCP              2d
+service/svc-chroma-nodeport           NodePort    10.152.183.193   <none>        80:30005/TCP        2d
 service/svc-nodejsrestapi             ClusterIP   None             <none>        443/TCP             70s
 service/svc-nodejsrestapi-nodeport    NodePort    10.152.183.243   <none>        443:31005/TCP       69s
 service/svc-pythonrestapi             ClusterIP   None             <none>        80/TCP,443/UDP      49m
@@ -123,6 +126,7 @@ NAME                                    READY   AGE
 statefulset.apps/khteh-es-es-master     3/3     16m
 statefulset.apps/khteh-es-es-data       5/5     16m
 statefulset.apps/postgresql             1/1     140m
+statefulset.apps/chroma                 1/1     23h
 statefulset.apps/neo4j                  1/1     140m
 statefulset.apps/nodejsrestapi          2/2     105s
 statefulset.apps/pythonrestapi          2/2     49m
