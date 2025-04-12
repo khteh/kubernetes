@@ -14,7 +14,7 @@ spec:
   #ipFamilies: ["IPv4","IPv6"]
   ports:
   - name: ollama
-    port: 80
+    port: 11434
     protocol: TCP
     targetPort: ollama
   clusterIP: None # Headless

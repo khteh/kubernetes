@@ -12,7 +12,7 @@ spec:
 #    tier: database
   ports:
   - name: http
-    port: 80
+    port: 8000
     targetPort: http
   clusterIP: None # Headless
   selector:
