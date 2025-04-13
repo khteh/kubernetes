@@ -13,10 +13,11 @@ data:
         "JWT_SECRET_KEY": "RAGAgent",
         "SQLALCHEMY_TRACK_MODIFICATIONS": false,
         "DB_HOST": "svc-postgresql",
+        "DB_DATABASE": "LangchainCheckpoint",
         "DB_MAX_CONNECTIONS": 10,
         "EMBEDDING_MODEL": "nomic-embed-text",
         "LLM_RAG_MODEL": "llama3.3",
-        "CHROMA_URI": "http://svc-chroma",
+        "CHROMA_URI": "http://svc-chroma:8000",
         "NEO4J_URI": "neo4j://svc-neo4j:7687",
-        "OLLAMA_URI": "http://svc-ollama"
+        "OLLAMA_URI": "http://svc-ollama:11434"
     }

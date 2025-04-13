@@ -47,6 +47,16 @@ spec:
                 secretKeyRef:
                   name: postgresql-secret
                   key: postgresql-password
+            - name: CHROMA_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: chroma-secret
+                  key: token
+            - name: NEO4J_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: neo4j-secret
+                  key: NEO4J_AUTH
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /etc/application_default_credentials.json
           ports:
