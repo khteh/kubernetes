@@ -1,10 +1,5 @@
 #!/bin/bash
 # https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html
-#kubectl scale sts elastic-operator --replicas=0 -n elastic-system
-#kubectl delete sts elastic-operator -n elastic-system --ignore-not-found=true
-#kubectl delete svc elastic-webhook-server -n elastic-system --ignore-not-found=true
-#kubectl delete ns elastic-system
-#kubectl delete crd -l app.kubernetes.io/name=eck-operator-crds
 kubectl scale sts khteh-es-es-data --replicas=0
 kubectl delete sts khteh-es-es-data --ignore-not-found=true
 kubectl scale sts khteh-es-es-master --replicas=0
